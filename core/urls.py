@@ -16,12 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from auth.views import api_documentation
+from authentication.views import api_documentation
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
-
+    
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("auth/", include("auth.urls")),
+    path("auth/", include("authentication.urls")),
     path("", api_documentation, name="api-documentation"),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "drf_spectacular",
     "rest_framework",
+    "authentication",
 ]
 
 MIDDLEWARE = [
@@ -156,7 +157,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Analytics-SaaS Documentation",
+    "TITLE": "AS Documentation",
     "DESCRIPTION": "description goes here",
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": True,
