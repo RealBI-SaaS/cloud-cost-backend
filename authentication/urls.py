@@ -14,8 +14,8 @@ urlpatterns = [
 
      # jwt urls 
     path('jwt/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('j/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('jwt/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('jwt/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
 ]
 
