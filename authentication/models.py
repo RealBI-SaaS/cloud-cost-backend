@@ -1,8 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 import uuid
 
 # Create your models here.
-class User(models.Model):
+class User(AbstractUser):
     ROLE_CHOICES = [
         ('owner', 'Owner'),
         ('member', 'Member'),
@@ -15,6 +16,9 @@ class User(models.Model):
     first_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='member')
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.email
