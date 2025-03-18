@@ -71,8 +71,8 @@ def google_oauth_callback(request):
         # Create redirect URL with tokens as parameters
         frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:5173/home')
         params = {
-            'access_token': access_token,
-            'refresh_token': refresh_token
+            'access': access_token,
+            'refresh': refresh_token
         }
         redirect_url = f"{frontend_url}?{urlencode(params)}"
         
