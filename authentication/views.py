@@ -9,12 +9,18 @@ from dotenv import load_dotenv
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_500_INTERNAL_SERVER_ERROR,
+)
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import User
-from .serializers import UserSerializer
+from .models import Company, CompanyMember, User
+from .serializers import CompanyMembershipSerializer, UserSerializer
 
 load_dotenv()
 
@@ -108,6 +114,83 @@ class RegisterView(APIView):
         return Response(status=HTTP_400_BAD_REQUEST, data={"errors": serializer.errors})
 
 
+class CompanyMembershipView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        """
+        Get all companies that the authenticated user is a member of.
+        Returns a list of companies with the user's role in each company.
+        """
+        try:
+            company_memberships = CompanyMember.objects.filter(user=request.user)
+            response_data = []
+
+            for membership in company_memberships:
+                response_data.append(
+                    {
+                        "company_id": str(membership.company.id),
+                        "company_name": membership.company.name,
+                        "role": membership.role,
+                    }
+                )
+
+            return Response(response_data, status=HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def post(self, request, *args, **kwargs):
+        """
+        Add a user to an existing company or create a new company and add the user.
+
+        Request body should contain:
+        - company_id (optional): UUID of existing company
+        - company_name (required if company_id not provided): Name for new company
+        - role (optional): Role of the user in the company (defaults to "member")
+        """
+        try:
+            serializer = CompanyMembershipSerializer(data=request.data)
+            if not serializer.is_valid():
+                return Response(
+                    {"errors": serializer.errors}, status=HTTP_400_BAD_REQUEST
+                )
+
+            data = serializer.validated_data
+            user = request.user
+            company_id = data.get("company_id")
+            company_name = data.get("company_name")
+
+            # If company_id is provided, try to get existing company
+            if company_id:
+                try:
+                    company = Company.objects.get(id=company_id)
+                    role = "member"
+                except Company.DoesNotExist:
+                    return Response(
+                        {"error": "Company not found"}, status=HTTP_404_NOT_FOUND
+                    )
+            # Otherwise create a new company
+            else:
+                company = Company.objects.create(name=company_name)
+                role = "owner"
+
+            # Create company membership or update if it already exists
+            company_member, created = CompanyMember.objects.update_or_create(
+                user=user, company=company, defaults={"role": role}
+            )
+
+            # Serialize the response
+            response_serializer = CompanyMembershipSerializer(company_member)
+            return Response(
+                response_serializer.data,
+                status=HTTP_201_CREATED if created else HTTP_200_OK,
+            )
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_user(request):
@@ -119,7 +202,6 @@ def get_user(request):
                 "email": user.email,
                 "firstName": user.first_name,
                 "lastName": user.last_name,
-                "role": user.role,
                 "isGoogleUser": user.is_google_user,
             }
         )

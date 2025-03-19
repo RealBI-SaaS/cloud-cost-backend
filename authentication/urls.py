@@ -13,6 +13,7 @@ urlpatterns = [
         views.google_oauth_callback,
         name="google_oauth_callback",
     ),
+    path("company/", views.CompanyMembershipView.as_view(), name="company_memberships"),
     path("user/", views.get_user, name="fetch_user"),
     # path("create-user/", views.create_user, name='create_user'),
     path("create-user/", views.RegisterView.as_view(), name="register"),
