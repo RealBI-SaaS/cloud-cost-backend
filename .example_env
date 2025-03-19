@@ -1,0 +1,20 @@
+# Debug mode for development
+DEBUG=True
+
+# PostgreSQL Database Configuration
+PG_DB_NAME=your_database_name
+PG_USER=your_database_user
+PG_PASSWORD=your_database_password
+PG_HOST=localhost
+PG_PORT=5432
+
+# Django Secret Key - Generate a new one for production
+SECRET_KEY='your-secret-key-here'
+
+# Google OAuth2 Configuration
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/oauth2/callback/
+
+# Frontend URL for CORS and redirects
+FRONTEND_URL=http://localhost:5173/home
