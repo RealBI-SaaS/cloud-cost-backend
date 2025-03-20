@@ -29,7 +29,10 @@ load_dotenv()
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173/home")
+SUCCESS_REDIRECT_URL = os.getenv("SUCCESS_REDIRECT_URL", "http://localhost:5173/home")
+LOGIN_FROM_REDIRECT_URL = os.getenv(
+    "LOGIN_FROM_REDIRECT_URL", "http://localhost:5173/login"
+)
 
 # Create your views here.
 
@@ -41,7 +44,8 @@ def api_documentation(request):
 def google_oauth_callback(request):
     code = request.GET.get("code")
     if not code:
-        return JsonResponse({"error": "Authorization code not provided"}, status=400)
+        # return JsonResponse({"error": "Authorization code not provided"}, status=400)
+        return redirect(LOGIN_FROM_REDIRECT_URL)
 
     try:
         # Exchange auth code for tokens
@@ -88,7 +92,7 @@ def google_oauth_callback(request):
 
         # Create redirect URL with tokens as parameters
         params = {"access": access_token, "refresh": refresh_token}
-        redirect_url = f"{FRONTEND_URL}?{urlencode(params)}"
+        redirect_url = f"{LOGIN_FROM_REDIRECT_URL}?{urlencode(params)}"
 
         return redirect(redirect_url)
 
