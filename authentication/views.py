@@ -78,7 +78,6 @@ def google_oauth_callback(request):
                 "first_name": user_data.get("given_name", ""),
                 "last_name": user_data.get("family_name", ""),
                 "is_google_user": True,
-                "role": "member",
             },
         )
 
