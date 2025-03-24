@@ -2,7 +2,9 @@ import os
 from urllib.parse import urlencode
 
 import requests
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from dotenv import load_dotenv
@@ -19,6 +21,8 @@ from rest_framework.status import (
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from core.email_utils import send_verification_email, verify_email_token
+
 from .models import Company, CompanyMember, User
 from .serializers import CompanyMembershipSerializer, UserSerializer
 
@@ -33,6 +37,7 @@ SUCCESS_REDIRECT_URL = os.getenv("SUCCESS_REDIRECT_URL", "http://localhost:5173/
 LOGIN_FROM_REDIRECT_URL = os.getenv(
     "LOGIN_FROM_REDIRECT_URL", "http://localhost:5173/login"
 )
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 # Create your views here.
 
@@ -82,6 +87,7 @@ def google_oauth_callback(request):
                 "first_name": user_data.get("given_name", ""),
                 "last_name": user_data.get("family_name", ""),
                 "is_google_user": True,
+                "is_email_verified": True,
             },
         )
 
@@ -103,7 +109,7 @@ def google_oauth_callback(request):
 class RegisterView(APIView):
     http_method_names = ["post"]
 
-    def post(self, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=self.request.data)
         if serializer.is_valid():
             data = serializer.validated_data
@@ -115,6 +121,10 @@ class RegisterView(APIView):
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
             refresh_token = str(refresh)
+
+            # Send welcome email with verification link
+            # verification_url = f"{FRONTEND_URL}/verify-email/{user.id}"
+            send_verification_email(user, request)
 
             return Response(
                 {"access_token": access_token, "refresh_token": refresh_token},
@@ -201,6 +211,21 @@ class CompanyMembershipView(APIView):
 
 
 @api_view(["GET"])
+def test_mail(request):
+    try:
+        subject = "Hi natty, Dinn"
+        message = " it means a world to us "
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [
+            "nutzaccs@gmail.com",
+        ]
+        send_mail(subject, message, email_from, recipient_list)
+        return Response({"success": "email sent"}, status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
+
+
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_user(request):
     try:
@@ -212,7 +237,43 @@ def get_user(request):
                 "firstName": user.first_name,
                 "lastName": user.last_name,
                 "isGoogleUser": user.is_google_user,
+                "isEmailVerified": user.is_email_verified,
             }
         )
     except Exception as e:
         return Response({"error": str(e)}, status=500)
+
+
+@api_view(["GET"])
+def verify_email(request, uidb64, token):
+    """
+    Verify user's email address.
+    """
+    user = verify_email_token(uidb64, token)
+    if user:
+        print("user verified")
+        user.is_email_verified = True
+        user.save()
+        return Response({"message": "Email verified successfully"}, status=HTTP_200_OK)
+    return Response(
+        {"error": "Invalid or expired verification link"}, status=HTTP_400_BAD_REQUEST
+    )
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def resend_verification_email(request):
+    """
+    Resend verification email to authenticated user.
+    """
+    try:
+        if send_verification_email(request.user, request):
+            return Response(
+                {"message": "Verification email sent successfully"}, status=HTTP_200_OK
+            )
+        return Response(
+            {"error": "Failed to send verification email"},
+            status=HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+    except Exception as e:
+        return Response({"error": str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #666666;
+            font-size: 12px;
+            border-top: 2px solid #f0f0f0;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                margin: 0;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{% block title %}Your Company Name{% endblock %}</h1>
+        </div>
+        
+        <div class="content">
+            {% block content %}
+            <p>Hello {{ name }},</p>
+            <p>This is a sample email template. You can customize this content based on your needs.</p>
+            <p>
+                <a href="{{ action_url }}" class="button">Call to Action</a>
+            </p>
+            {% endblock %}
+        </div>
+
+        <div class="footer">
+            {% block footer %}
+            <p>&copy; {% now 'Y' %} Your Company Name. All rights reserved.</p>
+            <p>
+                If you no longer wish to receive these emails, you can 
+                <a href="{{ unsubscribe_url }}">unsubscribe here</a>
+            </p>
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
