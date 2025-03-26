@@ -1,18 +1,18 @@
-# import os
-# from urllib.parse import urlencode
+import os
+from urllib.parse import urlencode
+
 #
-# import requests
+import requests
+from django.contrib.auth import get_user_model
+
 # from django.conf import settings
-# from django.contrib.auth import get_user_model
 # from django.core.mail import send_mail
-# from django.http import JsonResponse
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from dotenv import load_dotenv
 
-
-# from dotenv import load_dotenv
 # from rest_framework.decorators import api_view, permission_classes
 # from rest_framework.permissions import IsAuthenticated
-# from rest_framework.response import Response
 # from rest_framework.status import (
 #     HTTP_200_OK,
 #     HTTP_201_CREATED,
@@ -21,25 +21,31 @@ from django.shortcuts import render
 #     HTTP_500_INTERNAL_SERVER_ERROR,
 # )
 # from rest_framework.views import APIView
-# from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken
+
 #
 # from core.email_utils import send_verification_email, verify_email_token
 #
-# from .models import Company, CompanyMember, User
+
+
+User = get_user_model()
 # from .serializers import CompanyMembershipSerializer, UserSerializer
 #
 # # Load environment variables at module level
-# load_dotenv()
+
+load_dotenv()
 #
 # # Environment variables
-# GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-# GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
-# GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
-# SUCCESS_REDIRECT_URL = os.getenv("SUCCESS_REDIRECT_URL", "http://localhost:5173/home")
-# LOGIN_FROM_REDIRECT_URL = os.getenv(
-#     "LOGIN_FROM_REDIRECT_URL", "http://localhost:5173/login"
-# )
-# FRONTEND_URL = os.getenv("FRONTEND_URL")
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
+SUCCESS_REDIRECT_URL = os.getenv("SUCCESS_REDIRECT_URL", "http://localhost:5173/home")
+LOGIN_FROM_REDIRECT_URL = os.getenv(
+    "LOGIN_FROM_REDIRECT_URL", "http://localhost:5173/login"
+)
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
+
 #
 # # Create your views here.
 #
@@ -49,66 +55,68 @@ def api_documentation(request):
 
 
 #
-#
-# def google_oauth_callback(request):
-#     code = request.GET.get("code")
-#     if not code:
-#         # return JsonResponse({"error": "Authorization code not provided"}, status=400)
-#         return redirect(LOGIN_FROM_REDIRECT_URL)
-#
-#     try:
-#         # Exchange auth code for tokens
-#         token_endpoint = "https://oauth2.googleapis.com/token"
-#         data = {
-#             "code": code,
-#             "client_id": GOOGLE_CLIENT_ID,
-#             "client_secret": GOOGLE_CLIENT_SECRET,
-#             "redirect_uri": GOOGLE_REDIRECT_URI,
-#             "grant_type": "authorization_code",
-#         }
-#
-#         response = requests.post(token_endpoint, data=data)
-#         tokens = response.json()
-#
-#         if response.status_code != 200:
-#             return JsonResponse(
-#                 {"error": "Failed to exchange auth code", "response": response.json()},
-#                 status=400,
-#             )
-#
-#         # Get user info from Google
-#         access_token = tokens["access_token"]
-#         userinfo_endpoint = "https://www.googleapis.com/oauth2/v2/userinfo"
-#         headers = {"Authorization": f"Bearer {access_token}"}
-#
-#         userinfo_response = requests.get(userinfo_endpoint, headers=headers)
-#         user_data = userinfo_response.json()
-#
-#         # Get or create user
-#         user, created = User.objects.get_or_create(
-#             email=user_data["email"],
-#             defaults={
-#                 "first_name": user_data.get("given_name", ""),
-#                 "last_name": user_data.get("family_name", ""),
-#                 "is_google_user": True,
-#                 "is_email_verified": True,
-#             },
-#         )
-#
-#         # Generate JWT tokens
-#         refresh = RefreshToken.for_user(user)
-#         access_token = str(refresh.access_token)
-#         refresh_token = str(refresh)
-#
-#         # Create redirect URL with tokens as parameters
-#         params = {"access": access_token, "refresh": refresh_token}
-#         redirect_url = f"{SUCCESS_REDIRECT_URL}?{urlencode(params)}"
-#
-#         return redirect(redirect_url)
-#
-#     except Exception as e:
-#         return JsonResponse({"error": str(e)}, status=500)
-#
+
+
+def google_oauth_callback(request):
+    code = request.GET.get("code")
+    if not code:
+        # return JsonResponse({"error": "Authorization code not provided"}, status=400)
+        return redirect(LOGIN_FROM_REDIRECT_URL)
+
+    try:
+        # Exchange auth code for tokens
+        token_endpoint = "https://oauth2.googleapis.com/token"
+        data = {
+            "code": code,
+            "client_id": GOOGLE_CLIENT_ID,
+            "client_secret": GOOGLE_CLIENT_SECRET,
+            "redirect_uri": GOOGLE_REDIRECT_URI,
+            "grant_type": "authorization_code",
+        }
+
+        response = requests.post(token_endpoint, data=data)
+        tokens = response.json()
+
+        if response.status_code != 200:
+            return JsonResponse(
+                {"error": "Failed to exchange auth code", "response": response.json()},
+                status=400,
+            )
+
+        # Get user info from Google
+        access_token = tokens["access_token"]
+        userinfo_endpoint = "https://www.googleapis.com/oauth2/v2/userinfo"
+        headers = {"Authorization": f"Bearer {access_token}"}
+
+        userinfo_response = requests.get(userinfo_endpoint, headers=headers)
+        user_data = userinfo_response.json()
+
+        # Get or create user
+        user, created = User.objects.get_or_create(
+            email=user_data["email"],
+            defaults={
+                "first_name": user_data.get("given_name", ""),
+                "last_name": user_data.get("family_name", ""),
+                "is_google_user": True,
+                "is_email_verified": True,
+            },
+        )
+
+        # Generate JWT tokens
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
+
+        # Create redirect URL with tokens as parameters
+        params = {"access": access_token, "refresh": refresh_token}
+        redirect_url = f"{SUCCESS_REDIRECT_URL}?{urlencode(params)}"
+
+        return redirect(redirect_url)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
 #
 # class RegisterView(APIView):
 #     http_method_names = ["post"]

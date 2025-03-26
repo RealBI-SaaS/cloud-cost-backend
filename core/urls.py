@@ -27,8 +27,9 @@ from authentication.views import api_documentation
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("auth/", include("authentication.urls")),
+    # path("auth/", include("authentication.urls")),
     re_path(r"^auth/", include("djoser.urls")),
+    re_path(r"^auth/", include("djoser.urls.jwt")),
     path("", api_documentation, name="api-documentation"),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

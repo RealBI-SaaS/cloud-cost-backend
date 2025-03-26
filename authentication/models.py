@@ -1,9 +1,6 @@
 import uuid
 
-from django.contrib.auth.models import (
-    AbstractUser,
-    BaseUserManager,
-)
+from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
 
@@ -25,7 +22,7 @@ class CustomUserManager(BaseUserManager):
 
 
 # Create your models here.
-class User(AbstractUser):
+class CustomUser(AbstractUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100, null=True, blank=True)
@@ -66,7 +63,7 @@ class CompanyMember(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="company_memberships"
+        CustomUser, on_delete=models.CASCADE, related_name="company_memberships"
     )
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name="company_members"

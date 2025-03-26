@@ -32,6 +32,9 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS", "http://localhost:8000").split(",")
 
+# constatnts
+FRONTEND_BASE_URL = env("FRONTEND_URL")
+
 
 # Application definition
 
@@ -42,12 +45,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "corsheaders",
     "drf_spectacular",
     "drf_spectacular_sidecar",
-    "rest_framework",
     "authentication",
+    "rest_framework",
     "rest_framework_simplejwt",
+    "corsheaders",
     "djoser",
 ]
 
@@ -165,15 +168,17 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "authentication.User"
-AUTHENTICATION_BACKENDS = ["authentication.auth_backends.EmailBackend"]
+AUTH_USER_MODEL = "authentication.CustomUser"
+# AUTHENTICATION_BACKENDS = ["authentication.auth_backends.EmailBackend"]
 
 SIMPLE_JWT = {
+    # "AUTH_HEADER_TYPES": ("JWT",),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_USER_MODEL": "authentication.User",
+    # "AUTH_USER_MODEL": "authentication.User",
 }
+
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "AS Documentation",
@@ -196,6 +201,7 @@ EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
+
 # Allow requests from React frontend
 # CORS_ALLOWED_ORIGINS = [
 # ]
@@ -203,3 +209,31 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # Allow credentials (for HTTP-only cookies)
 CORS_ALLOW_CREDENTIALS = True
+
+
+DJOSER = {
+    # 'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    # 'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    # 'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    "DOMAIN": "http://localhost:5173/",
+    "SITE_NAME": "RealBI",
+    "SEND_ACTIVATION_EMAIL": True,
+    # "USER_CREATE_PASSWORD_RETYPE": True,
+    "LOGIN_FIELD": "email",
+    "USER_CREATE_PASSWORD_RETYPE": False,
+    "SEND_CONFIRMATION_EMAIL": True,
+    "SET_PASSWORD_RETYPE": True,
+    "SET_USERNAME_RETYPE": True,
+    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
+    "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "activate/{uid}/{token}",
+    "SERIALIZERS": {
+        "user": "authentication.serializers.UserSerializer",
+        "user_create": "authentication.serializers.UserCreateSerializer",
+        "user_update": "authentication.serializers.UserSerializer",
+    },
+}
+
+
+SITE_ID = 1
+SITE_DOMAIN = FRONTEND_BASE_URL
