@@ -1,14 +1,16 @@
 from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer
+from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 
 from .models import Company
 
 
+@extend_schema_serializer(component_name="CustomUser")
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = "__all__"
+        fields = ("id", "email", "first_name", "last_name")
 
 
 class UserCreateSerializer(UserCreateSerializer):

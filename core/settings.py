@@ -222,7 +222,6 @@ DJOSER = {
     "LOGIN_FIELD": "email",
     "USER_CREATE_PASSWORD_RETYPE": False,
     "SEND_CONFIRMATION_EMAIL": True,
-    "SET_PASSWORD_RETYPE": True,
     "SET_USERNAME_RETYPE": True,
     "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
     "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
@@ -235,5 +234,6 @@ DJOSER = {
 }
 
 
-SITE_ID = 1
-SITE_DOMAIN = FRONTEND_BASE_URL
+# for djoser emails
+SITE_NAME = "RealBI"
+DOMAIN = "localhost:5173"

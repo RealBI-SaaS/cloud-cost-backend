@@ -10,9 +10,11 @@ from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from dotenv import load_dotenv
+from rest_framework import generics
 
 # from rest_framework.decorators import api_view, permission_classes
-# from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
+
 # from rest_framework.status import (
 #     HTTP_200_OK,
 #     HTTP_201_CREATED,
@@ -29,7 +31,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 User = get_user_model()
-# from .serializers import CompanyMembershipSerializer, UserSerializer
+from .serializers import UserSerializer
+
 #
 # # Load environment variables at module level
 
@@ -115,6 +118,16 @@ def google_oauth_callback(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]  # Ensure user is logged in
+
+    def get_object(self):
+        """Return the logged-in user"""
+        return self.request.user
 
 
 #
