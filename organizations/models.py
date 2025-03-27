@@ -1,6 +1,9 @@
 import uuid
+from datetime import timedelta
 
 from django.db import models
+from django.utils.crypto import get_random_string
+from django.utils.timezone import now
 
 from authentication.models import CustomUser
 
@@ -70,4 +73,17 @@ class Invitation(models.Model):
     def __str__(self):
         return (
             f"Invite to {self.invitee_email} for {self.organization.name} ({self.role})"
+        )
+
+    @classmethod
+    def create_invitation(cls, organization, invited_by, email, role="member"):
+        token = get_random_string(32)
+        expires_at = now() + timedelta(days=7)  # 7-day expiration
+        return cls.objects.create(
+            organization=organization,
+            invited_by=invited_by,
+            invitee_email=email,
+            role=role,
+            token=token,
+            expires_at=expires_at,
         )
