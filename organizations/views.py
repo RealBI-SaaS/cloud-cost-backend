@@ -125,6 +125,7 @@ class AcceptInvitationView(APIView):
 
     def post(self, request, token):
         try:
+            print(token)
             invitation = Invitation.objects.get(token=token)
 
             # Check if the invitation is expired
@@ -169,3 +170,19 @@ class AcceptInvitationView(APIView):
                 {"error": "Invalid invitation token"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class ListInvitationsView(APIView):
+    """
+    View to list all invitations for an organization.
+    """
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, org_id):
+        """
+        Retrieve all invitations for a given organization.
+        """
+        invitations = Invitation.objects.filter(organization_id=org_id)
+        serializer = InvitationSerializer(invitations, many=True)
+        return Response(serializer.data, status=200)

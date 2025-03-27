@@ -1,7 +1,12 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import AcceptInvitationView, InviteUserView, OrganizationViewSet
+from .views import (
+    AcceptInvitationView,
+    InviteUserView,
+    ListInvitationsView,
+    OrganizationViewSet,
+)
 
 # Create a router and register our ViewSets with it.
 router = DefaultRouter()
@@ -11,7 +16,7 @@ router.register(r"organization", OrganizationViewSet, basename="organization")
 urlpatterns = [
     path("", include(router.urls)),
     path(
-        "members/<str:org_id>/invite/",
+        "<str:org_id>/invite/",
         InviteUserView.as_view(),
         name="invite_user",
     ),
@@ -19,5 +24,10 @@ urlpatterns = [
         "invitations/accept/<str:token>/",
         AcceptInvitationView.as_view(),
         name="accept_invitation",
+    ),
+    path(
+        "<uuid:org_id>/invitations/",
+        ListInvitationsView.as_view(),
+        name="list-invitations",
     ),
 ]
