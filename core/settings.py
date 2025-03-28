@@ -30,7 +30,6 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 # Application definition
 
-CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS", "http://localhost:8000").split(",")
 
 # constatnts
 FRONTEND_BASE_URL = env("FRONTEND_URL")
@@ -206,10 +205,9 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 # Allow requests from React frontend
 # CORS_ALLOWED_ORIGINS = [
 # ]
-CORS_ALLOW_ALL_ORIGINS = True
 
-# Allow credentials (for HTTP-only cookies)
-CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = env("ALLOWED_ORIGINS", FRONTEND_BASE_URL).split(",")
 
 
 DJOSER = {
