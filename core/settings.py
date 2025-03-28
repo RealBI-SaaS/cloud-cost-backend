@@ -26,7 +26,7 @@ SECRET_KEY = env("SECRET_KEY", get_random_secret_key())
 
 DEBUG = env("DEBUG", False) == "True"
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 # Application definition
 
@@ -236,5 +236,5 @@ DJOSER = {
 
 
 # for djoser emails
-SITE_NAME = "RealBI"
-DOMAIN = "localhost:5173"
+DOMAIN = os.getenv("DOMAIN", "defaultdomain.com")
+SITE_NAME = os.getenv("SITE_NAME", "Default Site Name")
