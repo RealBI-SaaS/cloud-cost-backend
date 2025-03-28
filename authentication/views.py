@@ -101,6 +101,7 @@ def google_oauth_callback(request):
                 "last_name": user_data.get("family_name", ""),
                 "is_google_user": True,
                 "is_email_verified": True,
+                "is_active": True,
             },
         )
 
