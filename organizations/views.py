@@ -140,7 +140,9 @@ class AcceptInvitationView(APIView):
                 user = User.objects.get(email=invitation.invitee_email)
             except User.DoesNotExist:
                 return Response(
-                    {"error": "No active account found for this email"},
+                    {
+                        "error": f"No active account found for this email {invitation.invitee_email}"
+                    },
                     status=status.HTTP_404_NOT_FOUND,
                 )
 

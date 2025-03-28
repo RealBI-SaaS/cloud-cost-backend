@@ -46,7 +46,6 @@ SUCCESS_REDIRECT_URL = os.getenv("SUCCESS_REDIRECT_URL", "http://localhost:5173/
 LOGIN_FROM_REDIRECT_URL = os.getenv(
     "LOGIN_FROM_REDIRECT_URL", "http://localhost:5173/login"
 )
-FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 
 #
