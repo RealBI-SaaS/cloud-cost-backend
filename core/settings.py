@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "drf_spectacular",
-    "drf_spectacular_sidecar",
     "authentication",
     "rest_framework",
     "rest_framework_simplejwt",
@@ -89,27 +88,25 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": env("PG_DB_NAME"),
-            "USER": env("PG_USER"),
-            "PASSWORD": env("PG_PASSWORD"),
-            "HOST": env("PG_HOST", "localhost"),
-            "PORT": env("PG_PORT", "5432"),
-            "CONN_MAX_AGE": None,
-            "OPTIONS": {"sslmode": env("PG_SSL_MODE")},
-        }
-    }
-
+}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": env("PG_DB_NAME"),
+#         "USER": env("PG_USER"),
+#         "PASSWORD": env("PG_PASSWORD"),
+#         "HOST": env("PG_HOST", "localhost"),
+#         "PORT": env("PG_PORT", "5432"),
+#         "CONN_MAX_AGE": None,
+#         "OPTIONS": {"sslmode": env("PG_SSL_MODE")},
+#     }
+# }
+#
 
 REST_FRAMEWORK = {
     # "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -186,9 +183,6 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": True,
     # OTHER SETTINGS
-    "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
-    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
-    "REDOC_DIST": "SIDECAR",
     # for binary data upload support
     "COMPONENT_SPLIT_REQUEST": True,
 }
