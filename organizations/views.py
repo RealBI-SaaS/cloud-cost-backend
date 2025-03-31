@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
@@ -80,6 +82,15 @@ class InviteUserView(APIView):
                 {"error": "Invitee email is missing"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+        try:
+            org_uuid = uuid.UUID(str(org_id), version=4)  # Ensures a valid UUID
+        except ValueError:
+            return Response(
+                {"error": "Invalid organization ID format. Must be a valid UUID."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         try:
             print(org_id)
             organization = Organization.objects.get(id=org_id)
