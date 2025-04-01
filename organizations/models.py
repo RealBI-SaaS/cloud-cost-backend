@@ -87,3 +87,21 @@ class Invitation(models.Model):
             token=token,
             expires_at=expires_at,
         )
+
+
+class Navigation(models.Model):
+    """Model representing an organizations' Nnavigation"""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    label = models.CharField(max_length=100, unique=False)
+    organization = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="navigations"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("label", "organization")
+
+    def __str__(self):
+        return self.label

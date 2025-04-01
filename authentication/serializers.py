@@ -3,8 +3,6 @@ from djoser.serializers import UserCreateSerializer
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 
-from .models import Company
-
 
 @extend_schema_serializer(component_name="CustomUser")
 class UserSerializer(serializers.ModelSerializer):
@@ -19,12 +17,13 @@ class UserCreateSerializer(UserCreateSerializer):
         fields = ("id", "email", "password", "first_name", "last_name")
 
 
-class CompanySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = ["id", "name", "created_at", "updated_at"]
-
-
+#
+# class CompanySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Company
+#         fields = ["id", "name", "created_at", "updated_at"]
+#
+#
 #
 # class CompanyMembershipSerializer(serializers.ModelSerializer):
 #     company = CompanySerializer(read_only=True)

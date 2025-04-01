@@ -1,8 +1,6 @@
 from rest_framework import serializers
 
-from organizations.models import Organization
-
-from .models import Invitation, Organization
+from .models import Invitation, Navigation, Organization
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -16,3 +14,22 @@ class InvitationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invitation
         fields = ["id", "organization", "invitee_email", "role", "token", "expires_at"]
+
+
+class NavigationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Navigation
+        fields = ["id", "label", "organization", "created_at", "updated_at"]
+        read_only_fields = ["id", "created_at", "updated_at"]
+
+    def validate(self, data):
+        """Ensure label uniqueness within an organization"""
+        organization = data.get("organization")
+        label = data.get("label")
+
+        if Navigation.objects.filter(organization=organization, label=label).exists():
+            raise serializers.ValidationError(
+                {"label": "This label already exists in the organization."}
+            )
+
+        return data

@@ -11,7 +11,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Invitation, Organization, OrganizationMembership
-from .serializers import InvitationSerializer, OrganizationSerializer
+from .serializers import (
+    InvitationSerializer,
+    NavigationSerializer,
+    OrganizationSerializer,
+)
 
 User = get_user_model()
 
@@ -199,3 +203,67 @@ class ListInvitationsView(APIView):
         invitations = Invitation.objects.filter(organization_id=org_id)
         serializer = InvitationSerializer(invitations, many=True)
         return Response(serializer.data, status=200)
+
+
+class NavigationViewSet(viewsets.ModelViewSet):
+    """Handles CRUD operations for navigation"""
+
+    serializer_class = NavigationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Retrieve only navigations belonging to organizations where the user is a member"""
+        return Navigation.objects.filter(
+            organization__organizationmembership__user=self.request.user
+        ).distinct()
+
+    def perform_create(self, serializer):
+        """Allow only organization owners to create navigation"""
+
+        organization_id = self.request.data.get("organization")
+        if not organization_id:
+            raise serializers.ValidationError(
+                {"organization": "This field is required."}
+            )
+
+        try:
+            organization = Organization.objects.get(id=organization_id)
+        except Organization.DoesNotExist:
+            raise serializers.ValidationError(
+                {"organization": "Invalid organization ID."}
+            )
+
+        # Ensure the user is an OWNER of the organization
+        if self.request.user not in organization.owners.all():
+            raise PermissionDenied(
+                "Only organization owners can create navigation items."
+            )
+
+        # Enforce unique labels within the organization
+        label = self.request.data.get("label")
+        if Navigation.objects.filter(organization=organization, label=label).exists():
+            raise serializers.ValidationError(
+                {"label": "This label already exists in the organization."}
+            )
+
+        serializer.save(organization=organization)
+
+    def update(self, request, *args, **kwargs):
+        """Allow only owners of the organization to update the navigation"""
+        navigation = self.get_object()
+        organization = navigation.organization
+
+        if self.request.user not in organization.owners.all():
+            raise PermissionDenied("You are not allowed to update this navigation.")
+
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        """Allow only owners of the organization to delete the navigation"""
+        navigation = self.get_object()
+        organization = navigation.organization
+
+        if self.request.user not in organization.owners.all():
+            raise PermissionDenied("You are not allowed to delete this navigation.")
+
+        return super().destroy(request, *args, **kwargs)

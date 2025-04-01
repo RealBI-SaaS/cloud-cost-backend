@@ -5,12 +5,14 @@ from .views import (
     AcceptInvitationView,
     InviteUserView,
     ListInvitationsView,
+    NavigationViewSet,
     OrganizationViewSet,
 )
 
 # Create a router and register our ViewSets with it.
 router = DefaultRouter()
 router.register(r"organization", OrganizationViewSet, basename="organization")
+router.register(r"navigation", NavigationViewSet, basename="navigation")
 
 
 urlpatterns = [
