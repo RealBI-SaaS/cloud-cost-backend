@@ -12,11 +12,40 @@ from .views import (
 # Create a router and register our ViewSets with it.
 router = DefaultRouter()
 router.register(r"organization", OrganizationViewSet, basename="organization")
-router.register(r"navigation", NavigationViewSet, basename="navigation")
+# router.register(r"navigation", NavigationViewSet, basename="navigation")
 
 
 urlpatterns = [
     path("", include(router.urls)),
+    # path(
+    #     "navigation/<uuid:organization_id>/",
+    #     NavigationViewSet.as_view({"get": "list"}),
+    #     name="navigation-list",
+    # ),
+    path(
+        "<uuid:organization_id>/navigation/",
+        NavigationViewSet.as_view({"get": "list"}),
+    ),
+    path(
+        "navigation/",
+        NavigationViewSet.as_view({"post": "create"}),
+    ),
+    path(
+        "navigation/<uuid:pk>/",
+        NavigationViewSet.as_view({"patch": "partial_update", "delete": "destroy"}),
+    ),
+    # path(
+    #     "<uuid:organization_id>/navigation/",
+    #     NavigationViewSet.as_view({"get": "list", "post": "create"}),
+    #     name="navigation-list",
+    # ),
+    # path(
+    #     "/navigation/<uuid:pk>/",
+    #     NavigationViewSet.as_view(
+    #         {"get": "retrieve", "patch": "update", "delete": "destroy"}
+    #     ),
+    #     name="navigation-detail",
+    # ),
     path(
         "<str:org_id>/invite/",
         InviteUserView.as_view(),

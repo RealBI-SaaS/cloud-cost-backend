@@ -3,14 +3,15 @@ import uuid
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Invitation, Organization, OrganizationMembership
+from .models import Invitation, Navigation, Organization, OrganizationMembership
 from .serializers import (
     InvitationSerializer,
     NavigationSerializer,
@@ -205,6 +206,106 @@ class ListInvitationsView(APIView):
         return Response(serializer.data, status=200)
 
 
+#
+# class NavigationViewSet(viewsets.ModelViewSet):
+#     """Handles CRUD operations for navigation"""
+#
+#     serializer_class = NavigationSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+#     #
+#     # def get_queryset(self):
+#     #     """Retrieve only navigations belonging to organizations where the user is a member"""
+#     #
+#     #     organization_id = self.request.data.get("organization")
+#     #
+#     #     if not organization_id:
+#     #         raise ValidationError({"organization": "Organization ID is required."})
+#     #
+#     #     # Ensure the user is a member of the given organization
+#     #     if not Organization.objects.filter(
+#     #         id=organization_id, organizationmembership__user=self.request.user
+#     #     ).exists():
+#     #         raise PermissionDenied(
+#     #             {"detail": "You are not a member of this organization."}
+#     #         )
+#     #
+#     #     return Navigation.objects.filter(organization_id=organization_id)
+#     #
+#
+#     def get_queryset(self):
+#         """Retrieve only navigations belonging to the specified organization if the user is a member"""
+#         # organization_id = self.kwargs.get("organization_id")  # Extract from URL kwargs
+#         organization_id = self.request.query_params.get(
+#             "organization_id"
+#         )  # Use query params instead
+#
+#         if not organization_id:
+#             raise ValidationError(
+#                 {"organization": "eror in get Organization ID is required."}
+#             )
+#
+#         # Ensure the user is a member of the organization
+#         if not Organization.objects.filter(
+#             id=organization_id, organizationmembership__user=self.request.user
+#         ).exists():
+#             raise PermissionDenied(
+#                 {"detail": "You are not a member of this organization."}
+#             )
+#
+#         return Navigation.objects.filter(organization_id=organization_id)
+#
+#     def perform_create(self, serializer):
+#         """Allow only organization owners to create navigation"""
+#
+#         organization_id = self.request.data.get("organization")
+#         if not organization_id:
+#             raise serializers.ValidationError(
+#                 {"organization": "This field is required."}
+#             )
+#
+#         try:
+#             organization = Organization.objects.get(id=organization_id)
+#         except Organization.DoesNotExist:
+#             raise serializers.ValidationError(
+#                 {"organization": "Invalid organization ID."}
+#             )
+#
+#         # Ensure the user is an OWNER of the organization
+#         if self.request.user not in organization.owners.all():
+#             raise PermissionDenied(
+#                 "Only organization owners can create navigation items."
+#             )
+#
+#         # Enforce unique labels within the organization
+#         label = self.request.data.get("label")
+#         if Navigation.objects.filter(organization=organization, label=label).exists():
+#             raise serializers.ValidationError(
+#                 {"label": "This label already exists in the organization."}
+#             )
+#
+#         serializer.save(organization=organization)
+#
+#     def update(self, request, *args, **kwargs):
+#         """Allow only owners of the organization to update the navigation"""
+#         navigation = self.get_object()
+#         organization = navigation.organization
+#
+#         if self.request.user not in organization.owners.all():
+#             raise PermissionDenied("You are not allowed to update this navigation.")
+#
+#         return super().update(request, *args, **kwargs)
+#
+#     def destroy(self, request, *args, **kwargs):
+#         """Allow only owners of the organization to delete the navigation"""
+#         navigation = self.get_object()
+#         organization = navigation.organization
+#
+#         if self.request.user not in organization.owners.all():
+#             raise PermissionDenied("You are not allowed to delete this navigation.")
+#
+#         return super().destroy(request, *args, **kwargs)
+
+
 class NavigationViewSet(viewsets.ModelViewSet):
     """Handles CRUD operations for navigation"""
 
@@ -212,26 +313,70 @@ class NavigationViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        """Retrieve only navigations belonging to organizations where the user is a member"""
-        return Navigation.objects.filter(
-            organization__organizationmembership__user=self.request.user
-        ).distinct()
+        """Retrieve only navigations belonging to the specified organization"""
+        if self.action in ["update", "partial_update", "destroy"]:
+            # Skip organization validation in get_queryset for PATCH & DELETE
+            return Navigation.objects.all()
+        organization_id = self.kwargs.get("organization_id")  # Extract from URL kwargs
 
+        if not organization_id:
+            raise ValidationError(
+                {"organization": "Organization ID is required in the URL."}
+            )
+
+        if not Organization.objects.filter(
+            id=organization_id, organizationmembership__user=self.request.user
+        ).exists():
+            raise PermissionDenied(
+                {"detail": "You are not a member of this organization."}
+            )
+
+        return Navigation.objects.filter(organization_id=organization_id)
+
+    # def get_object(self):
+    #     """Ensure PATCH & DELETE validate the organization from request body"""
+    #     obj = super().get_object()
+    #
+    #     if self.action in ["update", "partial_update", "destroy"]:
+    #         organization_id = self.request.data.get("organization")
+    #
+    #         if not organization_id:
+    #             raise ValidationError(
+    #                 {"organization": "Organization ID is required in the request body."}
+    #             )
+    #
+    #         if obj.organization.id != organization_id:
+    #             raise PermissionDenied("You are not allowed to modify this navigation.")
+    #
+    #     return obj
+
+    # def get_queryset(self):
+    #     """Retrieve only navigations belonging to the specified organization if the user is a member"""
+    #     organization_id = self.kwargs.get("organization_id")  # Extract from URL
+    #
+    #     if not organization_id:
+    #         raise ValidationError(
+    #             {"organization": "Organization ID is required in the URL."}
+    #         )
+    #
+    #     # Ensure the user is a member of the organization
+    #     if not Organization.objects.filter(
+    #         id=organization_id, organizationmembership__user=self.request.user
+    #     ).exists():
+    #         raise PermissionDenied(
+    #             {"detail": "You are not a member of this organization."}
+    #         )
+    #
+    #     return Navigation.objects.filter(organization_id=organization_id)
+    #
     def perform_create(self, serializer):
         """Allow only organization owners to create navigation"""
-
         organization_id = self.request.data.get("organization")
-        if not organization_id:
-            raise serializers.ValidationError(
-                {"organization": "This field is required."}
-            )
 
-        try:
-            organization = Organization.objects.get(id=organization_id)
-        except Organization.DoesNotExist:
-            raise serializers.ValidationError(
-                {"organization": "Invalid organization ID."}
-            )
+        if not organization_id:
+            raise ValidationError({"organization": "This field is required."})
+
+        organization = get_object_or_404(Organization, id=organization_id)
 
         # Ensure the user is an OWNER of the organization
         if self.request.user not in organization.owners.all():
@@ -242,7 +387,7 @@ class NavigationViewSet(viewsets.ModelViewSet):
         # Enforce unique labels within the organization
         label = self.request.data.get("label")
         if Navigation.objects.filter(organization=organization, label=label).exists():
-            raise serializers.ValidationError(
+            raise ValidationError(
                 {"label": "This label already exists in the organization."}
             )
 
@@ -253,7 +398,7 @@ class NavigationViewSet(viewsets.ModelViewSet):
         navigation = self.get_object()
         organization = navigation.organization
 
-        if self.request.user not in organization.owners.all():
+        if request.user not in organization.owners.all():
             raise PermissionDenied("You are not allowed to update this navigation.")
 
         return super().update(request, *args, **kwargs)
@@ -263,7 +408,7 @@ class NavigationViewSet(viewsets.ModelViewSet):
         navigation = self.get_object()
         organization = navigation.organization
 
-        if self.request.user not in organization.owners.all():
+        if request.user not in organization.owners.all():
             raise PermissionDenied("You are not allowed to delete this navigation.")
 
         return super().destroy(request, *args, **kwargs)
