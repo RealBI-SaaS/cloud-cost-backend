@@ -94,6 +94,7 @@ class Navigation(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     label = models.CharField(max_length=100, unique=False)
+    icon = models.CharField(max_length=20, unique=False)
     organization = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="navigations"
     )

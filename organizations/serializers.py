@@ -19,17 +19,25 @@ class InvitationSerializer(serializers.ModelSerializer):
 class NavigationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Navigation
-        fields = ["id", "label", "organization", "created_at", "updated_at"]
+        fields = ["id", "label", "icon", "organization", "created_at", "updated_at"]
         read_only_fields = ["id", "created_at", "updated_at"]
 
     def validate(self, data):
-        """Ensure label uniqueness within an organization"""
-        organization = data.get("organization")
-        label = data.get("label")
+        """Ensure label uniqueness within an organization, only on creation."""
+        request_method = self.context["request"].method
 
-        if Navigation.objects.filter(organization=organization, label=label).exists():
-            raise serializers.ValidationError(
-                {"label": "This label already exists in the organization."}
-            )
+        # Only enforce label uniqueness on POST (i.e., create)
+        if request_method == "POST":
+            organization = data.get("organization")
+            label = data.get("label")
+
+            if Navigation.objects.filter(
+                organization=organization, label=label
+            ).exists():
+                raise serializers.ValidationError(
+                    {
+                        "label": "This navigation label already exists in the organization."
+                    }
+                )
 
         return data

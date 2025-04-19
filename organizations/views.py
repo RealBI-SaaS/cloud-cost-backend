@@ -378,6 +378,7 @@ class NavigationViewSet(viewsets.ModelViewSet):
 
         organization = get_object_or_404(Organization, id=organization_id)
 
+        # FIX: allow admin too
         # Ensure the user is an OWNER of the organization
         if self.request.user not in organization.owners.all():
             raise PermissionDenied(
