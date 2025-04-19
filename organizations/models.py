@@ -42,7 +42,7 @@ class OrganizationMembership(models.Model):
         unique_together = ("user", "organization")  # Prevent duplicate memberships
 
     def __str__(self):
-        return f"{self.user.username} - {self.organization.name} ({self.role})"
+        return f"{self.user.email} - {self.organization.name} ({self.role})"
 
 
 class Invitation(models.Model):
@@ -94,6 +94,7 @@ class Navigation(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     label = models.CharField(max_length=100, unique=False)
+    icon = models.CharField(max_length=20, unique=False)
     organization = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="navigations"
     )
