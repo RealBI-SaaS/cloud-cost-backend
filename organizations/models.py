@@ -42,7 +42,7 @@ class OrganizationMembership(models.Model):
         unique_together = ("user", "organization")  # Prevent duplicate memberships
 
     def __str__(self):
-        return f"{self.user.username} - {self.organization.name} ({self.role})"
+        return f"{self.user.email} - {self.organization.name} ({self.role})"
 
 
 class Invitation(models.Model):

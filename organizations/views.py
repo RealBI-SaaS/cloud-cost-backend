@@ -3,6 +3,7 @@ import uuid
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
 from rest_framework import permissions, status, viewsets
@@ -323,14 +324,16 @@ class NavigationViewSet(viewsets.ModelViewSet):
             raise ValidationError(
                 {"organization": "Organization ID is required in the URL."}
             )
-
         if not Organization.objects.filter(
-            id=organization_id, organizationmembership__user=self.request.user
+            Q(id=organization_id)
+            & (
+                Q(organizationmembership__user=self.request.user)
+                | Q(owners=self.request.user)
+            )
         ).exists():
             raise PermissionDenied(
-                {"detail": "You are not a member of this organization."}
+                {"detail": "You are not a member or owner of this organization."}
             )
-
         return Navigation.objects.filter(organization_id=organization_id)
 
     # def get_object(self):

@@ -44,3 +44,9 @@ urlpatterns = [
         name="redoc",
     ),
 ]
+
+
+# admin page
+admin.site.site_header = "RealBI Admin"
+admin.site.site_title = "RealBI Admin Portal"
+admin.site.index_title = "Welcome to RealBI System Admin Portal"
