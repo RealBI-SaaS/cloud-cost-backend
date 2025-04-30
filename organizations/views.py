@@ -12,8 +12,15 @@ from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Invitation, Navigation, Organization, OrganizationMembership
+from .models import (
+    Company,
+    Invitation,
+    Navigation,
+    Organization,
+    OrganizationMembership,
+)
 from .serializers import (
+    CompanySerializer,
     InvitationSerializer,
     NavigationSerializer,
     OrganizationSerializer,
@@ -28,34 +35,68 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     serializer_class = OrganizationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def _has_role(self, user, organization, allowed_roles):
+        return OrganizationMembership.objects.filter(
+            user=user, organization=organization, role__in=allowed_roles
+        ).exists()
+
     def get_queryset(self):
         """Retrieve only organizations where the user is a member"""
+        # TODO: use the role from the organization-membership while listing orgs
         return Organization.objects.filter(
             organizationmembership__user=self.request.user
         ).distinct()
 
     def perform_create(self, serializer):
-        """Create an organization and make the requesting user the owner"""
+        company = serializer.validated_data["company"]
+
+        if company.owner != self.request.user:
+            raise PermissionDenied(
+                "You can only create organizations for companies you own."
+            )
+
         organization = serializer.save()
-        organization.owners.add(self.request.user)  # Add user as owner
         OrganizationMembership.objects.create(
             user=self.request.user, organization=organization, role="owner"
         )
 
+    # def perform_create(self, serializer):
+    #     """Create an organization and make the requesting user the owner"""
+    #     organization = serializer.save()
+    #     # TODO: handle the company relationship instead
+    #     # organization.owners.add(self.request.user)  # Add user as owner
+    #     OrganizationMembership.objects.create(
+    #         user=self.request.user, organization=organization, role="owner"
+    #     )
+
     def update(self, request, *args, **kwargs):
-        """Allow only owners to update"""
         organization = self.get_object()
-        if self.request.user not in organization.owners.all():
+        if not self._has_role(request.user, organization, ["owner", "admin"]):
             raise PermissionDenied("You are not allowed to update this organization.")
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
-        """Allow only owners to delete"""
         organization = self.get_object()
-        if self.request.user not in organization.owners.all():
-            raise PermissionDenied("You are not allowed to delete this organization.")
+        if not self._has_role(request.user, organization, ["owner"]):
+            raise PermissionDenied("Only owners can delete the organization.")
         return super().destroy(request, *args, **kwargs)
 
+    #
+    # def update(self, request, *args, **kwargs):
+    #     """Allow only owners to update"""
+    #     # FIX:  also allow admins
+    #     organization = self.get_object()
+    #     if self.request.user not in organization.owners.all():
+    #         raise PermissionDenied("You are not allowed to update this organization.")
+    #     return super().update(request, *args, **kwargs)
+    #
+    # def destroy(self, request, *args, **kwargs):
+    #     """Allow only owners to delete"""
+    #     organization = self.get_object()
+    #     if self.request.user not in organization.owners.all():
+    #         raise PermissionDenied("You are not allowed to delete this organization.")
+    #     return super().destroy(request, *args, **kwargs)
+    #
     @action(detail=True, methods=["get"])
     def members(self, request, pk=None):
         """Get all members of an organization with roles"""
@@ -75,6 +116,35 @@ class OrganizationViewSet(viewsets.ModelViewSet):
                 for m in members
             ]
         )
+
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    """Handles CRUD operations for companies"""
+
+    serializer_class = CompanySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Return companies owned by the current user"""
+        return Company.objects.filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        """Set the owner of the company to the current user"""
+        serializer.save(owner=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        """Allow only the owner to update the company"""
+        company = self.get_object()
+        if company.owner != request.user:
+            raise PermissionDenied("You are not allowed to update this company.")
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        """Allow only the owner to delete the company"""
+        company = self.get_object()
+        if company.owner != request.user:
+            raise PermissionDenied("You are not allowed to delete this company.")
+        return super().destroy(request, *args, **kwargs)
 
 
 class InviteUserView(APIView):

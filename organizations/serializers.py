@@ -1,13 +1,20 @@
 from rest_framework import serializers
 
-from .models import Invitation, Navigation, Organization
+from .models import Company, Invitation, Navigation, Organization
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = "__all__"
-        read_only = "owners"
+        # read_only = "owners"
+
+
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = "__all__"
+        read_only_fields = ["id", "owner", "created_at", "updated_at"]
 
 
 class InvitationSerializer(serializers.ModelSerializer):
