@@ -8,6 +8,19 @@ from django.utils.timezone import now
 from authentication.models import CustomUser
 
 
+class Company(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255, unique=True)
+    # one to many to user
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # many to many to organization
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Organization(models.Model):
     """Model representing an organization"""
 
@@ -15,9 +28,11 @@ class Organization(models.Model):
     name = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    owners = models.ManyToManyField(
-        CustomUser, blank=True, related_name="owned_organizations"
-    )
+
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    # owners = models.ManyToManyField(
+    #     CustomUser, blank=True, related_name="owned_organizations"
+    # )
 
     def __str__(self):
         return self.name
