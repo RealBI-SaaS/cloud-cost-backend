@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from .views import (
     AcceptInvitationView,
+    AllCompaniesViewSet,
     CompanyViewSet,
     InviteUserView,
     ListInvitationsView,
@@ -14,6 +15,7 @@ from .views import (
 router = DefaultRouter()
 router.register(r"organization", OrganizationViewSet, basename="organization")
 router.register(r"company", CompanyViewSet, basename="company")
+router.register(r"all-companies", AllCompaniesViewSet, basename="all-companies")
 # router.register(r"navigation", NavigationViewSet, basename="navigation")
 
 
