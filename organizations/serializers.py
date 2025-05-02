@@ -2,12 +2,29 @@ from rest_framework import serializers
 
 from .models import Company, Invitation, Navigation, Organization
 
+#
+# class OrganizationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Organization
+#         fields = "__all__"
+#         # read_only = "owners"
+#
+#
+
 
 class OrganizationSerializer(serializers.ModelSerializer):
+    role = serializers.CharField(read_only=True)
+
     class Meta:
         model = Organization
-        fields = "__all__"
-        # read_only = "owners"
+        fields = "__all__"  # includes model fields
+        extra_fields = ["role"]  # manually annotated field
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        if hasattr(instance, "role"):
+            rep["role"] = instance.role
+        return rep
 
 
 class CompanySerializer(serializers.ModelSerializer):
