@@ -3,7 +3,7 @@ import uuid
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
-from django.db.models import Q
+from django.db.models import F, Q
 from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
 from django_filters.rest_framework import DjangoFilterBackend
@@ -47,9 +47,15 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         # TODO: use the role from the organization-membership while listing orgs
         if self.request.user.is_staff:
             return Organization.objects.all()
-        return Organization.objects.filter(
-            organizationmembership__user=self.request.user
-        ).distinct()
+        # return Organization.objects.filter(
+        #     organizationmembership__user=self.request.user
+        # ).distinct()
+
+        return (
+            Organization.objects.filter(organizationmembership__user=self.request.user)
+            .annotate(role=F("organizationmembership__role"))
+            .distinct()
+        )
 
     def perform_create(self, serializer):
         company = serializer.validated_data["company"]
