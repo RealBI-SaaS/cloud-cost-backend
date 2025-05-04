@@ -18,12 +18,14 @@ class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = "__all__"  # includes model fields
-        extra_fields = ["role"]  # manually annotated field
+        extra_fields = ["role", "company_name"]  # manually annotated field
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         if hasattr(instance, "role"):
             rep["role"] = instance.role
+        if hasattr(instance, "company_name"):
+            rep["company_name"] = instance.company_name
         return rep
 
 
