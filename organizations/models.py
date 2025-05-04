@@ -17,6 +17,9 @@ class Company(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["created_at"]
+
     def __str__(self):
         return self.name
 
@@ -30,9 +33,12 @@ class Organization(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
     # owners = models.ManyToManyField(
     #     CustomUser, blank=True, related_name="owned_organizations"
     # )
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -54,6 +60,7 @@ class OrganizationMembership(models.Model):
     joined_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        ordering = ["joined_at"]
         unique_together = ("user", "organization")  # Prevent duplicate memberships
 
     def __str__(self):
@@ -84,6 +91,9 @@ class Invitation(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
+
+    class Meta:
+        ordering = ["created_at"]
 
     def __str__(self):
         return (
@@ -118,6 +128,7 @@ class Navigation(models.Model):
 
     class Meta:
         unique_together = ("label", "organization")
+        ordering = ["label"]
 
     def __str__(self):
         return self.label

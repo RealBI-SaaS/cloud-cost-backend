@@ -53,7 +53,10 @@ class OrganizationViewSet(viewsets.ModelViewSet):
 
         return (
             Organization.objects.filter(organizationmembership__user=self.request.user)
-            .annotate(role=F("organizationmembership__role"))
+            .annotate(
+                role=F("organizationmembership__role"), company_name=F("company__name")
+            )
+            # .select_related("company__name")
             .distinct()
         )
 
