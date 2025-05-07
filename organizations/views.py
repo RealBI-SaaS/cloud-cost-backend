@@ -44,9 +44,14 @@ class OrganizationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Retrieve only organizations where the user is a member"""
-        # TODO: use the role from the organization-membership while listing orgs
+        # TODO: optimize with serializers
         if self.request.user.is_staff:
-            return Organization.objects.all()
+            # return Organization.objects.all()
+            return (
+                Organization.objects.select_related("company").annotate(  # optimization
+                    company_name=F("company__name")
+                )  # useful for DRF
+            )
         # return Organization.objects.filter(
         #     organizationmembership__user=self.request.user
         # ).distinct()
@@ -162,7 +167,11 @@ class CompanyViewSet(viewsets.ModelViewSet):
                 "You do not have access to this company's organizations."
             )
 
-        organizations = Organization.objects.filter(company=company)
+        organizations = (
+            Organization.objects.filter(company=company)
+            .select_related("company")
+            .annotate(company_name=F("company__name"))
+        )
         serializer = OrganizationSerializer(organizations, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
