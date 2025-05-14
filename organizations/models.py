@@ -80,6 +80,7 @@ class Invitation(models.Model):
         max_length=10, choices=OrganizationMembership.ROLE_CHOICES, default="member"
     )
     token = models.CharField(max_length=50, unique=True)  # For verifying invites
+    # TODO: don't really need status
     status = models.CharField(
         max_length=10,
         choices=[
@@ -94,6 +95,7 @@ class Invitation(models.Model):
 
     class Meta:
         ordering = ["created_at"]
+        unique_together = ("organization", "invitee_email")  # Prevent duplicate invites
 
     def __str__(self):
         return (

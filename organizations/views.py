@@ -1,10 +1,12 @@
 import uuid
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.db.models import F, Q
 from django.shortcuts import get_object_or_404
+from django.utils.crypto import get_random_string
 from django.utils.timezone import now
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, permissions, status, viewsets
@@ -192,6 +194,11 @@ class AllCompaniesViewSet(viewsets.ReadOnlyModelViewSet):
 class InviteUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    def _has_role(self, user, organization, allowed_roles):
+        return OrganizationMembership.objects.filter(
+            user=user, organization=organization, role__in=allowed_roles
+        ).exists()
+
     def post(self, request, org_id):
         email = request.data.get("email")
 
@@ -202,7 +209,7 @@ class InviteUserView(APIView):
             )
 
         try:
-            org_uuid = uuid.UUID(str(org_id), version=4)  # Ensures a valid UUID
+            org_uuid = uuid.UUID(str(org_id), version=4)
         except ValueError:
             return Response(
                 {"error": "Invalid organization ID format. Must be a valid UUID."},
@@ -210,25 +217,33 @@ class InviteUserView(APIView):
             )
 
         try:
-            # print(org_id)
             organization = Organization.objects.get(id=org_id)
 
-            # Ensure the request user is an owner or admin
-            if (
-                request.user not in organization.owners.all()
-                and request.user not in organization.members.all()
-            ):
+            if not self._has_role(request.user, organization, ["admin", "owner"]):
                 return Response(
                     {"error": "You don't have permission to invite users"},
                     status=status.HTTP_403_FORBIDDEN,
                 )
 
-            role = request.data.get("role", "member")  # Default to member
-            invitation = Invitation.create_invitation(
-                organization, request.user, email, role
-            )
+            role = request.data.get("role", "member")
 
-            # Send an email with the invitation token (you need an email backend configured)
+            existing_invite = Invitation.objects.filter(
+                organization=organization, invitee_email=email, status="pending"
+            ).first()
+
+            if existing_invite:
+                if existing_invite.role != role:
+                    # Update the role, token, and expiration
+                    existing_invite.role = role
+                    existing_invite.token = get_random_string(32)
+                    existing_invite.expires_at = now() + timedelta(days=7)
+                    existing_invite.save()
+                invitation = existing_invite
+            else:
+                invitation = Invitation.create_invitation(
+                    organization, request.user, email, role
+                )
+
             invite_link = (
                 f"{settings.FRONTEND_BASE_URL}/accept-invitation/{invitation.token}/"
             )
@@ -243,6 +258,7 @@ class InviteUserView(APIView):
             return Response(
                 InvitationSerializer(invitation).data, status=status.HTTP_201_CREATED
             )
+
         except Organization.DoesNotExist:
             return Response(
                 {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
@@ -276,6 +292,7 @@ class AcceptInvitationView(APIView):
                 )
 
             # Add user to organization
+            # TODO: lookout for duplicate memberships with different roles
             membership, created = OrganizationMembership.objects.get_or_create(
                 user=user,
                 organization=invitation.organization,
@@ -300,6 +317,37 @@ class AcceptInvitationView(APIView):
             return Response(
                 {"error": "Invalid invitation token"},
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class DeleteInvitationView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            invitation = Invitation.objects.get(id=id)
+
+            if not OrganizationMembership.objects.filter(
+                user=request.user,
+                organization=invitation.organization,
+                role__in=["admin", "owner"],
+            ).exists():
+                return Response(
+                    {"error": "You don't have permission to delete this invitation."},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            invitation.delete()
+
+            return Response(
+                {"message": "Invitation deleted successfully."},
+                status=status.HTTP_204_NO_CONTENT,
+            )
+
+        except Invitation.DoesNotExist:
+            return Response(
+                {"error": "Invitation not found."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
 
@@ -418,3 +466,97 @@ class NavigationViewSet(viewsets.ModelViewSet):
         #     raise PermissionDenied("You are not allowed to delete this navigation.")
         #
         return super().destroy(request, *args, **kwargs)
+
+
+class UpdateMembershipRoleView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request, org_id, user_id):
+        try:
+            organization = Organization.objects.get(id=org_id)
+        except Organization.DoesNotExist:
+            return Response(
+                {"error": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if not OrganizationMembership.objects.filter(
+            user=request.user,
+            organization=organization,
+            role__in=["admin", "owner"],
+        ).exists():
+            return Response(
+                {"error": "You don't have permission to update roles."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        try:
+            membership = OrganizationMembership.objects.get(
+                organization=organization, user__id=user_id
+            )
+        except OrganizationMembership.DoesNotExist:
+            return Response(
+                {"error": "Membership not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if membership.role == "owner":
+            return Response(
+                {"error": "Cannot change the role of the owner."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        new_role = request.data.get("role")
+        if new_role not in dict(OrganizationMembership.ROLE_CHOICES):
+            return Response(
+                {"error": "Invalid role."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        membership.role = new_role
+        membership.save()
+
+        return Response(
+            {"message": "Role updated successfully."}, status=status.HTTP_200_OK
+        )
+
+
+class RemoveMemberView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, org_id, user_id):
+        try:
+            organization = Organization.objects.get(id=org_id)
+        except Organization.DoesNotExist:
+            return Response(
+                {"error": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if not OrganizationMembership.objects.filter(
+            user=request.user,
+            organization=organization,
+            role__in=["admin", "owner"],
+        ).exists():
+            return Response(
+                {"error": "You don't have permission to remove members."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        try:
+            membership = OrganizationMembership.objects.get(
+                organization=organization, user__id=user_id
+            )
+        except OrganizationMembership.DoesNotExist:
+            return Response(
+                {"error": "Membership not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if membership.role == "owner":
+            return Response(
+                {"error": "Cannot remove the organization owner."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        membership.delete()
+
+        return Response(
+            {"message": "Member removed successfully."},
+            status=status.HTTP_204_NO_CONTENT,
+        )

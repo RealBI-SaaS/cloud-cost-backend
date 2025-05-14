@@ -5,10 +5,13 @@ from .views import (
     AcceptInvitationView,
     AllCompaniesViewSet,
     CompanyViewSet,
+    DeleteInvitationView,
     InviteUserView,
     ListInvitationsView,
     NavigationViewSet,
     OrganizationViewSet,
+    RemoveMemberView,
+    UpdateMembershipRoleView,
 )
 
 # Create a router and register our ViewSets with it.
@@ -65,4 +68,15 @@ urlpatterns = [
         ListInvitationsView.as_view(),
         name="list-invitations",
     ),
+    path(
+        "invitations/revoke/<uuid:id>/",
+        DeleteInvitationView.as_view(),
+        name="revoke-invitations",
+    ),
+    # PATCH to update role
+    path(
+        "<uuid:org_id>/members/<uuid:user_id>/role/", UpdateMembershipRoleView.as_view()
+    ),
+    # DELETE to remove a member
+    path("<uuid:org_id>/members/<uuid:user_id>/", RemoveMemberView.as_view()),
 ]
