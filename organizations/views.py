@@ -219,7 +219,10 @@ class InviteUserView(APIView):
         try:
             organization = Organization.objects.get(id=org_id)
 
-            if not self._has_role(request.user, organization, ["admin", "owner"]):
+            if (
+                not self._has_role(request.user, organization, ["admin", "owner"])
+                and not request.user.is_staff
+            ):
                 return Response(
                     {"error": "You don't have permission to invite users"},
                     status=status.HTTP_403_FORBIDDEN,
@@ -327,11 +330,14 @@ class DeleteInvitationView(APIView):
         try:
             invitation = Invitation.objects.get(id=id)
 
-            if not OrganizationMembership.objects.filter(
-                user=request.user,
-                organization=invitation.organization,
-                role__in=["admin", "owner"],
-            ).exists():
+            if (
+                not OrganizationMembership.objects.filter(
+                    user=request.user,
+                    organization=invitation.organization,
+                    role__in=["admin", "owner"],
+                ).exists()
+                and not request.user.is_staff
+            ):
                 return Response(
                     {"error": "You don't have permission to delete this invitation."},
                     status=status.HTTP_403_FORBIDDEN,
@@ -479,11 +485,14 @@ class UpdateMembershipRoleView(APIView):
                 {"error": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if not OrganizationMembership.objects.filter(
-            user=request.user,
-            organization=organization,
-            role__in=["admin", "owner"],
-        ).exists():
+        if (
+            not OrganizationMembership.objects.filter(
+                user=request.user,
+                organization=organization,
+                role__in=["admin", "owner"],
+            ).exists()
+            and not request.user.is_staff
+        ):
             return Response(
                 {"error": "You don't have permission to update roles."},
                 status=status.HTTP_403_FORBIDDEN,
@@ -529,11 +538,14 @@ class RemoveMemberView(APIView):
                 {"error": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if not OrganizationMembership.objects.filter(
-            user=request.user,
-            organization=organization,
-            role__in=["admin", "owner"],
-        ).exists():
+        if (
+            not OrganizationMembership.objects.filter(
+                user=request.user,
+                organization=organization,
+                role__in=["admin", "owner"],
+            ).exists()
+            and not request.user.is_staff
+        ):
             return Response(
                 {"error": "You don't have permission to remove members."},
                 status=status.HTTP_403_FORBIDDEN,
