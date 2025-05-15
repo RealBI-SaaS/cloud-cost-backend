@@ -45,8 +45,17 @@ class InvitationSerializer(serializers.ModelSerializer):
 class NavigationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Navigation
-        fields = ["id", "label", "icon", "organization", "created_at", "updated_at"]
-        read_only_fields = ["id", "created_at", "updated_at"]
+        fields = [
+            "id",
+            "label",
+            "icon",
+            "organization",
+            "parent",
+            "created_at",
+            "updated_at",
+            "sub_navigations",
+        ]
+        read_only_fields = ["id", "created_at", "updated_at", "sub_navigations"]
 
     def validate(self, data):
         """Ensure label uniqueness within an organization, only on creation."""
@@ -67,3 +76,22 @@ class NavigationSerializer(serializers.ModelSerializer):
                 )
 
         return data
+
+    def get_sub_navigations(self, obj):
+        # Only one level of nesting as requested
+        children = obj.sub_navigations.all()
+        return NavigationChildSerializer(children, many=True).data
+
+
+class NavigationChildSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Navigation
+        fields = [
+            "id",
+            "label",
+            "icon",
+            "organization",
+            "parent",
+            "created_at",
+            "updated_at",
+        ]

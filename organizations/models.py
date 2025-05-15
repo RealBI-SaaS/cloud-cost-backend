@@ -121,9 +121,17 @@ class Navigation(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     label = models.CharField(max_length=100, unique=False)
-    icon = models.CharField(max_length=20, unique=False)
+    icon = models.CharField(max_length=20, unique=False, null=True, blank=True)
     organization = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="navigations"
+    )
+    parent = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="sub_navigations",
+        help_text="If set, this navigation is a sub-navigation of the selected navigation.",
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
