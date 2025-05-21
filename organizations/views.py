@@ -10,7 +10,7 @@ from django.utils.crypto import get_random_string
 from django.utils.timezone import now
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, permissions, status, viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -18,6 +18,7 @@ from rest_framework.views import APIView
 # from rest_framework.permissions import IsAdminUser
 from .models import (
     Company,
+    CompanyColorScheme,
     Invitation,
     Navigation,
     Organization,
@@ -59,11 +60,16 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         # ).distinct()
 
         return (
-            Organization.objects.filter(organizationmembership__user=self.request.user)
-            .annotate(
-                role=F("organizationmembership__role"), company_name=F("company__name")
+            (
+                Organization.objects.filter(
+                    organizationmembership__user=self.request.user
+                )
             )
-            # .select_related("company__name")
+            .annotate(
+                role=F("organizationmembership__role"),
+                company_name=F("company__name"),
+                company_logo=F("company__logo"),
+            )
             .distinct()
         )
 
@@ -272,9 +278,11 @@ class AcceptInvitationView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, token):
+        # TODO: protect against acceptance with uninvited user
         try:
             # print(token)
             invitation = Invitation.objects.get(token=token)
+            print(invitation.invitee_email)
 
             # Check if the invitation is expired
             if invitation.expires_at < now():
@@ -572,3 +580,38 @@ class RemoveMemberView(APIView):
             {"message": "Member removed successfully."},
             status=status.HTTP_204_NO_CONTENT,
         )
+
+
+@api_view(["GET", "PATCH"])
+@permission_classes([permissions.IsAuthenticated])
+def company_color_scheme(request, comp_id):
+    company = Company.objects.get(id=comp_id)
+    try:
+        scheme = company.color_scheme
+    except CompanyColorScheme.DoesNotExist:
+        if request.method == "GET":
+            return Response({"color_scheme": None})
+        scheme = CompanyColorScheme.objects.create(company=company)
+
+    if request.method == "PATCH":
+        for field in [
+            "primary",
+            "sidebar_accent",
+            "borders",
+            "form_input_background",
+            "sidebar_background",
+            "sidebar_font_color",
+        ]:
+            if field in request.data:
+                setattr(scheme, field, request.data[field])
+        scheme.save()
+
+    data = {
+        "primary": scheme.primary,
+        "sidebar_accent": scheme.sidebar_accent,
+        "borders": scheme.borders,
+        "form_input_background": scheme.form_input_background,
+        "sidebar_background": scheme.sidebar_background,
+        "sidebar_font_color": scheme.sidebar_font_color,
+    }
+    return Response({"color_scheme": data})

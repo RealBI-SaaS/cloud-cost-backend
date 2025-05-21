@@ -26,6 +26,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
             rep["role"] = instance.role
         if hasattr(instance, "company_name"):
             rep["company_name"] = instance.company_name
+        if hasattr(instance, "company_logo"):
+            rep["company_logo"] = instance.company_logo
         return rep
 
 

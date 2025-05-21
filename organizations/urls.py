@@ -12,6 +12,7 @@ from .views import (
     OrganizationViewSet,
     RemoveMemberView,
     UpdateMembershipRoleView,
+    company_color_scheme,
 )
 
 # Create a router and register our ViewSets with it.
@@ -79,4 +80,8 @@ urlpatterns = [
     ),
     # DELETE to remove a member
     path("<uuid:org_id>/members/<uuid:user_id>/", RemoveMemberView.as_view()),
+    # get, patch company_color_scheme
+    path(
+        "<uuid:comp_id>/colorscheme/", company_color_scheme, name="company-color-scheme"
+    ),
 ]

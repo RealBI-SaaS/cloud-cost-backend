@@ -27,25 +27,29 @@ from drf_spectacular.views import (
 
 from authentication.views import api_documentation
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("myauth/", include("authentication.urls")),
-    path("organizations/", include("organizations.urls")),
-    re_path(r"^auth/", include("djoser.urls")),
-    re_path(r"^auth/", include("djoser.urls.jwt")),
-    path("", api_documentation, name="api-documentation"),
-    path("schema/", SpectacularAPIView.as_view(), name="schema"),
-    path(
-        "swagger/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui",
-    ),
-    path(
-        "redoc/",
-        SpectacularRedocView.as_view(url_name="schema"),
-        name="redoc",
-    ),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns = (
+    [
+        path("admin/", admin.site.urls),
+        path("myauth/", include("authentication.urls")),
+        path("organizations/", include("organizations.urls")),
+        re_path(r"^auth/", include("djoser.urls")),
+        re_path(r"^auth/", include("djoser.urls.jwt")),
+        path("", api_documentation, name="api-documentation"),
+        path("schema/", SpectacularAPIView.as_view(), name="schema"),
+        path(
+            "swagger/",
+            SpectacularSwaggerView.as_view(url_name="schema"),
+            name="swagger-ui",
+        ),
+        path(
+            "redoc/",
+            SpectacularRedocView.as_view(url_name="schema"),
+            name="redoc",
+        ),
+    ]
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)
 
 
 # admin page

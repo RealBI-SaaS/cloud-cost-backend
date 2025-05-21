@@ -11,6 +11,8 @@ from authentication.models import CustomUser
 class Company(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
+
+    logo = models.ImageField(upload_to="company_logos/", blank=True, null=True)
     # one to many to user
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # many to many to organization
@@ -22,6 +24,22 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CompanyColorScheme(models.Model):
+    company = models.OneToOneField(
+        Company, on_delete=models.CASCADE, related_name="color_scheme"
+    )
+
+    primary = models.CharField(max_length=7, blank=True, null=True)
+    sidebar_accent = models.CharField(max_length=7, blank=True, null=True)
+    borders = models.CharField(max_length=7, blank=True, null=True)
+    form_input_background = models.CharField(max_length=7, blank=True, null=True)
+    sidebar_background = models.CharField(max_length=7, blank=True, null=True)
+    sidebar_font_color = models.CharField(max_length=7, blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Organization(models.Model):
