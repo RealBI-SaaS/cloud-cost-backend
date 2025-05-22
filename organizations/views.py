@@ -52,9 +52,10 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             # return Organization.objects.all()
             return (
                 Organization.objects.select_related("company").annotate(  # optimization
-                    company_name=F("company__name")
-                )  # useful for DRF
-            )
+                    company_name=F("company__name"),
+                    # company_logo=F("company__logo"),
+                )
+            ).distinct()
         # return Organization.objects.filter(
         #     organizationmembership__user=self.request.user
         # ).distinct()
@@ -68,7 +69,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             .annotate(
                 role=F("organizationmembership__role"),
                 company_name=F("company__name"),
-                company_logo=F("company__logo"),
+                # company_logo=F("company__logo"),
             )
             .distinct()
         )

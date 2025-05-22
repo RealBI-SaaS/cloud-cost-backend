@@ -14,11 +14,17 @@ from .models import Company, Invitation, Navigation, Organization
 
 class OrganizationSerializer(serializers.ModelSerializer):
     role = serializers.CharField(read_only=True)
+    company_logo = serializers.SerializerMethodField()
 
     class Meta:
         model = Organization
-        fields = "__all__"  # includes model fields
-        extra_fields = ["role", "company_name"]  # manually annotated field
+        fields = "__all__"
+        extra_fields = ["role", "company_name", "company_logo"]
+
+    def get_company_logo(self, obj):
+        if obj.company and obj.company.logo:
+            return obj.company.logo.url
+        return None
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
@@ -26,8 +32,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
             rep["role"] = instance.role
         if hasattr(instance, "company_name"):
             rep["company_name"] = instance.company_name
-        if hasattr(instance, "company_logo"):
-            rep["company_logo"] = instance.company_logo
         return rep
 
 
