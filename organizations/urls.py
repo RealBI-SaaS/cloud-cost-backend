@@ -20,8 +20,15 @@ router = DefaultRouter()
 router.register(r"organization", OrganizationViewSet, basename="organization")
 router.register(r"company", CompanyViewSet, basename="company")
 router.register(r"all-companies", AllCompaniesViewSet, basename="all-companies")
-# router.register(r"navigation", NavigationViewSet, basename="navigation")
+# router.register(
+#     r"<uuid:organization_id>/navigation", NavigationViewSet, basename="navigation"
+# )
 
+router.register(
+    r"(?P<organization_id>[^/.]+)/navigation",
+    NavigationViewSet,
+    basename="navigation",
+)
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -30,18 +37,20 @@ urlpatterns = [
     #     NavigationViewSet.as_view({"get": "list"}),
     #     name="navigation-list",
     # ),
-    path(
-        "<uuid:organization_id>/navigation/",
-        NavigationViewSet.as_view({"get": "list"}),
-    ),
-    path(
-        "navigation/",
-        NavigationViewSet.as_view({"post": "create"}),
-    ),
-    path(
-        "navigation/<uuid:pk>/",
-        NavigationViewSet.as_view({"patch": "partial_update", "delete": "destroy"}),
-    ),
+    # from this
+    # path(
+    #     "<uuid:organization_id>/navigation/",
+    #     NavigationViewSet.as_view({"get": "list"}),
+    # ),
+    # path(
+    #     "navigation/",
+    #     NavigationViewSet.as_view({"post": "create"}),
+    # ),
+    # path(
+    #     "navigation/<uuid:pk>/",
+    #     NavigationViewSet.as_view({"patch": "partial_update", "delete": "destroy"}),
+    # ),
+    # to this
     # path(
     #     "<uuid:organization_id>/navigation/",
     #     NavigationViewSet.as_view({"get": "list", "post": "create"}),

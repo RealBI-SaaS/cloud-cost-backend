@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.db import transaction
 from django.db.models import F, Q
 from django.shortcuts import get_object_or_404
 from django.utils.crypto import get_random_string
@@ -481,6 +482,61 @@ class NavigationViewSet(viewsets.ModelViewSet):
         #     raise PermissionDenied("You are not allowed to delete this navigation.")
         #
         return super().destroy(request, *args, **kwargs)
+
+    @action(detail=False, methods=["patch"], url_path="reorder")
+    def reorder_navigation(self, request, *args, **kwargs):
+        """
+        Reorders children under a single parent or top-level navigations.
+        Request format:
+        - For top-level:
+            {
+              "parent_id": null,
+              "navigations": [{ "id": "<uuid>", "order": 0 }, ...]
+            }
+        - For child navigations:
+            {
+              "parent_id": "<uuid>",
+              "navigations": [{ "id": "<uuid>", "order": 0 }, ...]
+            }
+        """
+        parent_id = request.data.get("parent_id")
+        navigations = request.data.get("navigations", [])
+
+        if not isinstance(navigations, list):
+            return Response({"detail": "navigations must be a list."}, status=400)
+
+        organization_id = self.kwargs.get("organization_id")
+        if not organization_id:
+            return Response(
+                {"detail": "organization_id is required in the URL."}, status=400
+            )
+
+        if (
+            not Organization.objects.filter(
+                Q(id=organization_id)
+                & Q(organizationmembership__user=self.request.user)
+            ).exists()
+            and not self.request.user.is_staff
+        ):
+            raise PermissionDenied(
+                {"detail": "You are not a member of this organization."}
+            )
+
+        with transaction.atomic():
+            for item in navigations:
+                nav_id = item.get("id")
+                order = item.get("order")
+
+                if nav_id is None or order is None:
+                    continue  # Skip invalid items
+
+                Navigation.objects.filter(
+                    id=nav_id,
+                    organization_id=organization_id,
+                    parent_id=parent_id,  # Works for both null and UUID
+                ).update(order=order)
+
+        return Response({"status": "reordered"}, status=status.HTTP_200_OK)
 
 
 class UpdateMembershipRoleView(APIView):

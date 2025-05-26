@@ -51,16 +51,7 @@ class InvitationSerializer(serializers.ModelSerializer):
 class NavigationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Navigation
-        fields = [
-            "id",
-            "label",
-            "icon",
-            "organization",
-            "parent",
-            "created_at",
-            "updated_at",
-            "sub_navigations",
-        ]
+        fields = "__all__"
         read_only_fields = ["id", "created_at", "updated_at", "sub_navigations"]
 
     def validate(self, data):

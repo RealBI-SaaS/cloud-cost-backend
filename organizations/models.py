@@ -143,6 +143,7 @@ class Navigation(models.Model):
     organization = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="navigations"
     )
+    order = models.PositiveIntegerField(default=0, help_text="Custom order")
     parent = models.ForeignKey(
         "self",
         null=True,
@@ -156,7 +157,7 @@ class Navigation(models.Model):
 
     class Meta:
         unique_together = ("label", "organization")
-        ordering = ["label"]
+        ordering = ["parent_id", "order", "label"]
 
     def __str__(self):
         return self.label
