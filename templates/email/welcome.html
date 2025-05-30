@@ -1,68 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .header {
-            background-color: #f8f9fa;
-            padding: 20px;
-            text-align: center;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .content {
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Welcome to Cedar Street Analytics!</h1>
-    </div>
-    <div class="content">
-        <p>Hi {{ first_name }},</p>
-        <p>Thank you for joining Cedar Street Analytics! We're excited to have you on board.</p>
-        <p>With Cedar Street Analytics, you'll be able to:</p>
-        <ul>
-            <li>Track and analyze your business metrics</li>
-            <li>Generate insightful reports</li>
-            <li>Collaborate with your team</li>
-            <li>Make data-driven decisions</li>
-        </ul>
-        <p>To get started, please verify your email address by clicking the button below:</p>
-        <div style="text-align: center;">
-            <a href="{{ verification_url }}" class="button">Verify Email Address</a>
-        </div>
-        <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
-    </div>
-    <div class="footer">
-        <p>This email was sent by Cedar Street Analytics. If you didn't create an account, please ignore this email.</p>
-    </div>
-</body>
-</html> 
+{% load i18n %} {% extends "email/base.html" %} {% block title %}{% trans "Reset
+Your Password" %}{% endblock %} {% block content %}
+<p>
+  {% blocktrans %}Hi {{ user.username }}, welcome to {{ site_name }}!{%
+  endblocktrans %}
+</p>
+
+<p>
+  {% trans "We're thrilled to have you on board. Explore your dashboard or get
+  started right away." %}
+</p>
+
+<p style="text-align: center">
+  <a
+    href="{{ protocol }}://{{ domain }}/dashboard"
+    style="
+      display: inline-block;
+      background-color: #10b981;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    "
+  >
+    {% trans "Go to Dashboard" %}
+  </a>
+</p>
+
+<p>
+  {% trans "If you have any questions, just reply to this email. We're here to
+  help!" %}
+</p>
+<p>{% blocktrans %}The {{ site_name }} team{% endblocktrans %}</p>
+{% endblock %}
