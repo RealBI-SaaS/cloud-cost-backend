@@ -1,6 +1,7 @@
 import uuid
 from datetime import timedelta
 
+from django.conf import settings
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils.timezone import now
@@ -58,8 +59,20 @@ class Organization(models.Model):
     class Meta:
         ordering = ["name"]
 
-    def __str__(self):
-        return self.name
+    def __str__(self) -> str:
+        return f"{self.name}"
+
+
+class UserGroup(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255, unique=True)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_groups")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 
 class OrganizationMembership(models.Model):
@@ -79,7 +92,8 @@ class OrganizationMembership(models.Model):
 
     class Meta:
         ordering = ["joined_at"]
-        unique_together = ("user", "organization")  # Prevent duplicate memberships
+        # Prevent duplicate memberships
+        unique_together = ("user", "organization")
 
     def __str__(self):
         return f"{self.user.email} - {self.organization.name} ({self.role})"
@@ -97,7 +111,8 @@ class Invitation(models.Model):
     role = models.CharField(
         max_length=10, choices=OrganizationMembership.ROLE_CHOICES, default="member"
     )
-    token = models.CharField(max_length=50, unique=True)  # For verifying invites
+    # For verifying invites
+    token = models.CharField(max_length=50, unique=True)
     # TODO: don't really need status
     status = models.CharField(
         max_length=10,
@@ -113,7 +128,8 @@ class Invitation(models.Model):
 
     class Meta:
         ordering = ["created_at"]
-        unique_together = ("organization", "invitee_email")  # Prevent duplicate invites
+        # Prevent duplicate invites
+        unique_together = ("organization", "invitee_email")
 
     def __str__(self):
         return (

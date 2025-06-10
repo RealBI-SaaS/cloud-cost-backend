@@ -12,6 +12,7 @@ from .views import (
     OrganizationViewSet,
     RemoveMemberView,
     UpdateMembershipRoleView,
+    UserGroupViewSet,
     company_color_scheme,
 )
 
@@ -20,6 +21,7 @@ router = DefaultRouter()
 router.register(r"organization", OrganizationViewSet, basename="organization")
 router.register(r"company", CompanyViewSet, basename="company")
 router.register(r"all-companies", AllCompaniesViewSet, basename="all-companies")
+router.register(r"user-group", UserGroupViewSet, basename="user-groups")
 # router.register(
 #     r"<uuid:organization_id>/navigation", NavigationViewSet, basename="navigation"
 # )
@@ -29,6 +31,7 @@ router.register(
     NavigationViewSet,
     basename="navigation",
 )
+user_group_create = UserGroupViewSet.as_view({"post": "create"})
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -89,6 +92,11 @@ urlpatterns = [
     ),
     # DELETE to remove a member
     path("<uuid:org_id>/members/<uuid:user_id>/", RemoveMemberView.as_view()),
+    path(
+        "organizations/<uuid:org_id>/user-group/",
+        user_group_create,
+        name="usergroup-create",
+    ),
     # get, patch company_color_scheme
     path(
         "<uuid:comp_id>/colorscheme/", company_color_scheme, name="company-color-scheme"

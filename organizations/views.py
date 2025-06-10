@@ -16,6 +16,8 @@ from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authentication.models import CustomUser
+
 # from rest_framework.permissions import IsAdminUser
 from .models import (
     Company,
@@ -24,12 +26,14 @@ from .models import (
     Navigation,
     Organization,
     OrganizationMembership,
+    UserGroup,
 )
 from .serializers import (
     CompanySerializer,
     InvitationSerializer,
     NavigationSerializer,
     OrganizationSerializer,
+    UserGroupSerializer,
 )
 
 User = get_user_model()
@@ -260,7 +264,9 @@ class InviteUserView(APIView):
             )
             send_mail(
                 "Invitation on RealBI",
-                f"You are invited to join {organization} as {role}. \n \n Click here to accept the invitation: {invite_link}",
+                f"You are invited to join {organization} as {
+                    role
+                }. \n \n Click here to accept the invitation: {invite_link}",
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=True,
@@ -672,3 +678,41 @@ def company_color_scheme(request, comp_id):
         "sidebar_font_color": scheme.sidebar_font_color,
     }
     return Response({"color_scheme": data})
+
+
+class UserGroupViewSet(viewsets.ModelViewSet):
+    queryset = UserGroup.objects.all()
+    serializer_class = UserGroupSerializer
+
+    # TODO: add permission check here
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    @action(detail=False, methods=["get"], url_path="by-org/(?P<org_id>[^/.]+)")
+    def by_organization(self, request, org_id=None):
+        groups = self.queryset.filter(organization__id=org_id)
+        serializer = self.get_serializer(groups, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def add_user(self, request, pk=None):
+        group = self.get_object()
+        user_id = request.data.get("user_id")
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            group.users.add(user)
+            return Response({"status": "user added"})
+        except CustomUser.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+
+    @action(detail=True, methods=["post"])
+    def remove_user(self, request, pk=None):
+        group = self.get_object()
+        user_id = request.data.get("user_id")
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            group.users.remove(user)
+            return Response({"status": "user removed"})
+        except CustomUser.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)

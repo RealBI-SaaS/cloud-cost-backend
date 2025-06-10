@@ -41,8 +41,8 @@ class CustomUser(AbstractUser, PermissionsMixin):
     # Override to remove username field
     username = None
 
-    def __str__(self):
-        return self.email
+    def __str__(self) -> str:
+        return f"{self.email}"
 
 
 #

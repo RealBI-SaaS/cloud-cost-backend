@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from .models import Company, Invitation, Navigation, Organization
+from authentication.models import CustomUser
+
+from .models import Company, Invitation, Navigation, Organization, UserGroup
 
 #
 # class OrganizationSerializer(serializers.ModelSerializer):
@@ -92,3 +94,14 @@ class NavigationChildSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+
+class UserGroupSerializer(serializers.ModelSerializer):
+    users = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=CustomUser.objects.all()
+    )
+
+    class Meta:
+        model = UserGroup
+        fields = ["id", "name", "organization", "users", "created_at", "updated_at"]
+        # read_only_fields = ["organization"]
