@@ -263,10 +263,10 @@ class InviteUserView(APIView):
                 f"{settings.FRONTEND_BASE_URL}/accept-invitation/{invitation.token}/"
             )
             send_mail(
-                "Invitation on RealBI",
-                f"You are invited to join {organization} as {
-                    role
-                }. \n \n Click here to accept the invitation: {invite_link}",
+                "invitation on realbi",
+                f"""You are invited to join {organization} as {role}.
+
+                Click here to accept the invitation: {invite_link}""",
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=True,
