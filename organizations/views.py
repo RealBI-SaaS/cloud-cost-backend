@@ -213,6 +213,8 @@ class InviteUserView(APIView):
 
     def post(self, request, org_id):
         email = request.data.get("email")
+        user_group_ids = request.data.get("user_groups", [])
+        role = request.data.get("role", "member")
 
         if not email:
             return Response(
@@ -239,8 +241,9 @@ class InviteUserView(APIView):
                     {"error": "You don't have permission to invite users"},
                     status=status.HTTP_403_FORBIDDEN,
                 )
-
-            role = request.data.get("role", "member")
+            groups = UserGroup.objects.filter(
+                id__in=user_group_ids, organization=organization
+            )
 
             existing_invite = Invitation.objects.filter(
                 organization=organization, invitee_email=email, status="pending"
@@ -258,6 +261,10 @@ class InviteUserView(APIView):
                 invitation = Invitation.create_invitation(
                     organization, request.user, email, role
                 )
+
+                # assign user groups
+            if groups:
+                invitation.user_groups.set(groups)
 
             invite_link = (
                 f"{settings.FRONTEND_BASE_URL}/accept-invitation/{invitation.token}/"
@@ -323,6 +330,10 @@ class AcceptInvitationView(APIView):
                     {"error": "User is already a member of this organization"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+
+            # Add user to the invited user groups
+            for group in invitation.user_groups.all():
+                group.users.add(user)
 
             # Delete invitation after acceptance
             invitation.delete()
@@ -424,7 +435,18 @@ class NavigationViewSet(viewsets.ModelViewSet):
             raise PermissionDenied(
                 {"detail": "You are not a member of this organization."}
             )
-        return Navigation.objects.filter(organization_id=organization_id)
+
+        # Allow admins/owners/staff to see all navigations
+        if (
+            self._has_role(self.request.user, organization_id, ["admin", "owner"])
+            or self.request.user.is_staff
+        ):
+            return Navigation.objects.filter(organization_id=organization_id)
+
+        # return Navigation.objects.filter(organization_id=organization_id)
+        return Navigation.objects.filter(
+            organization_id=organization_id, user_groups__users=self.request.user
+        ).distinct()
 
     def perform_create(self, serializer):
         """Allow only organization owners to create navigation"""
@@ -456,7 +478,18 @@ class NavigationViewSet(viewsets.ModelViewSet):
                 {"label": "This label already exists in the organization."}
             )
 
-        serializer.save(organization=organization)
+        # Validate and assign user_groups
+        group_ids = self.request.data.get("user_groups", [])
+        valid_groups = UserGroup.objects.filter(
+            id__in=group_ids, organization=organization
+        )
+
+        if len(group_ids) != valid_groups.count():
+            raise ValidationError(
+                {"user_groups": "Some user groups are invalid for this organization."}
+            )
+        navigation = serializer.save(organization=organization)
+        navigation.user_groups.set(valid_groups)
 
     def update(self, request, *args, **kwargs):
         """Allow only owners of the organization to update the navigation"""
@@ -471,8 +504,20 @@ class NavigationViewSet(viewsets.ModelViewSet):
         #
         # if request.user not in organization.owners.all():
         #     raise PermissionDenied("You are not allowed to update this navigation.")
+        group_ids = self.request.data.get("user_groups", [])
+        valid_groups = UserGroup.objects.filter(
+            id__in=group_ids, organization=organization
+        )
 
-        return super().update(request, *args, **kwargs)
+        if len(group_ids) != valid_groups.count():
+            raise ValidationError(
+                {"user_groups": "Some user groups are invalid for this organization."}
+            )
+
+        response = super().update(request, *args, **kwargs)
+        navigation.user_groups.set(valid_groups)
+
+        return response
 
     def destroy(self, request, *args, **kwargs):
         """Allow only owners of the organization to delete the navigation"""

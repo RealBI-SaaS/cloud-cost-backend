@@ -47,7 +47,15 @@ class CompanySerializer(serializers.ModelSerializer):
 class InvitationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invitation
-        fields = ["id", "organization", "invitee_email", "role", "token", "expires_at"]
+        fields = [
+            "id",
+            "organization",
+            "invitee_email",
+            "role",
+            "token",
+            "user_groups",
+            "expires_at",
+        ]
 
 
 class NavigationSerializer(serializers.ModelSerializer):

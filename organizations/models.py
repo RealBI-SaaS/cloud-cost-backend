@@ -111,7 +111,6 @@ class Invitation(models.Model):
     role = models.CharField(
         max_length=10, choices=OrganizationMembership.ROLE_CHOICES, default="member"
     )
-    # For verifying invites
     token = models.CharField(max_length=50, unique=True)
     # TODO: don't really need status
     status = models.CharField(
@@ -122,6 +121,9 @@ class Invitation(models.Model):
             ("declined", "Declined"),
         ],
         default="pending",
+    )
+    user_groups = models.ManyToManyField(
+        "UserGroup", related_name="invitations", blank=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
@@ -158,6 +160,9 @@ class Navigation(models.Model):
     icon = models.CharField(max_length=20, unique=False, null=True, blank=True)
     organization = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="navigations"
+    )
+    user_groups = models.ManyToManyField(
+        "UserGroup", related_name="navigations", blank=True
     )
     order = models.PositiveIntegerField(default=0, help_text="Custom order")
     parent = models.ForeignKey(
