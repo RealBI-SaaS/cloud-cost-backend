@@ -31,7 +31,7 @@ class CloudAccount(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ("vendor", "account_id")
+        # unique_together = ("vendor", "account_id")
         ordering = ["vendor", "account_name"]
 
     def __str__(self):
@@ -123,3 +123,17 @@ class AzureOAuthToken(models.Model):
 
     def __str__(self):
         return f"Azure token for {self.cloud_account.account_name}"
+
+
+class AWSRole(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    cloud_account = models.OneToOneField(
+        "CloudAccount", on_delete=models.CASCADE, related_name="aws_role_values"
+    )
+    external_id = models.CharField(max_length=70)
+    role_arn = models.CharField(max_length=70)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"AWS role credential - for {self.cloud_account}"

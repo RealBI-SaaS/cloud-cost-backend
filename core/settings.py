@@ -245,4 +245,4 @@ SITE_NAME = os.getenv("SITE_NAME", "Default Site Name")
 
 AZURE_DATA_CLIENT_ID = "abc"
 AZURE_DATA_CLIENT_SECRET = "abs"
-AZURE_DATA_REDIRECT_URI = "abs"
+AZURE_DATA_REDIRECT_URI = "https://www.google.com"
