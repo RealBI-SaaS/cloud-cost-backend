@@ -163,8 +163,14 @@ class CompanyViewSet(viewsets.ModelViewSet):
         return Company.objects.filter(companymembership__user=self.request.user)
 
     def perform_create(self, serializer):
-        """Set the owner of the company to the current user"""
-        serializer.save(owner=self.request.user)
+        """Create the company and add the current user as owner in CompanyMembership."""
+        company = serializer.save()  # Save the company first
+
+        CompanyMembership.objects.create(
+            user=self.request.user, company=company, role="owner"
+        )
+
+        return company
 
     def update(self, request, *args, **kwargs):
         # print("EDDIT", *args, **kwargs)

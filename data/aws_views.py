@@ -1,6 +1,8 @@
 # aws_views.py
+
 import boto3
 from botocore.exceptions import ClientError
+from django.db import transaction
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -9,7 +11,7 @@ from rest_framework.response import Response
 
 from organizations.models import Company
 
-from .models import AWSRole, CloudAccount
+from .models import AWSRole, BillingRecord, CloudAccount
 
 #
 # def aws_start_auth_view(request, company_id):
@@ -104,22 +106,147 @@ def aws_register_role_view(request):
         cloud_account=cloud_account, external_id=external_id, role_arn=role_arn
     )
 
+    ingest_aws_billing(cloud_account, "2025-04-01", "2025-06-01")
+
     return Response(
         {"message": "AWS Role registered successfully"}, status=status.HTTP_201_CREATED
     )
 
 
-def get_tenant_aws_client(company, service="s3"):
+@api_view(["get"])
+def test(request):
+    ca = CloudAccount.objects.get(id="3d412a0b-69bc-408c-9ae6-f61d045ab009")
+
+    ingest_aws_billing(ca, "2025-04-01", "2025-06-01")
+
+
+def get_tenant_aws_client(cloud_account):
     sts = boto3.client("sts")
+    role_vals = cloud_account.aws_role_values
     creds = sts.assume_role(
-        RoleArn=company.aws_role_arn,
+        RoleArn=role_vals.role_arn,
         RoleSessionName="TenantDataPull",
-        ExternalId=company.aws_external_id,
+        ExternalId=role_vals.external_id,
     )["Credentials"]
 
     return boto3.client(
-        service,
+        "ce",
         aws_access_key_id=creds["AccessKeyId"],
         aws_secret_access_key=creds["SecretAccessKey"],
         aws_session_token=creds["SessionToken"],
     )
+
+
+def fetch_cost_and_usage(client, start_date, end_date):
+    response = client.get_cost_and_usage(
+        TimePeriod={"Start": start_date, "End": end_date},
+        Granularity="DAILY",  # or MONTHLY
+        Metrics=["UnblendedCost", "UsageQuantity"],
+        GroupBy=[
+            {"Type": "DIMENSION", "Key": "SERVICE"},
+            {"Type": "DIMENSION", "Key": "USAGE_TYPE"},
+        ],
+    )
+    return response
+
+
+def save_billing_data(cloud_account, cost_response):
+    for result_by_time in cost_response.get("ResultsByTime", []):
+        usage_start = result_by_time["TimePeriod"]["Start"]
+        usage_end = result_by_time["TimePeriod"]["End"]
+
+        for group in result_by_time.get("Groups", []):
+            service_name = None
+            usage_type = None
+
+            # Extract keys: example ["Amazon Elastic Compute Cloud - Compute", "BoxUsage"]
+            keys = group.get("Keys", [])
+            if len(keys) >= 1:
+                service_name = keys[0]
+            if len(keys) >= 2:
+                usage_type = keys[1]
+
+            cost_amount = float(group["Metrics"]["UnblendedCost"]["Amount"])
+            usage_amount = float(
+                group["Metrics"].get("UsageQuantity", {}).get("Amount", 0)
+            )
+
+            # Save to BillingRecord
+            BillingRecord.objects.create(
+                cloud_account=cloud_account,
+                usage_start=usage_start,
+                usage_end=usage_end,
+                service_name=service_name or "",
+                cost_type=usage_type,
+                usage_amount=usage_amount,
+                usage_unit=None,  # AWS doesn’t always provide unit in this API response
+                cost=cost_amount,
+                currency="USD",  # Cost Explorer reports USD by default
+            )
+
+
+def upsert_billing_record(data):
+    """
+    data: dict with all BillingRecord fields
+    """
+
+    defaults = {
+        "cost": data["cost"],
+        "currency": data.get("currency", "USD"),
+        "usage_amount": data.get("usage_amount"),
+        "usage_unit": data.get("usage_unit"),
+        "metadata": data.get("metadata"),
+    }
+
+    obj, created = BillingRecord.objects.update_or_create(
+        cloud_account=data["cloud_account"],
+        usage_start=data["usage_start"],
+        usage_end=data["usage_end"],
+        service_name=data["service_name"],
+        cost_type=data.get("cost_type"),
+        resource=data.get("resource"),
+        defaults=defaults,
+    )
+    return obj, created
+
+
+def save_billing_data_efficient(cloud_account, cost_response):
+    with transaction.atomic():
+        for result_by_time in cost_response.get("ResultsByTime", []):
+            usage_start = result_by_time["TimePeriod"]["Start"]
+            usage_end = result_by_time["TimePeriod"]["End"]
+
+            for group in result_by_time.get("Groups", []):
+                keys = group.get("Keys", [])
+                service_name = keys[0] if len(keys) > 0 else ""
+                cost_type = keys[1] if len(keys) > 1 else None
+
+                cost_amount = float(group["Metrics"]["UnblendedCost"]["Amount"])
+                usage_amount = float(
+                    group["Metrics"].get("UsageQuantity", {}).get("Amount", 0)
+                )
+
+                if cost_amount <= 0 and usage_amount <= 0:
+                    continue  # skip zero cost & usage
+
+                data = {
+                    "cloud_account": cloud_account,
+                    "usage_start": usage_start,
+                    "usage_end": usage_end,
+                    "service_name": service_name,
+                    "cost_type": cost_type,
+                    "usage_amount": usage_amount,
+                    "usage_unit": None,
+                    "cost": cost_amount,
+                    "currency": "USD",
+                    "resource": None,
+                    "metadata": None,
+                }
+                upsert_billing_record(data)
+
+
+def ingest_aws_billing(cloud_account, start_date, end_date):
+    company = cloud_account.company
+    client = get_tenant_aws_client(cloud_account)
+    response = fetch_cost_and_usage(client, start_date, end_date)
+    save_billing_data_efficient(cloud_account, response)

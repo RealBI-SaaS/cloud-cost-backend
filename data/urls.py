@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from data.azure_views import azure_oauth_callback_view
 
-from .aws_views import aws_callback_view, aws_register_role_view
+from .aws_views import aws_callback_view, aws_register_role_view, test
 from .azure_views import (
     fetch_azure_billing_view,
     start_azure_auth_view,
@@ -13,7 +13,13 @@ from .google_views import (
     google_oauth_callback_view,
     start_google_auth_view,
 )
-from .views import CloudAccountViewSet
+from .views import (
+    CloudAccountViewSet,
+    billing_cost_by_region,
+    billing_cost_by_service,
+    billing_cost_by_service_day,
+    billing_daily_costs,
+)
 
 router = DefaultRouter()
 router.register(
@@ -36,7 +42,7 @@ urlpatterns = [
         name="google_oauth_callback",
     ),
     path(
-        "google/auth/",
+        "google/oauth/start/<uuid:company_id>/<str:account_name>",
         start_google_auth_view,
         name="google_oauth_start",
     ),
@@ -65,6 +71,31 @@ urlpatterns = [
         "azure/fetch/",
         fetch_azure_billing_view,
         name="azure_data_fetch",
+    ),
+    path(
+        "test",
+        test,
+        name="test",
+    ),
+    path(
+        "cost/daily/<uuid:cloud_account_id>/",
+        billing_daily_costs,
+        name="billing_daily_costs",
+    ),
+    path(
+        "cost/region/<uuid:cloud_account_id>/",
+        billing_cost_by_region,
+        name="billing_cost_by_region",
+    ),
+    path(
+        "cost/service-day/<uuid:cloud_account_id>/",
+        billing_cost_by_service_day,
+        name="billing_cost_bay_service_day",
+    ),
+    path(
+        "cost/service/<uuid:cloud_account_id>/",
+        billing_cost_by_service,
+        name="billing_cost_by_service",
     ),
     *router.urls,
 ]

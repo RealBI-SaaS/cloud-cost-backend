@@ -47,6 +47,16 @@ class BillingRecord(models.Model):
     usage_start = models.DateTimeField()
     usage_end = models.DateTimeField()
     service_name = models.CharField(max_length=255)
+    project_id = models.CharField(max_length=255, blank=True, null=True)
+    region = models.CharField(max_length=100, blank=True, null=True)
+    cost_type = models.CharField(max_length=50, blank=True, null=True)
+    usage_amount = models.DecimalField(
+        max_digits=20, decimal_places=6, blank=True, null=True
+    )
+    # quantity (hours, GB, requests)
+    usage_unit = models.CharField(max_length=50, blank=True, null=True)
+    # e.g., hours, GB, requests
+    # e.g., recurring, one-time, discount, tax
     resource = models.CharField(
         max_length=255, blank=True, null=True
     )  # e.g., instance ID, bucket name
@@ -55,6 +65,14 @@ class BillingRecord(models.Model):
     metadata = models.JSONField(blank=True, null=True)  # e.g., tags, region, etc.
 
     class Meta:
+        unique_together = (
+            "cloud_account",
+            "usage_start",
+            "usage_end",
+            "service_name",
+            "cost_type",
+            "resource",
+        )
         indexes = [
             models.Index(fields=["usage_start", "usage_end"]),
         ]
@@ -64,6 +82,14 @@ class BillingRecord(models.Model):
         return (
             f"{self.cloud_account} - {self.service_name} - {self.cost} {self.currency}"
         )
+
+
+class BillingSummary(models.Model):
+    cloud_account = models.ForeignKey("CloudAccount", on_delete=models.CASCADE)
+    date = models.DateField()
+    service_category = models.CharField(max_length=255)
+    total_cost = models.DecimalField(max_digits=20, decimal_places=4)
+    currency = models.CharField(max_length=10, default="USD")
 
 
 # class AzureBillingRecord(models.Model):
@@ -82,6 +108,7 @@ class BillingRecord(models.Model):
 # Create your models here.
 
 
+# TODO: use one model for both
 class GoogleOAuthToken(models.Model):
     cloud_account = models.OneToOneField(
         "CloudAccount", on_delete=models.CASCADE, related_name="google_oauth_token"

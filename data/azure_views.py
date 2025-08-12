@@ -18,8 +18,8 @@ AZURE_TOKEN_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
 
 
 @api_view(["GET"])
-def start_azure_auth_view(reques, company_id):
-    state = str(company_id)
+def start_azure_auth_view(request, company_id, account_name):
+    state = str(company_id) + "," + account_name
     if not company_id:
         raise ValidationError({"company_id": "This field is required."})
 
@@ -37,7 +37,8 @@ def start_azure_auth_view(reques, company_id):
 @api_view(["GET"])
 def azure_oauth_callback_view(request):
     state = request.GET.get("state")
-    company_id = uuid.UUID(state)  # validate it’s a proper UUID
+    company_id, account_name = state.split(",")
+    company_id = uuid.UUID(company_id)  # validate it’s a proper UUID
     code = request.GET.get("code")
     company_id = request.GET.get("state")  # Came from start_azure_auth_view
 

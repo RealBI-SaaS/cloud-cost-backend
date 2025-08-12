@@ -1,21 +1,29 @@
 import os
+from datetime import datetime, timedelta
 from urllib.parse import urlencode
 
+# from itsdangerous import URLSafeSerializer
+# serializer = URLSafeSerializer(settings.SECRET_KEY, salt="google-oauth")
 import requests
+from django.core import signing
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.utils.timezone import now, timedelta
 from dotenv import load_dotenv
 from rest_framework.decorators import api_view
 
-from authentication.models import CustomUser
-from organizations.models import CompanyMembership
+from organizations.models import Company
 
-from .models import BillingRecord, CloudAccount, GoogleOAuthToken
+from .models import CloudAccount, GoogleOAuthToken
+
+# from .services.google_api import get_gcp_billing_data, get_gcp_projects
+from .services.ingestion import ingest_billing_data
 
 load_dotenv()
 #
 # # Environment variables
+
+FRONTEND_URL = os.getenv("FRONTEND_URL", "defaultdomain.com")
 GOOGLE_DATA_CLIENT_ID = os.getenv("GOOGLE_DATA_CLIENT_ID")
 GOOGLE_DATA_CLIENT_SECRET = os.getenv("GOOGLE_DATA_CLIENT_SECRET")
 GOOGLE_FAILED_DATA_PULL_REDIRECT_URL = os.getenv("GOOGLE_DATA_FAILED_REDIRECT_URI")
@@ -28,14 +36,27 @@ LOGIN_FROM_REDIRECT_URL = os.getenv(
 
 
 @api_view(["GET"])
-def start_google_auth_view(request):
+def start_google_auth_view(request, company_id, account_name):
+    # company_id = request.GET.get("company_id")
+    if not company_id or not account_name:
+        return JsonResponse(
+            {"error": "company_id and account_name are required"}, status=400
+        )
+    # Sign the state to prevent tampering
+    state_data = {"company_id": str(company_id), "account_name": account_name}
+    state_signed = signing.dumps(state_data)
+    # Sign the company_id so it can't be tampered with
+    # state = serializer.dumps({"company_id": company_id})
+    state = str(company_id) + "," + str(account_name)
     params = {
         "client_id": GOOGLE_DATA_CLIENT_ID,
         "redirect_uri": "http://localhost:8000/data/google/callback/",
         "response_type": "code",
+        # "scope": "https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloud-billing.readonly https://www.googleapis.com/auth/bigquery.readonly",
         "scope": "https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloud-billing.readonly",
         "access_type": "offline",  # to get refresh_token
         "prompt": "consent",  # always ask for permission
+        "state": state_signed,
     }
     url = f"https://accounts.google.com/o/oauth2/v2/auth?{urlencode(params)}"
     return redirect(url)
@@ -43,13 +64,19 @@ def start_google_auth_view(request):
 
 @api_view(["GET"])
 def google_oauth_callback_view(request):
-    try:
-        code = request.GET.get("code")
-        if not code:
-            return redirect(GOOGLE_FAILED_DATA_PULL_REDIRECT_URL)
-    except TypeError:
+    code = request.GET.get("code")
+    state_signed = request.GET.get("state")
+
+    if not code or not state_signed:
         return redirect(GOOGLE_FAILED_DATA_PULL_REDIRECT_URL)
 
+    try:
+        # Verify and decode the signed state
+        state_data = signing.loads(state_signed)
+        company_id = state_data["company_id"]
+        account_name = state_data["account_name"]
+    except signing.BadSignature:
+        return JsonResponse({"error": "Invalid state signature"}, status=400)
     token_data = {
         "code": code,
         "client_id": GOOGLE_DATA_CLIENT_ID,
@@ -72,24 +99,12 @@ def google_oauth_callback_view(request):
     expires_in = tokens["expires_in"]
     expires_at = now() + timedelta(seconds=expires_in)
 
-    # Create or update CloudAccount and token
-    # TODO: You should get or create based on company + project info
-    # print(request.user)
-    user_id = CustomUser.objects.filter(email="u1@numlock.com").first().id
-    membership = CompanyMembership.objects.filter(
-        user=user_id, role__in=["owner", "admin"]
-    ).first()
-    # CompanyMembership.objects.filter(user='1426bcda-4ddd-4180-806a-cc7e2ba79b75', role__in=['admin', 'owner']).first()
+    company = Company.objects.get(id=company_id)
 
-    company = membership.company
-    # if membership:
-    # else:
-    #     print("ERRRR....")
-    #
     cloud_account = CloudAccount.objects.create(
         company=company,
         vendor="GCP",
-        account_name="Google Cloud",  # name it later from API
+        account_name=account_name,
         account_id="temp",  # will update in fetch view
     )
 
@@ -106,9 +121,71 @@ def google_oauth_callback_view(request):
     return redirect(f"/data/google/fetch/?account_id={cloud_account.id}")
 
 
+#
+# @api_view(["GET"])
+# def fetch_google_projects_and_billing_view(request):
+#     account_id = request.GET.get("account_id")
+#     cloud_account = CloudAccount.objects.get(id=account_id)
+#     token = cloud_account.google_oauth_token
+#
+#     # Refresh token if expired
+#     if token.is_expired():
+#         token = refresh_google_token(
+#             token, GOOGLE_DATA_CLIENT_ID, GOOGLE_DATA_CLIENT_SECRET
+#         )
+#
+#     headers = {"Authorization": f"Bearer {token.access_token}"}
+#
+#     projects_resp = requests.get(
+#         "https://cloudresourcemanager.googleapis.com/v1/projects", headers=headers
+#     )
+#     projects = projects_resp.json().get("projects", [])
+#
+#     for project in projects:
+#         billing_url = f"https://cloudbilling.googleapis.com/v1/projects/{project['projectId']}/billingInfo"
+#         billing_resp = requests.get(billing_url, headers=headers)
+#         billing_info = billing_resp.json()
+#
+#         # Store to DB
+#         BillingRecord.objects.create(
+#             cloud_account=cloud_account,
+#             usage_start=now(),  # dummy, replace with actual usage window if available
+#             usage_end=now(),
+#             service_name="Google Billing",
+#             resource=project["projectId"],
+#             cost=0.0,  # Replace with real cost if available
+#             metadata=billing_info,
+#         )
+#
+#     # return JsonResponse({"success": True, "projects": projects})
+#     return redirect(f"{FRONTEND_URL}/settings/organization/data")
+
+
+def get_gcp_projects(access_token):
+    url = "https://cloudbilling.googleapis.com/v1/billingAccounts"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    resp = requests.get(url, headers=headers)
+    resp.raise_for_status()
+    return resp.json().get("billingAccounts", [])
+
+
+def get_gcp_billing_data(access_token, project_id):
+    url = f"https://cloudbilling.googleapis.com/v1/projects/{project_id}/billingInfo"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    resp = requests.get(url, headers=headers)
+    if resp.status_code == 404:
+        # Project billing info not found
+        return None
+    resp.raise_for_status()
+    return resp.json()
+
+
 @api_view(["GET"])
 def fetch_google_projects_and_billing_view(request):
     account_id = request.GET.get("account_id")
+
+    # Get token & account
+
     cloud_account = CloudAccount.objects.get(id=account_id)
     token = cloud_account.google_oauth_token
 
@@ -118,30 +195,26 @@ def fetch_google_projects_and_billing_view(request):
             token, GOOGLE_DATA_CLIENT_ID, GOOGLE_DATA_CLIENT_SECRET
         )
 
-    headers = {"Authorization": f"Bearer {token.access_token}"}
+    # Define date range (last 30 days)
+    end_date = datetime.utcnow()
+    start_date = end_date - timedelta(days=30)
 
-    projects_resp = requests.get(
-        "https://cloudresourcemanager.googleapis.com/v1/projects", headers=headers
+    # Step 1: Fetch projects
+    projects = get_gcp_projects(token.access_token)
+
+    # Step 2: Ingest all billing data
+    created_count = ingest_billing_data(
+        cloud_account=cloud_account,
+        access_token=token.access_token,
+        projects=projects,
+        start_date=start_date,
+        end_date=end_date,
+        get_billing_data_func=get_gcp_billing_data,
     )
-    projects = projects_resp.json().get("projects", [])
 
-    for project in projects:
-        billing_url = f"https://cloudbilling.googleapis.com/v1/projects/{project['projectId']}/billingInfo"
-        billing_resp = requests.get(billing_url, headers=headers)
-        billing_info = billing_resp.json()
+    # return Response({"status": "success", "records_created": created_count})
 
-        # Store to DB
-        BillingRecord.objects.create(
-            cloud_account=cloud_account,
-            usage_start=now(),  # dummy, replace with actual usage window if available
-            usage_end=now(),
-            service_name="Google Billing",
-            resource=project["projectId"],
-            cost=0.0,  # Replace with real cost if available
-            metadata=billing_info,
-        )
-
-    return JsonResponse({"success": True, "projects": projects})
+    return redirect(f"{FRONTEND_URL}/settings/organization/data")
 
 
 def refresh_google_token(token: GoogleOAuthToken, client_id, client_secret):
