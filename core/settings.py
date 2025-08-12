@@ -221,7 +221,7 @@ DJOSER = {
     # 'ACTIVATION_URL': '#/activate/{uid}/{token}',
     "DOMAIN": FRONTEND_BASE_URL,
     "SITE_NAME": "RealBI",
-    "SEND_ACTIVATION_EMAIL": True,
+    "SEND_ACTIVATION_EMAIL": False,
     # "USER_CREATE_PASSWORD_RETYPE": True,
     "LOGIN_FIELD": "email",
     "USER_CREATE_PASSWORD_RETYPE": False,
