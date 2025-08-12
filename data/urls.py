@@ -48,7 +48,7 @@ urlpatterns = [
     ),
     # azure
     path(
-        "azure/oauth/start/<uuid:company_id>/",
+        "azure/oauth/start/<uuid:company_id>/<str:account_name>",
         start_azure_auth_view,
         name="azure_oauth_start",
     ),
