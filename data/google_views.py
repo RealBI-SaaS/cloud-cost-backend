@@ -53,7 +53,7 @@ def start_google_auth_view(request, company_id, account_name):
         "redirect_uri": "http://localhost:8000/data/google/callback/",
         "response_type": "code",
         # "scope": "https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloud-billing.readonly https://www.googleapis.com/auth/bigquery.readonly",
-        "scope": "https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloud-billing.readonly",
+        "scope": "https://www.googleapis.com/auth/cloud-billing.readonly",
         "access_type": "offline",  # to get refresh_token
         "prompt": "consent",  # always ask for permission
         "state": state_signed,
