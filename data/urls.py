@@ -56,17 +56,8 @@ urlpatterns = [
         "azure/oauth/callback/", azure_oauth_callback_view, name="azure_oauth_callback"
     ),
     # AWS
-    # path("aws/start/<uuid:company_id>/", aws_start_auth_view, name="aws_start_auth"),
     path("aws/callback/", aws_callback_view, name="aws_callback"),
     path("aws/register-role/", aws_register_role_view, name="aws_add_role"),
-    # path(
-    #     "azure/oauth/start/<int:company_id>/",
-    #     start_azure_auth_view,
-    #     name="azure_oauth_start",
-    # ),
-    # path(
-    #     "azure/oauth/callback/", azure_oauth_callback_view, name="azure_oauth_callback"
-    # ),
     path(
         "azure/fetch/",
         fetch_azure_billing_view,
