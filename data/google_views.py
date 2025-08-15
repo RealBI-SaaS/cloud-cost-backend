@@ -27,12 +27,8 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "defaultdomain.com")
 GOOGLE_DATA_CLIENT_ID = os.getenv("GOOGLE_DATA_CLIENT_ID")
 GOOGLE_DATA_CLIENT_SECRET = os.getenv("GOOGLE_DATA_CLIENT_SECRET")
 GOOGLE_FAILED_DATA_PULL_REDIRECT_URL = os.getenv("GOOGLE_DATA_FAILED_REDIRECT_URI")
-GOOGLE_DATA_REDIRECT_URL = os.getenv(
-    "GOOGLE_DATA_REDIRECT_URL", "http://localhost:5173/home"
-)
-LOGIN_FROM_REDIRECT_URL = os.getenv(
-    "LOGIN_FROM_REDIRECT_URL", "http://localhost:5173/login"
-)
+GOOGLE_DATA_REDIRECT_URL = os.getenv("GOOGLE_DATA_REDIRECT_URL")
+LOGIN_FROM_REDIRECT_URL = os.getenv("LOGIN_FROM_REDIRECT_URL")
 
 
 @api_view(["GET"])
@@ -50,7 +46,7 @@ def start_google_auth_view(request, company_id, account_name):
     state = str(company_id) + "," + str(account_name)
     params = {
         "client_id": GOOGLE_DATA_CLIENT_ID,
-        "redirect_uri": "http://localhost:8000/data/google/callback/",
+        "redirect_uri": GOOGLE_DATA_REDIRECT_URL,
         "response_type": "code",
         # "scope": "https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloud-billing.readonly https://www.googleapis.com/auth/bigquery.readonly",
         "scope": "https://www.googleapis.com/auth/cloud-billing.readonly",
@@ -81,7 +77,7 @@ def google_oauth_callback_view(request):
         "code": code,
         "client_id": GOOGLE_DATA_CLIENT_ID,
         "client_secret": GOOGLE_DATA_CLIENT_SECRET,
-        "redirect_uri": "http://localhost:8000/data/google/callback/",
+        "redirect_uri": GOOGLE_DATA_REDIRECT_URL,
         "grant_type": "authorization_code",
     }
 

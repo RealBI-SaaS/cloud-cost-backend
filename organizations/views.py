@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 from django.utils.timezone import now
 from django_filters.rest_framework import DjangoFilterBackend
@@ -17,12 +18,7 @@ from rest_framework.views import APIView
 from .models import (
     Company,
     CompanyMembership,
-    # CompanyColorScheme,
     Invitation,
-    # Navigation,
-    # Organization,
-    # OrganizationMembership,
-    # UserGroup,
 )
 from .serializers import (
     CompanySerializer,
@@ -30,108 +26,6 @@ from .serializers import (
 )
 
 User = get_user_model()
-
-
-# class OrganizationViewSet(viewsets.ModelViewSet):
-#     """Handles CRUD operations for organizations"""
-#
-#     serializer_class = OrganizationSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-#
-#     def _has_role(self, user, organization, allowed_roles):
-#         return OrganizationMembership.objects.filter(
-#             user=user, organization=organization, role__in=allowed_roles
-#         ).exists()
-#
-#     def get_queryset(self):
-#         """Retrieve only organizations where the user is a member"""
-#         # TODO: optimize with serializers
-#         if self.request.user.is_staff:
-#             # return Organization.objects.all()
-#             return (
-#                 Organization.objects.select_related("company").annotate(  # optimization
-#                     company_name=F("company__name"),
-#                     # company_logo=F("company__logo"),
-#                 )
-#             ).distinct()
-#         # return Organization.objects.filter(
-#         #     organizationmembership__user=self.request.user
-#         # ).distinct()
-#
-#         return (
-#             (
-#                 Organization.objects.filter(
-#                     organizationmembership__user=self.request.user
-#                 )
-#             )
-#             .annotate(
-#                 role=F("organizationmembership__role"),
-#                 company_name=F("company__name"),
-#                 # company_logo=F("company__logo"),
-#             )
-#             .distinct()
-#         )
-#
-#     def perform_create(self, serializer):
-#         company = serializer.validated_data["company"]
-#
-#         if company.owner != self.request.user and not self.request.user.is_staff:
-#             raise PermissionDenied(
-#                 "You can only create organizations for companies you own."
-#             )
-#
-#         organization = serializer.save()
-#         OrganizationMembership.objects.create(
-#             user=self.request.user, organization=organization, role="owner"
-#         )
-#
-# def perform_create(self, serializer):
-#     """Create an organization and make the requesting user the owner"""
-#     organization = serializer.save()
-#     # TODO: handle the company relationship instead
-#     # organization.owners.add(self.request.user)  # Add user as owner
-#     OrganizationMembership.objects.create(
-#         user=self.request.user, organization=organization, role="owner"
-#     )
-
-# def update(self, request, *args, **kwargs):
-#     organization = self.get_object()
-#     if (
-#         not self._has_role(request.user, organization, ["owner", "admin"])
-#         and not request.user.is_staff
-#     ):
-#         raise PermissionDenied("You are not allowed to update this organization.")
-#     return super().update(request, *args, **kwargs)
-#
-# def destroy(self, request, *args, **kwargs):
-#     organization = self.get_object()
-#     if (
-#         not self._has_role(request.user, organization, ["owner"])
-#         and not request.user.is_staff
-#     ):
-#         raise PermissionDenied("Only owners can delete the organization.")
-#     return super().destroy(request, *args, **kwargs)
-#
-# @action(detail=True, methods=["get"])
-# def members(self, request, pk=None):
-#     """Get all members of an organization with roles"""
-#     organization = self.get_object()
-#     members = OrganizationMembership.objects.filter(
-#         organization=organization
-#     ).select_related("user")
-#     return Response(
-#         [
-#             {
-#                 "id": m.user.id,
-#                 "email": m.user.email,
-#                 "first_name": m.user.first_name,
-#                 "last_name": m.user.last_name,
-#                 "role": m.role,
-#             }
-#             for m in members
-#         ]
-#     )
-#
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
@@ -207,26 +101,6 @@ class CompanyViewSet(viewsets.ModelViewSet):
             ]
         )
 
-    # @action(detail=True, methods=["get"], url_path="organizations")
-    # def organizations(self, request, pk=None):
-    #     """
-    #     Get all organizations for a specific company (by company ID).
-    #     """
-    #     company = get_object_or_404(Company, id=pk)
-    #     if not request.user.is_staff:
-    #         raise PermissionDenied(
-    #             "You do not have access to this company's organizations."
-    #         )
-    #
-    #     organizations = (
-    #         Organization.objects.filter(company=company)
-    #         .select_related("company")
-    #         .annotate(company_name=F("company__name"))
-    #     )
-    #     serializer = OrganizationSerializer(organizations, many=True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    #
-
 
 class AllCompaniesViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -244,14 +118,13 @@ class AllCompaniesViewSet(viewsets.ReadOnlyModelViewSet):
 class InviteUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def _has_role(self, user, organization, allowed_roles):
+    def _has_role(self, user, company, allowed_roles):
         return CompanyMembership.objects.filter(
-            user=user, organization=organization, role__in=allowed_roles
+            user=user, company=company, role__in=allowed_roles
         ).exists()
 
     def post(self, request, company_id):
         email = request.data.get("email")
-        user_group_ids = request.data.get("user_groups", [])
         role = request.data.get("role", "member")
 
         if not email:
@@ -279,12 +152,9 @@ class InviteUserView(APIView):
                     {"error": "You don't have permission to invite users"},
                     status=status.HTTP_403_FORBIDDEN,
                 )
-            # groups = UserGroup.objects.filter(
-            #     id__in=user_group_ids, organization=organization
-            # )
 
             existing_invite = Invitation.objects.filter(
-                organization=company, invitee_email=email, status="pending"
+                company=company, invitee_email=email, status="pending"
             ).first()
 
             if existing_invite:
@@ -307,23 +177,31 @@ class InviteUserView(APIView):
             invite_link = (
                 f"{settings.FRONTEND_BASE_URL}/accept-invitation/{invitation.token}/"
             )
-            send_mail(
-                "invitation on realbi",
-                f"""You are invited to join {company} as {role}.
 
-                Click here to accept the invitation: {invite_link}""",
-                settings.DEFAULT_FROM_EMAIL,
-                [email],
-                fail_silently=True,
+            html_message = render_to_string(
+                "email/invitation.html",
+                {
+                    "company": company,
+                    "role": role,
+                    "invite_link": invite_link,
+                },
             )
 
+            send_mail(
+                subject=f"You're Invited to Join {company} on Realbi!",
+                message="",  # Plain text fallback can go here if you want
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+                html_message=html_message,
+                fail_silently=True,
+            )
             return Response(
                 InvitationSerializer(invitation).data, status=status.HTTP_201_CREATED
             )
 
         except Company.DoesNotExist:
             return Response(
-                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+                {"error": "Company not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
 
@@ -331,9 +209,17 @@ class AcceptInvitationView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, token):
-        # TODO: protect against acceptance with uninvited user
         try:
             invitation = Invitation.objects.get(token=token)
+
+            # TODO: protect against acceptance with uninvited user
+            if not request.user.email == invitation.invitee_email:
+                return Response(
+                    {
+                        "error": "Wrong user claiming invitation, signin with the invited email."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
             # Check if the invitation is expired
             if invitation.expires_at < now():
@@ -353,7 +239,6 @@ class AcceptInvitationView(APIView):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            # Add user to organization
             # TODO: lookout for duplicate memberships with different roles
             membership, created = CompanyMembership.objects.get_or_create(
                 user=user,
@@ -363,7 +248,7 @@ class AcceptInvitationView(APIView):
 
             if not created:
                 return Response(
-                    {"error": "User is already a member of this organization"},
+                    {"error": "User is already a member of this company"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
@@ -422,14 +307,14 @@ class DeleteInvitationView(APIView):
 
 class ListInvitationsView(APIView):
     """
-    View to list all invitations for an organization.
+    View to list all invitations for an company.
     """
 
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, company_id):
         """
-        Retrieve all invitations for a given organization.
+        Retrieve all invitations for a given company.
         """
         invitations = Invitation.objects.filter(company_id=company_id)
         serializer = InvitationSerializer(invitations, many=True)
@@ -497,7 +382,7 @@ class RemoveMemberView(APIView):
             company = Company.objects.get(id=company_id)
         except Company.DoesNotExist:
             return Response(
-                {"error": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
+                {"error": "Company not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if (
@@ -524,7 +409,7 @@ class RemoveMemberView(APIView):
 
         if membership.role == "owner":
             return Response(
-                {"error": "Cannot remove the organization owner."},
+                {"error": "Cannot remove the company owner."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

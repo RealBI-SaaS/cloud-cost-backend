@@ -9,6 +9,8 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
+from organizations.models import Company, CompanyMembership
+
 from .models import BillingRecord, CloudAccount, Company
 from .serializers import CloudAccountSerializer
 
@@ -43,9 +45,17 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
             )
 
         try:
-            return Company.objects.get(id=company_id)
+            company = Company.objects.get(id=company_id)
         except Company.DoesNotExist:
             raise ValidationError({"company_id": "Invalid company ID."})
+
+        is_member = CompanyMembership.objects.filter(
+            user=self.request.user, company=company
+        ).exists()
+        if not is_member:
+            raise PermissionDenied("You do not have access to this company.")
+
+        return company
 
     def get_queryset(self):
         company = self.get_company()
