@@ -8,5 +8,5 @@ Numlock - Backend
    core
    data
    manage
-   organizations
+   company
    scripts

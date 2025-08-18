@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from django.utils.timezone import now
 
-from organizations.models import Company
+from company.models import Company
 
 
 class CloudVendor(models.TextChoices):
@@ -31,7 +31,7 @@ class CloudAccount(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        # unique_together = ("vendor", "account_id")
+        unique_together = ("company", "account_name", "account_id")
         ordering = ["vendor", "account_name"]
 
     def __str__(self):
@@ -82,30 +82,6 @@ class BillingRecord(models.Model):
         return (
             f"{self.cloud_account} - {self.service_name} - {self.cost} {self.currency}"
         )
-
-
-class BillingSummary(models.Model):
-    cloud_account = models.ForeignKey("CloudAccount", on_delete=models.CASCADE)
-    date = models.DateField()
-    service_category = models.CharField(max_length=255)
-    total_cost = models.DecimalField(max_digits=20, decimal_places=4)
-    currency = models.CharField(max_length=10, default="USD")
-
-
-# class AzureBillingRecord(models.Model):
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     cloud_account = models.ForeignKey("CloudAccount", on_delete=models.CASCADE)
-#     usage_start = models.DateTimeField()
-#     usage_end = models.DateTimeField()
-#     service_name = models.CharField(max_length=255)
-#     resource = models.CharField(max_length=255)  # e.g., subscription ID or resource group
-#     cost = models.DecimalField(max_digits=12, decimal_places=2)
-#     currency = models.CharField(max_length=10, default="USD")
-#     metadata = models.JSONField(blank=True, null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-
-# Create your models here.
 
 
 # TODO: use one model for both

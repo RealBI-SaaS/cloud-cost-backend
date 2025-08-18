@@ -4,8 +4,6 @@ from decimal import Decimal
 
 from data.models import BillingRecord
 
-from .aggregation import update_billing_summary
-
 
 def save_billing_records(cloud_account, raw_records):
     """Save raw billing data to the DB, avoid duplicates."""
@@ -60,6 +58,6 @@ def ingest_billing_data(
         total_created += created_count
 
     # After all records are in, update summaries
-    update_billing_summary(cloud_account, start_date, end_date)
+    # update_billing_summary(cloud_account, start_date, end_date)
 
     return total_created

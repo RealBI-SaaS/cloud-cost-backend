@@ -9,7 +9,7 @@ from django.utils.timezone import now, timedelta
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 
-from organizations.models import Company
+from company.models import Company
 
 from .models import AzureOAuthToken, BillingRecord, CloudAccount
 

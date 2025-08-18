@@ -12,7 +12,7 @@ from django.utils.timezone import now, timedelta
 from dotenv import load_dotenv
 from rest_framework.decorators import api_view
 
-from organizations.models import Company
+from company.models import Company
 
 from .models import CloudAccount, GoogleOAuthToken
 

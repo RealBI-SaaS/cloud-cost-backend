@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from data.azure_views import azure_oauth_callback_view
 
-from .aws_views import aws_callback_view, aws_register_role_view, test
+from .aws_views import aws_register_role_view, test
 from .azure_views import (
     fetch_azure_billing_view,
     start_azure_auth_view,
@@ -19,6 +19,8 @@ from .views import (
     billing_cost_by_service,
     billing_cost_by_service_day,
     billing_daily_costs,
+    cost_summary_by_account,
+    cost_summary_by_service,
 )
 
 router = DefaultRouter()
@@ -56,7 +58,7 @@ urlpatterns = [
         "azure/oauth/callback/", azure_oauth_callback_view, name="azure_oauth_callback"
     ),
     # AWS
-    path("aws/callback/", aws_callback_view, name="aws_callback"),
+    # path("aws/callback/", aws_callback_view, name="aws_callback"),
     path("aws/register-role/", aws_register_role_view, name="aws_add_role"),
     path(
         "azure/fetch/",
@@ -87,6 +89,16 @@ urlpatterns = [
         "cost/service/<uuid:cloud_account_id>/",
         billing_cost_by_service,
         name="billing_cost_by_service",
+    ),
+    path(
+        "cost-summary/service/<uuid:cloud_account_id>/",
+        cost_summary_by_service,
+        name="cost-summary-by-service",
+    ),
+    path(
+        "cost-summary/account/<uuid:cloud_account_id>/",
+        cost_summary_by_account,
+        name="cost-summary-by-account",
     ),
     *router.urls,
 ]

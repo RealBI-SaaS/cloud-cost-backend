@@ -4,7 +4,6 @@ from .models import (
     AWSRole,
     AzureOAuthToken,
     BillingRecord,
-    BillingSummary,
     CloudAccount,
     GoogleOAuthToken,
 )
@@ -12,7 +11,6 @@ from .models import (
 # Register your models here.
 admin.register(CloudAccount)
 admin.register(BillingRecord)
-admin.register(BillingSummary)
 admin.register(GoogleOAuthToken)
 admin.register(AzureOAuthToken)
 admin.register(AWSRole)

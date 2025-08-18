@@ -3,13 +3,12 @@
 import boto3
 from botocore.exceptions import ClientError
 from django.db import transaction
-from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from organizations.models import Company
+from company.models import Company
 
 from .models import AWSRole, BillingRecord, CloudAccount
 
@@ -25,49 +24,19 @@ from .models import AWSRole, BillingRecord, CloudAccount
 #     )
 
 
-def aws_callback_view(request):
-    # In practice this might be a POST endpoint where tenant sends you their RoleArn + ExternalId
-    role_arn = request.POST["role_arn"]
-    external_id = request.POST["external_id"]
-    company_id = request.POST["company_id"]
-    print(role_arn, external_id, company_id)
-
-    # company = Company.objects.get(id=company_id)
-    # company.aws_role_arn = role_arn
-    # company.aws_external_id = external_id
-    # company.save()
-    #
-    return JsonResponse({"status": "AWS integration saved"})
-
-
-# @api_view(["POST"])
-# @permission_classes([IsAuthenticated])
-# def aws_register_role_view(request):
+# def aws_callback_view(request):
 #     # In practice this might be a POST endpoint where tenant sends you their RoleArn + ExternalId
-#     # print(request.POST)
-#     # print(request.data)
-#     role_arn = request.data["role_arn"]
-#     external_id = request.data["external_id"]
-#     company_id = request.data["company_id"]
-#     connection_name = request.data["name"]
-#     print(role_arn, external_id, company_id, connection_name)
-#     company = Company.objects.get(id=company_id)
-#     cloud_account = CloudAccount.objects.create(
-#         company=company,
-#         vendor="AWS",
-#         account_name=connection_name,  # name it later from API
-#         account_id="temp",  # will update in fetch view
-#     )
-#     AWSRole.objects.create(
-#         cloud_account=cloud_account, external_id=external_id, role_arn=role_arn
-#     )
+#     role_arn = request.POST["role_arn"]
+#     external_id = request.POST["external_id"]
+#     company_id = request.POST["company_id"]
+#     print(role_arn, external_id, company_id)
 #
-#     # company = Company.objects.get(id=company_id)
-#     # company.aws_role_arn = role_arn
-#     # company.aws_external_id = external_id
-#     # company.save()
-#     #
-#     return JsonResponse({"status": "AWS integration saved"})
+# company = Company.objects.get(id=company_id)
+# company.aws_role_arn = role_arn
+# company.aws_external_id = external_id
+# company.save()
+#
+# return JsonResponse({"status": "AWS integration saved"})
 
 
 @api_view(["POST"])
@@ -106,6 +75,7 @@ def aws_register_role_view(request):
         cloud_account=cloud_account, external_id=external_id, role_arn=role_arn
     )
 
+    # TODO:test here and fetch/ingest data later
     ingest_aws_billing(cloud_account, "2025-04-01", "2025-06-01")
 
     return Response(
@@ -115,9 +85,11 @@ def aws_register_role_view(request):
 
 @api_view(["get"])
 def test(request):
-    ca = CloudAccount.objects.get(id="3d412a0b-69bc-408c-9ae6-f61d045ab009")
+    ca = CloudAccount.objects.get(id="5674bae8-74e4-46b8-820e-d23f9102892b")
 
-    ingest_aws_billing(ca, "2025-04-01", "2025-06-01")
+    # generate_billing_summaries(ca)
+
+    # ingest_aws_billing(ca, "2025-04-01", "2025-06-01")
 
 
 def get_tenant_aws_client(cloud_account):
@@ -183,6 +155,8 @@ def save_billing_data(cloud_account, cost_response):
                 cost=cost_amount,
                 currency="USD",  # Cost Explorer reports USD by default
             )
+
+        # generate_billing_summaries(cloud_account)
 
 
 def upsert_billing_record(data):

@@ -12,34 +12,15 @@ class Company(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
 
-    # logo = models.ImageField(upload_to="company_logos/", blank=True, null=True)
-    # one to many to user
-    # owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        db_table = "organizations_company"
         ordering = ["created_at"]
 
     def __str__(self):
         return self.name
-
-
-# class CompanyColorScheme(models.Model):
-#     company = models.OneToOneField(
-#         Company, on_delete=models.CASCADE, related_name="color_scheme"
-#     )
-#
-#     primary = models.CharField(max_length=7, blank=True, null=True)
-#     sidebar_accent = models.CharField(max_length=7, blank=True, null=True)
-#     borders = models.CharField(max_length=7, blank=True, null=True)
-#     form_input_background = models.CharField(max_length=7, blank=True, null=True)
-#     sidebar_background = models.CharField(max_length=7, blank=True, null=True)
-#     sidebar_font_color = models.CharField(max_length=7, blank=True, null=True)
-#
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#
 
 
 class CompanyMembership(models.Model):
@@ -58,6 +39,7 @@ class CompanyMembership(models.Model):
     joined_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        db_table = "organizations_companymemberships"
         ordering = ["joined_at"]
         # Prevent duplicate memberships
         unique_together = ("user", "company")
@@ -89,13 +71,12 @@ class Invitation(models.Model):
         ],
         default="pending",
     )
-    # user_groups = models.ManyToManyField(
-    #     "UserGroup", related_name="invitations", blank=True
-    # )
+
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
 
     class Meta:
+        db_table = "organizations_invitation"
         ordering = ["created_at"]
         # Prevent duplicate invites
         unique_together = ("company", "invitee_email")

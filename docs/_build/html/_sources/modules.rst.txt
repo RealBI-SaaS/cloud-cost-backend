@@ -1,4 +1,4 @@
-cloud-cost-backend
+Numlock - Backend
 ==================
 
 .. toctree::
@@ -8,5 +8,5 @@ cloud-cost-backend
    core
    data
    manage
-   organizations
+   company
    scripts

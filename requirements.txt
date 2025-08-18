@@ -1,7 +1,9 @@
+accessible-pygments==0.0.5
 alabaster==1.0.0
 asgiref==3.8.1
 attrs==25.3.0
 babel==2.17.0
+beautifulsoup4==4.13.4
 boto3==1.39.17
 botocore==1.39.17
 certifi==2025.6.15
@@ -17,6 +19,7 @@ djangorestframework_simplejwt==5.5.0
 djoser==2.3.1
 docutils==0.21.2
 drf-spectacular==0.28.0
+furo==2025.7.19
 idna==3.10
 imagesize==1.4.1
 inflection==0.5.1
@@ -47,7 +50,9 @@ six==1.17.0
 snowballstemmer==3.0.1
 social-auth-app-django==5.4.3
 social-auth-core==4.6.1
+soupsieve==2.7
 Sphinx==8.2.3
+sphinx-basic-ng==1.0.0b2
 sphinxcontrib-applehelp==2.0.0
 sphinxcontrib-devhelp==2.0.0
 sphinxcontrib-htmlhelp==2.1.0

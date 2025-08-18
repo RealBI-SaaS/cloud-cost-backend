@@ -3,16 +3,23 @@ import uuid
 
 from django.db.models import Sum
 from django.db.models.functions import TruncDay
+from django.utils.timezone import now
 from dotenv import load_dotenv
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from organizations.models import Company, CompanyMembership
+from company.models import Company, CompanyMembership
 
-from .models import BillingRecord, CloudAccount, Company
-from .serializers import CloudAccountSerializer
+from .models import (
+    BillingRecord,
+    CloudAccount,
+    Company,
+)
+from .serializers import (
+    CloudAccountSerializer,
+)
 
 # from .services.bigquery_client import fetch_billing_data_from_bq
 # from .services.ingestion import ingest_billing_data
@@ -109,6 +116,38 @@ def get_usage_by_service_and_day(cloud_account_id):
     return list(queryset)
 
 
+def get_account_totals(cloud_account_id):
+    qs = CloudAccount.objects.get(id=cloud_account_id).billing_records
+    # qs = BillingRecord.objects.filter(cloud_account=cloud_account_id)
+    today = now().date()
+
+    # FIX: only current month, no month setting
+    start_month = today.replace(month=4, day=1)
+
+    # First day of next month
+    # if start_month.month == 12:
+    #     next_month = start_month.replace(year=start_month.year + 1, month=1)
+    # else:
+    #     next_month = start_month.replace(month=start_month.month + 1)
+
+    # total today
+    total_today = (
+        qs.filter(usage_start__date=today).aggregate(total=Sum("cost"))["total"] or 0
+    )
+
+    # total this month (from start_month inclusive to next_month exclusive)
+    total_month = (
+        qs.filter(usage_start__date__gte=start_month).aggregate(total=Sum("cost"))[
+            "total"
+        ]
+        or 0
+    )
+
+    return total_month, total_today
+
+
+# Billing Info views
+# TODO: add permissions.IsAuthenticated
 @api_view(["GET"])
 def billing_daily_costs(request, cloud_account_id):
     data = get_daily_costs(cloud_account_id)
@@ -131,3 +170,46 @@ def billing_cost_by_region(request, cloud_account_id):
 def billing_cost_by_service_day(request, cloud_account_id):
     data = get_usage_by_service_and_day(cloud_account_id)
     return Response(data)
+
+
+@api_view(["GET"])
+def cost_summary_by_service(request, cloud_account_id):
+    today = now().date()
+
+    # FIX: only current month, no month setting
+    start_month = today.replace(month=4, day=1)
+
+    qs = CloudAccount.objects.get(id=cloud_account_id).billing_records
+    # print(qs, start_month)
+
+    # qs = qs.billing_records
+    #
+    # print(qs)
+    # today totals
+    today_totals = (
+        qs.filter(usage_start__date=today)
+        .values("service_name")
+        .annotate(total_cost=Sum("cost"))
+    )
+
+    # month totals
+    month_totals = (
+        qs.filter(usage_start__date__gte=start_month)
+        .values("service_name")
+        .annotate(total_cost=Sum("cost"))
+    )
+
+    return Response(
+        {
+            "today": {i["service_name"]: i["total_cost"] for i in today_totals},
+            "this_month": {i["service_name"]: i["total_cost"] for i in month_totals},
+        }
+    )
+
+
+@api_view(["GET"])
+def cost_summary_by_account(request, cloud_account_id):
+    # cloud_account = CloudAccount.objects.get(id=cloud_account_id)
+    total_month, total_today = get_account_totals(cloud_account_id)
+
+    return Response({"total_month": total_month, "total_today": total_today})
