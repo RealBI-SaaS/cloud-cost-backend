@@ -1,2 +1,5 @@
 sphinx
 furo
+django
+djangorestframework
+drf-spectacular
