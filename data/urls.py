@@ -19,6 +19,7 @@ from .views import (
     billing_cost_by_service,
     billing_cost_by_service_day,
     billing_daily_costs,
+    billing_monthly_service_total,
     cost_summary_by_account,
     cost_summary_by_service,
 )
@@ -99,6 +100,11 @@ urlpatterns = [
         "cost-summary/account/<uuid:cloud_account_id>/",
         cost_summary_by_account,
         name="cost-summary-by-account",
+    ),
+    path(
+        "cost-summary/monthly-service/<uuid:cloud_account_id>/",
+        billing_monthly_service_total,
+        name="cost-monthly-summary-by-service",
     ),
     *router.urls,
 ]

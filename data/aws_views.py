@@ -1,8 +1,10 @@
 # aws_views.py
 
+
 import boto3
 from botocore.exceptions import ClientError
 from django.db import transaction
+from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -69,14 +71,19 @@ def aws_register_role_view(request):
         company=company,
         vendor="AWS",
         account_name=connection_name,
-        account_id="temp",
+        # FIX: use something else
+        account_id=external_id,
     )
     AWSRole.objects.create(
         cloud_account=cloud_account, external_id=external_id, role_arn=role_arn
     )
 
+    today = now().date()
+
+    january = today.replace(month=1, day=1)
+    ingest_aws_billing(cloud_account, january, today)
     # TODO:test here and fetch/ingest data later
-    ingest_aws_billing(cloud_account, "2025-04-01", "2025-06-01")
+    # ingest_aws_billing(cloud_account, "2025-04-01", "2025-06-01")
 
     return Response(
         {"message": "AWS Role registered successfully"}, status=status.HTTP_201_CREATED
@@ -111,7 +118,11 @@ def get_tenant_aws_client(cloud_account):
 
 def fetch_cost_and_usage(client, start_date, end_date):
     response = client.get_cost_and_usage(
-        TimePeriod={"Start": start_date, "End": end_date},
+        # TimePeriod={"Start": start_date, "End": end_date},
+        TimePeriod={
+            "Start": start_date.strftime("%Y-%m-%d"),
+            "End": end_date.strftime("%Y-%m-%d"),
+        },
         Granularity="DAILY",  # or MONTHLY
         Metrics=["UnblendedCost", "UsageQuantity"],
         GroupBy=[

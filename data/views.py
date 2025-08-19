@@ -1,8 +1,9 @@
 import os
 import uuid
+from collections import defaultdict
 
-from django.db.models import Sum
-from django.db.models.functions import TruncDay
+from django.db.models import DecimalField, Sum, Value
+from django.db.models.functions import Coalesce, TruncDay, TruncMonth
 from django.utils.timezone import now
 from dotenv import load_dotenv
 from rest_framework import permissions, status, viewsets
@@ -122,7 +123,7 @@ def get_account_totals(cloud_account_id):
     today = now().date()
 
     # FIX: only current month, no month setting
-    start_month = today.replace(month=4, day=1)
+    start_month = today.replace(day=1)
 
     # First day of next month
     # if start_month.month == 12:
@@ -146,7 +147,49 @@ def get_account_totals(cloud_account_id):
     return total_month, total_today
 
 
-# Billing Info views
+# def get_monthly_service_totals(cloud_account_id):
+#     queryset = (
+#         BillingRecord.objects.filter(cloud_account_id=cloud_account_id)
+#         .annotate(month=TruncMonth("usage_start"))
+#         .values("service_name", "month")
+#         .annotate(
+#             total_usage=Sum("usage_amount"),
+#             total_cost=Sum("cost"),
+#         )
+#         .order_by("month", "service_name")
+#     )
+#     return list(queryset)
+
+
+def get_monthly_service_totals(cloud_account_id):
+    queryset = (
+        BillingRecord.objects.filter(cloud_account_id=cloud_account_id)
+        .annotate(month=TruncMonth("usage_start"))
+        .values("service_name", "month")
+        .annotate(
+            total_usage=Coalesce(
+                Sum("usage_amount"), Value(0, output_field=DecimalField())
+            ),
+            total_cost=Coalesce(Sum("cost"), Value(0, output_field=DecimalField())),
+        )
+        .order_by("service_name", "month")
+    )
+
+    # Group months under each service
+    grouped = defaultdict(list)
+    for row in queryset:
+        grouped[row["service_name"]].append(
+            {
+                "month": row["month"],
+                "total_usage": float(row["total_usage"]),
+                "total_cost": float(row["total_cost"]),
+            }
+        )
+
+    result = [{"service_name": k, "monthly": v} for k, v in grouped.items()]
+    return result
+
+
 # TODO: add permissions.IsAuthenticated
 @api_view(["GET"])
 def billing_daily_costs(request, cloud_account_id):
@@ -177,7 +220,7 @@ def cost_summary_by_service(request, cloud_account_id):
     today = now().date()
 
     # FIX: only current month, no month setting
-    start_month = today.replace(month=4, day=1)
+    start_month = today.replace(day=1)
 
     qs = CloudAccount.objects.get(id=cloud_account_id).billing_records
     # print(qs, start_month)
@@ -213,3 +256,9 @@ def cost_summary_by_account(request, cloud_account_id):
     total_month, total_today = get_account_totals(cloud_account_id)
 
     return Response({"total_month": total_month, "total_today": total_today})
+
+
+@api_view(["GET"])
+def billing_monthly_service_total(request, cloud_account_id):
+    data = get_monthly_service_totals(cloud_account_id)
+    return Response(data)
