@@ -9,8 +9,8 @@ from .models import (
 )
 
 # Register your models here.
-admin.register(CloudAccount)
-admin.register(BillingRecord)
-admin.register(GoogleOAuthToken)
-admin.register(AzureOAuthToken)
-admin.register(AWSRole)
+admin.site.register(CloudAccount)
+admin.site.register(BillingRecord)
+admin.site.register(GoogleOAuthToken)
+admin.site.register(AzureOAuthToken)
+admin.site.register(AWSRole)

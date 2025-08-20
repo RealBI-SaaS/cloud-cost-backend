@@ -116,21 +116,51 @@ def get_tenant_aws_client(cloud_account):
     )
 
 
+# def fetch_cost_and_usage(client, start_date, end_date):
+#     response = client.get_cost_and_usage(
+#         # TimePeriod={"Start": start_date, "End": end_date},
+#         TimePeriod={
+#             "Start": start_date.strftime("%Y-%m-%d"),
+#             "End": end_date.strftime("%Y-%m-%d"),
+#         },
+#         Granularity="DAILY",  # or MONTHLY
+#         Metrics=["UnblendedCost", "UsageQuantity"],
+#         GroupBy=[
+#             {"Type": "DIMENSION", "Key": "SERVICE"},
+#             {"Type": "DIMENSION", "Key": "USAGE_TYPE"},
+#         ],
+#     )
+#     return response
+
+
 def fetch_cost_and_usage(client, start_date, end_date):
-    response = client.get_cost_and_usage(
-        # TimePeriod={"Start": start_date, "End": end_date},
-        TimePeriod={
-            "Start": start_date.strftime("%Y-%m-%d"),
-            "End": end_date.strftime("%Y-%m-%d"),
-        },
-        Granularity="DAILY",  # or MONTHLY
-        Metrics=["UnblendedCost", "UsageQuantity"],
-        GroupBy=[
-            {"Type": "DIMENSION", "Key": "SERVICE"},
-            {"Type": "DIMENSION", "Key": "USAGE_TYPE"},
-        ],
-    )
-    return response
+    results = []
+    next_token = None
+
+    while True:
+        kwargs = {
+            "TimePeriod": {
+                "Start": start_date.strftime("%Y-%m-%d"),
+                "End": end_date.strftime("%Y-%m-%d"),
+            },
+            "Granularity": "DAILY",
+            "Metrics": ["UnblendedCost", "UsageQuantity"],
+            "GroupBy": [
+                {"Type": "DIMENSION", "Key": "SERVICE"},
+                {"Type": "DIMENSION", "Key": "USAGE_TYPE"},
+            ],
+        }
+        if next_token:
+            kwargs["NextPageToken"] = next_token
+
+        response = client.get_cost_and_usage(**kwargs)
+        results.extend(response.get("ResultsByTime", []))
+
+        next_token = response.get("NextPageToken")
+        if not next_token:
+            break
+
+    return {"ResultsByTime": results}
 
 
 def save_billing_data(cloud_account, cost_response):
