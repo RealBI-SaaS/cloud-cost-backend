@@ -10,10 +10,10 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
-import django
+# import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
-django.setup()
+# django.setup()
 
 project = "NumLock"
 copyright = "2025, Natty Y."
