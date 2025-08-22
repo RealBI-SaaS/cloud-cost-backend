@@ -38,3 +38,12 @@ class InvitationSerializer(serializers.ModelSerializer):
             "token",
             "expires_at",
         ]
+
+
+class InviteUserSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    role = serializers.ChoiceField(
+        choices=["admin", "member", "viewer"],  # adjust roles as needed
+        default="member",
+        required=False,
+    )

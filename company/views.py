@@ -1,4 +1,3 @@
-import uuid
 from datetime import timedelta
 
 from django.conf import settings
@@ -8,6 +7,7 @@ from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 from django.utils.timezone import now
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema
 from rest_framework import filters, permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
@@ -20,10 +20,7 @@ from .models import (
     CompanyMembership,
     Invitation,
 )
-from .serializers import (
-    CompanySerializer,
-    InvitationSerializer,
-)
+from .serializers import CompanySerializer, InvitationSerializer, InviteUserSerializer
 
 User = get_user_model()
 
@@ -115,6 +112,12 @@ class AllCompaniesViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ["name"]
 
 
+@extend_schema(
+    request=InviteUserSerializer,
+    # responses={201: OpenApiTypes.OBJECT},  # optional, or define a response serializer
+    description="Invite a user to a company by email. Admin/Owner only.",
+    summary="Invite User",
+)
 class InviteUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -124,22 +127,27 @@ class InviteUserView(APIView):
         ).exists()
 
     def post(self, request, company_id):
-        email = request.data.get("email")
-        role = request.data.get("role", "member")
+        # email = request.data.get("email")
+        # role = request.data.get("role", "member")
+        #
+        # if not email:
+        #     return Response(
+        #         {"error": "Invitee email is missing"},
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
+        #
+        # try:
+        #     org_uuid = uuid.UUID(str(company_id), version=4)
+        # except ValueError:
+        #     return Response(
+        #         {"error": "Invalid company ID format. Must be a valid UUID."},
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
 
-        if not email:
-            return Response(
-                {"error": "Invitee email is missing"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        try:
-            org_uuid = uuid.UUID(str(company_id), version=4)
-        except ValueError:
-            return Response(
-                {"error": "Invalid company ID format. Must be a valid UUID."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        serializer = InviteUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+        role = serializer.validated_data.get("role", "member")
 
         try:
             company = Company.objects.get(id=company_id)

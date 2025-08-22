@@ -28,6 +28,7 @@ urlpatterns = (
         re_path(r"^auth/", include("djoser.urls")),
         re_path(r"^auth/", include("djoser.urls.jwt")),
         path("", api_documentation, name="api-documentation"),
+        # swagger docs
         path("schema/", SpectacularAPIView.as_view(), name="schema"),
         path(
             "swagger/",
@@ -46,6 +47,6 @@ urlpatterns = (
 
 
 # admin page
-admin.site.site_header = "RealBI Admin"
-admin.site.site_title = "RealBI Admin Portal"
-admin.site.index_title = "Welcome to RealBI System Admin Portal"
+admin.site.site_header = "NumLK Admin"
+admin.site.site_title = "NumLK Admin Portal"
+admin.site.index_title = "Welcome to NumLK System Admin Portal"

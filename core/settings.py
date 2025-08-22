@@ -189,8 +189,8 @@ SIMPLE_JWT = {
 
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "RBI Documentation",
-    "DESCRIPTION": "description goes here",
+    "TITLE": "NumLK Documentation",
+    # "DESCRIPTION": "description goes here",
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": True,
     # OTHER SETTINGS
@@ -205,11 +205,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-
-
-# Allow requests from React frontend
-# CORS_ALLOWED_ORIGINS = [
-# ]
 
 
 CORS_ALLOWED_ORIGINS = env("ALLOWED_ORIGINS", FRONTEND_BASE_URL).split(",")

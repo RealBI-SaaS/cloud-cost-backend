@@ -6,6 +6,7 @@ from django.db.models import DecimalField, Sum, Value
 from django.db.models.functions import Coalesce, TruncDay, TruncMonth
 from django.utils.timezone import now
 from dotenv import load_dotenv
+from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
@@ -20,6 +21,13 @@ from .models import (
 )
 from .serializers import (
     CloudAccountSerializer,
+    CostByRegionSerializer,
+    CostByServiceSerializer,
+    CostSummaryByAccountSerializer,
+    CostSummaryByServiceSerializer,
+    DailyCostSerializer,
+    MonthlyServiceTotalsSerializer,
+    UsageByServiceDaySerializer,
 )
 
 # from .services.bigquery_client import fetch_billing_data_from_bq
@@ -71,7 +79,7 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         company = self.get_company()
-        serializer.save(company=company).save(company=user_company)
+        serializer.save(company=company)
 
 
 def get_daily_costs(cloud_account_id):
@@ -191,30 +199,55 @@ def get_monthly_service_totals(cloud_account_id):
 
 
 # TODO: add permissions.IsAuthenticated
+@extend_schema(
+    responses=DailyCostSerializer(many=True),
+    description="Returns daily total costs for the given Cloud Account.",
+    summary="Daily Costs",
+)
 @api_view(["GET"])
 def billing_daily_costs(request, cloud_account_id):
     data = get_daily_costs(cloud_account_id)
     return Response(data)
 
 
+@extend_schema(
+    responses=CostByServiceSerializer(many=True),
+    description="Returns total cost aggregated by service for the given Cloud Account.",
+    summary="Cost by Service",
+)
 @api_view(["GET"])
 def billing_cost_by_service(request, cloud_account_id):
     data = get_cost_by_service(cloud_account_id)
     return Response(data)
 
 
+@extend_schema(
+    responses=CostByRegionSerializer(many=True),
+    description="Returns total cost aggregated by region.",
+    summary="Cost by Region",
+)
 @api_view(["GET"])
 def billing_cost_by_region(request, cloud_account_id):
     data = get_cost_by_region(cloud_account_id)
     return Response(data)
 
 
+@extend_schema(
+    responses=UsageByServiceDaySerializer(many=True),
+    description="Returns daily usage aggregated by service for the given Cloud Account.",
+    summary="Usage by Service & Day",
+)
 @api_view(["GET"])
 def billing_cost_by_service_day(request, cloud_account_id):
     data = get_usage_by_service_and_day(cloud_account_id)
     return Response(data)
 
 
+@extend_schema(
+    responses=CostSummaryByServiceSerializer,
+    description="Returns today's and this month's costs, grouped by service.",
+    summary="Service Cost Summary",
+)
 @api_view(["GET"])
 def cost_summary_by_service(request, cloud_account_id):
     today = now().date()
@@ -250,6 +283,11 @@ def cost_summary_by_service(request, cloud_account_id):
     )
 
 
+@extend_schema(
+    responses=CostSummaryByAccountSerializer,
+    description="Returns total costs for today and for the current month.",
+    summary="Account Cost Summary",
+)
 @api_view(["GET"])
 def cost_summary_by_account(request, cloud_account_id):
     # cloud_account = CloudAccount.objects.get(id=cloud_account_id)
@@ -258,6 +296,11 @@ def cost_summary_by_account(request, cloud_account_id):
     return Response({"total_month": total_month, "total_today": total_today})
 
 
+@extend_schema(
+    responses=MonthlyServiceTotalsSerializer(many=True),
+    description="Returns monthly usage and cost aggregated by service.",
+    summary="Monthly Service Totals",
+)
 @api_view(["GET"])
 def billing_monthly_service_total(request, cloud_account_id):
     data = get_monthly_service_totals(cloud_account_id)
