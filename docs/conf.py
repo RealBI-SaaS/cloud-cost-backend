@@ -10,7 +10,6 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
-# If Django-specific:
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")

@@ -1,0 +1,1190 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="manage module" href="manage.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+        <title>company package - NumLock 0.9.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">NumLock 0.9.9 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">NumLock 0.9.9 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Numlock - Backend</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">company package</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/company.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="company-package">
+<h1>company package<a class="headerlink" href="#company-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-company.apps">
+<span id="company-apps-module"></span><h2>company.apps module<a class="headerlink" href="#module-company.apps" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="company.apps.CompanyConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.apps.</span></span><span class="sig-name descname"><span class="pre">CompanyConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/apps.html#CompanyConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.apps.CompanyConfig" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.apps.CompanyConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#company.apps.CompanyConfig.default_auto_field" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.apps.CompanyConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'company'</span></em><a class="headerlink" href="#company.apps.CompanyConfig.name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-company.models">
+<span id="company-models-module"></span><h2>company.models module<a class="headerlink" href="#module-company.models" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="company.models.Company">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.models.</span></span><span class="sig-name descname"><span class="pre">Company</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/models.html#Company"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.models.Company" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Company.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#company.models.Company.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Company.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#company.models.Company.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.cloud_accounts">
+<span class="sig-name descname"><span class="pre">cloud_accounts</span></span><a class="headerlink" href="#company.models.Company.cloud_accounts" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.companymembership_set">
+<span class="sig-name descname"><span class="pre">companymembership_set</span></span><a class="headerlink" href="#company.models.Company.companymembership_set" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#company.models.Company.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Company.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Company.get_next_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Company.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Company.get_next_by_updated_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Company.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Company.get_previous_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Company.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Company.get_previous_by_updated_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#company.models.Company.id" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.invitation_set">
+<span class="sig-name descname"><span class="pre">invitation_set</span></span><a class="headerlink" href="#company.models.Company.invitation_set" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#company.models.Company.name" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#company.models.Company.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#company.models.Company.updated_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.models.CompanyMembership">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.models.</span></span><span class="sig-name descname"><span class="pre">CompanyMembership</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/models.html#CompanyMembership"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.models.CompanyMembership" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Manages users and roles within an Company</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#company.models.CompanyMembership.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#company.models.CompanyMembership.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.ROLE_CHOICES">
+<span class="sig-name descname"><span class="pre">ROLE_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('owner',</span> <span class="pre">'Owner'),</span> <span class="pre">('admin',</span> <span class="pre">'Admin'),</span> <span class="pre">('member',</span> <span class="pre">'Member')]</span></em><a class="headerlink" href="#company.models.CompanyMembership.ROLE_CHOICES" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.company">
+<span class="sig-name descname"><span class="pre">company</span></span><a class="headerlink" href="#company.models.CompanyMembership.company" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.company_id">
+<span class="sig-name descname"><span class="pre">company_id</span></span><a class="headerlink" href="#company.models.CompanyMembership.company_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.get_next_by_joined_at">
+<span class="sig-name descname"><span class="pre">get_next_by_joined_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">joined_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.CompanyMembership.get_next_by_joined_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.get_previous_by_joined_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_joined_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">joined_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.CompanyMembership.get_previous_by_joined_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.get_role_display">
+<span class="sig-name descname"><span class="pre">get_role_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">role&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.CompanyMembership.get_role_display" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#company.models.CompanyMembership.id" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.joined_at">
+<span class="sig-name descname"><span class="pre">joined_at</span></span><a class="headerlink" href="#company.models.CompanyMembership.joined_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#company.models.CompanyMembership.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.role">
+<span class="sig-name descname"><span class="pre">role</span></span><a class="headerlink" href="#company.models.CompanyMembership.role" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.user">
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#company.models.CompanyMembership.user" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.CompanyMembership.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><a class="headerlink" href="#company.models.CompanyMembership.user_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.models.Invitation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.models.</span></span><span class="sig-name descname"><span class="pre">Invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/models.html#Invitation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.models.Invitation" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Handles invitations to join an Company</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Invitation.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#company.models.Invitation.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Invitation.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#company.models.Invitation.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.company">
+<span class="sig-name descname"><span class="pre">company</span></span><a class="headerlink" href="#company.models.Invitation.company" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.company_id">
+<span class="sig-name descname"><span class="pre">company_id</span></span><a class="headerlink" href="#company.models.Invitation.company_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.create_invitation">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invited_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'member'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/models.html#Invitation.create_invitation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.models.Invitation.create_invitation" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#company.models.Invitation.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.expires_at">
+<span class="sig-name descname"><span class="pre">expires_at</span></span><a class="headerlink" href="#company.models.Invitation.expires_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_next_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_next_by_expires_at">
+<span class="sig-name descname"><span class="pre">get_next_by_expires_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">expires_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_next_by_expires_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_previous_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_previous_by_expires_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_expires_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">expires_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_previous_by_expires_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_role_display">
+<span class="sig-name descname"><span class="pre">get_role_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">role&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_role_display" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_status_display">
+<span class="sig-name descname"><span class="pre">get_status_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">status&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_status_display" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#company.models.Invitation.id" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.invited_by">
+<span class="sig-name descname"><span class="pre">invited_by</span></span><a class="headerlink" href="#company.models.Invitation.invited_by" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.invited_by_id">
+<span class="sig-name descname"><span class="pre">invited_by_id</span></span><a class="headerlink" href="#company.models.Invitation.invited_by_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.invitee_email">
+<span class="sig-name descname"><span class="pre">invitee_email</span></span><a class="headerlink" href="#company.models.Invitation.invitee_email" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#company.models.Invitation.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.role">
+<span class="sig-name descname"><span class="pre">role</span></span><a class="headerlink" href="#company.models.Invitation.role" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.status">
+<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#company.models.Invitation.status" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.token">
+<span class="sig-name descname"><span class="pre">token</span></span><a class="headerlink" href="#company.models.Invitation.token" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-company.serializers">
+<span id="company-serializers-module"></span><h2>company.serializers module<a class="headerlink" href="#module-company.serializers" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="company.serializers.CompanyMembershipSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.serializers.</span></span><span class="sig-name descname"><span class="pre">CompanyMembershipSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/serializers.html#CompanyMembershipSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.serializers.CompanyMembershipSerializer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="company.serializers.CompanyMembershipSerializer.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/company/serializers.html#CompanyMembershipSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.serializers.CompanyMembershipSerializer.Meta" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.serializers.CompanyMembershipSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['role']</span></em><a class="headerlink" href="#company.serializers.CompanyMembershipSerializer.Meta.fields" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.serializers.CompanyMembershipSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#company.serializers.CompanyMembershipSerializer.Meta.model" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#company.models.CompanyMembership" title="company.models.CompanyMembership"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompanyMembership</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.serializers.CompanySerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.serializers.</span></span><span class="sig-name descname"><span class="pre">CompanySerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/serializers.html#CompanySerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.serializers.CompanySerializer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="company.serializers.CompanySerializer.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/company/serializers.html#CompanySerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.serializers.CompanySerializer.Meta" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.serializers.CompanySerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'__all__'</span></em><a class="headerlink" href="#company.serializers.CompanySerializer.Meta.fields" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.serializers.CompanySerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#company.serializers.CompanySerializer.Meta.model" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#company.models.Company" title="company.models.Company"><code class="xref py py-class docutils literal notranslate"><span class="pre">Company</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.serializers.CompanySerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'membership',</span> <span class="pre">'created_at',</span> <span class="pre">'updated_at']</span></em><a class="headerlink" href="#company.serializers.CompanySerializer.Meta.read_only_fields" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.serializers.CompanySerializer.get_membership">
+<span class="sig-name descname"><span class="pre">get_membership</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/serializers.html#CompanySerializer.get_membership"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.serializers.CompanySerializer.get_membership" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.serializers.InvitationSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.serializers.</span></span><span class="sig-name descname"><span class="pre">InvitationSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/serializers.html#InvitationSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.serializers.InvitationSerializer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="company.serializers.InvitationSerializer.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/company/serializers.html#InvitationSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.serializers.InvitationSerializer.Meta" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.serializers.InvitationSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'company',</span> <span class="pre">'invitee_email',</span> <span class="pre">'role',</span> <span class="pre">'token',</span> <span class="pre">'expires_at']</span></em><a class="headerlink" href="#company.serializers.InvitationSerializer.Meta.fields" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.serializers.InvitationSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#company.serializers.InvitationSerializer.Meta.model" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#company.models.Invitation" title="company.models.Invitation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Invitation</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.serializers.InviteUserSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.serializers.</span></span><span class="sig-name descname"><span class="pre">InviteUserSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/serializers.html#InviteUserSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.serializers.InviteUserSerializer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-company.urls">
+<span id="company-urls-module"></span><h2>company.urls module<a class="headerlink" href="#module-company.urls" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-company.views">
+<span id="company-views-module"></span><h2>company.views module<a class="headerlink" href="#module-company.views" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="company.views.AcceptInvitationView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.views.</span></span><span class="sig-name descname"><span class="pre">AcceptInvitationView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#AcceptInvitationView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.AcceptInvitationView" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.AcceptInvitationView.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.AllowAny'&gt;]</span></em><a class="headerlink" href="#company.views.AcceptInvitationView.permission_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.AcceptInvitationView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#AcceptInvitationView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.AcceptInvitationView.post" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.views.AllCompaniesViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.views.</span></span><span class="sig-name descname"><span class="pre">AllCompaniesViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#AllCompaniesViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.AllCompaniesViewSet" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ReadOnlyModelViewSet</span></code></p>
+<p>Provides a read-only list of all companies with search support.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.AllCompaniesViewSet.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'django_filters.rest_framework.backends.DjangoFilterBackend'&gt;]</span></em><a class="headerlink" href="#company.views.AllCompaniesViewSet.filter_backends" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.AllCompaniesViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAdminUser'&gt;]</span></em><a class="headerlink" href="#company.views.AllCompaniesViewSet.permission_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.AllCompaniesViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Company:</span> <span class="pre">comp&gt;,</span> <span class="pre">&lt;Company:</span> <span class="pre">comp2&gt;,</span> <span class="pre">&lt;Company:</span> <span class="pre">x</span> <span class="pre">comp&gt;]&gt;</span></em><a class="headerlink" href="#company.views.AllCompaniesViewSet.queryset" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.AllCompaniesViewSet.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name']</span></em><a class="headerlink" href="#company.views.AllCompaniesViewSet.search_fields" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.AllCompaniesViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#company.views.AllCompaniesViewSet.serializer_class" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#company.serializers.CompanySerializer" title="company.serializers.CompanySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompanySerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.views.</span></span><span class="sig-name descname"><span class="pre">CompanyViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#CompanyViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.CompanyViewSet" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
+<p>Handles CRUD operations for companies</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#company.views.CompanyViewSet.basename" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#company.views.CompanyViewSet.description" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#CompanyViewSet.destroy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.CompanyViewSet.destroy" title="Link to this definition">¶</a></dt>
+<dd><p>Allow only company owners or staff to delete</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#company.views.CompanyViewSet.detail" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#CompanyViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.CompanyViewSet.get_queryset" title="Link to this definition">¶</a></dt>
+<dd><p>Return companies owned by the current user</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.get_serializer_context">
+<span class="sig-name descname"><span class="pre">get_serializer_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#CompanyViewSet.get_serializer_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.CompanyViewSet.get_serializer_context" title="Link to this definition">¶</a></dt>
+<dd><p>Extra context provided to the serializer class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.is_company_owner">
+<span class="sig-name descname"><span class="pre">is_company_owner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#CompanyViewSet.is_company_owner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.CompanyViewSet.is_company_owner" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.members">
+<span class="sig-name descname"><span class="pre">members</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#CompanyViewSet.members"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.CompanyViewSet.members" title="Link to this definition">¶</a></dt>
+<dd><p>Get all members of a company with roles</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#company.views.CompanyViewSet.name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.perform_create">
+<span class="sig-name descname"><span class="pre">perform_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#CompanyViewSet.perform_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.CompanyViewSet.perform_create" title="Link to this definition">¶</a></dt>
+<dd><p>Create the company and add the current user as owner in CompanyMembership.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#company.views.CompanyViewSet.permission_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#company.views.CompanyViewSet.serializer_class" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#company.serializers.CompanySerializer" title="company.serializers.CompanySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompanySerializer</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#company.views.CompanyViewSet.suffix" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.CompanyViewSet.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#CompanyViewSet.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.CompanyViewSet.update" title="Link to this definition">¶</a></dt>
+<dd><p>Allow only company owners or staff to update</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.views.DeleteInvitationView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.views.</span></span><span class="sig-name descname"><span class="pre">DeleteInvitationView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#DeleteInvitationView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.DeleteInvitationView" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.DeleteInvitationView.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#DeleteInvitationView.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.DeleteInvitationView.delete" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.DeleteInvitationView.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#company.views.DeleteInvitationView.permission_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.views.InviteUserView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.views.</span></span><span class="sig-name descname"><span class="pre">InviteUserView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#InviteUserView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.InviteUserView" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.InviteUserView.options">
+<span class="sig-name descname"><span class="pre">options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.views.InviteUserView.options" title="Link to this definition">¶</a></dt>
+<dd><p>Handler method for HTTP ‘OPTIONS’ request.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.InviteUserView.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#company.views.InviteUserView.permission_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.InviteUserView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">company_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#InviteUserView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.InviteUserView.post" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.InviteUserView.schema">
+<span class="sig-name descname"><span class="pre">schema</span></span><a class="headerlink" href="#company.views.InviteUserView.schema" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.views.ListInvitationsView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.views.</span></span><span class="sig-name descname"><span class="pre">ListInvitationsView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#ListInvitationsView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.ListInvitationsView" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>View to list all invitations for an company.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.ListInvitationsView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">company_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#ListInvitationsView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.ListInvitationsView.get" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieve all invitations for a given company.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.ListInvitationsView.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#company.views.ListInvitationsView.permission_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.views.RemoveMemberView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.views.</span></span><span class="sig-name descname"><span class="pre">RemoveMemberView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#RemoveMemberView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.RemoveMemberView" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.RemoveMemberView.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">company_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#RemoveMemberView.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.RemoveMemberView.delete" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.RemoveMemberView.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#company.views.RemoveMemberView.permission_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.views.UpdateMembershipRoleView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.views.</span></span><span class="sig-name descname"><span class="pre">UpdateMembershipRoleView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#UpdateMembershipRoleView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.UpdateMembershipRoleView" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="company.views.UpdateMembershipRoleView.patch">
+<span class="sig-name descname"><span class="pre">patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">company_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/views.html#UpdateMembershipRoleView.patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.views.UpdateMembershipRoleView.patch" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.views.UpdateMembershipRoleView.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#company.views.UpdateMembershipRoleView.permission_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-company">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-company" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="manage.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">manage module</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Natty Y.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">company package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-company.apps">company.apps module</a><ul>
+<li><a class="reference internal" href="#company.apps.CompanyConfig"><code class="docutils literal notranslate"><span class="pre">CompanyConfig</span></code></a><ul>
+<li><a class="reference internal" href="#company.apps.CompanyConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">CompanyConfig.default_auto_field</span></code></a></li>
+<li><a class="reference internal" href="#company.apps.CompanyConfig.name"><code class="docutils literal notranslate"><span class="pre">CompanyConfig.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-company.models">company.models module</a><ul>
+<li><a class="reference internal" href="#company.models.Company"><code class="docutils literal notranslate"><span class="pre">Company</span></code></a><ul>
+<li><a class="reference internal" href="#company.models.Company.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Company.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Company.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.cloud_accounts"><code class="docutils literal notranslate"><span class="pre">Company.cloud_accounts</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.companymembership_set"><code class="docutils literal notranslate"><span class="pre">Company.companymembership_set</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.created_at"><code class="docutils literal notranslate"><span class="pre">Company.created_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Company.get_next_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Company.get_next_by_updated_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Company.get_previous_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Company.get_previous_by_updated_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.id"><code class="docutils literal notranslate"><span class="pre">Company.id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.invitation_set"><code class="docutils literal notranslate"><span class="pre">Company.invitation_set</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.name"><code class="docutils literal notranslate"><span class="pre">Company.name</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.objects"><code class="docutils literal notranslate"><span class="pre">Company.objects</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.updated_at"><code class="docutils literal notranslate"><span class="pre">Company.updated_at</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.models.CompanyMembership"><code class="docutils literal notranslate"><span class="pre">CompanyMembership</span></code></a><ul>
+<li><a class="reference internal" href="#company.models.CompanyMembership.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.ROLE_CHOICES"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.ROLE_CHOICES</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.company"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.company</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.company_id"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.company_id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.get_next_by_joined_at"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.get_next_by_joined_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.get_previous_by_joined_at"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.get_previous_by_joined_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.get_role_display"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.get_role_display()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.id"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.joined_at"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.joined_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.objects"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.objects</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.role"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.role</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.user"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.user</span></code></a></li>
+<li><a class="reference internal" href="#company.models.CompanyMembership.user_id"><code class="docutils literal notranslate"><span class="pre">CompanyMembership.user_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.models.Invitation"><code class="docutils literal notranslate"><span class="pre">Invitation</span></code></a><ul>
+<li><a class="reference internal" href="#company.models.Invitation.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Invitation.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Invitation.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.company"><code class="docutils literal notranslate"><span class="pre">Invitation.company</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.company_id"><code class="docutils literal notranslate"><span class="pre">Invitation.company_id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.create_invitation"><code class="docutils literal notranslate"><span class="pre">Invitation.create_invitation()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.created_at"><code class="docutils literal notranslate"><span class="pre">Invitation.created_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.expires_at"><code class="docutils literal notranslate"><span class="pre">Invitation.expires_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Invitation.get_next_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_next_by_expires_at"><code class="docutils literal notranslate"><span class="pre">Invitation.get_next_by_expires_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Invitation.get_previous_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_previous_by_expires_at"><code class="docutils literal notranslate"><span class="pre">Invitation.get_previous_by_expires_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_role_display"><code class="docutils literal notranslate"><span class="pre">Invitation.get_role_display()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_status_display"><code class="docutils literal notranslate"><span class="pre">Invitation.get_status_display()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.id"><code class="docutils literal notranslate"><span class="pre">Invitation.id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.invited_by"><code class="docutils literal notranslate"><span class="pre">Invitation.invited_by</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.invited_by_id"><code class="docutils literal notranslate"><span class="pre">Invitation.invited_by_id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.invitee_email"><code class="docutils literal notranslate"><span class="pre">Invitation.invitee_email</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.objects"><code class="docutils literal notranslate"><span class="pre">Invitation.objects</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.role"><code class="docutils literal notranslate"><span class="pre">Invitation.role</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.status"><code class="docutils literal notranslate"><span class="pre">Invitation.status</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.token"><code class="docutils literal notranslate"><span class="pre">Invitation.token</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-company.serializers">company.serializers module</a><ul>
+<li><a class="reference internal" href="#company.serializers.CompanyMembershipSerializer"><code class="docutils literal notranslate"><span class="pre">CompanyMembershipSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#company.serializers.CompanyMembershipSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">CompanyMembershipSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#company.serializers.CompanyMembershipSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">CompanyMembershipSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#company.serializers.CompanyMembershipSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">CompanyMembershipSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.serializers.CompanySerializer"><code class="docutils literal notranslate"><span class="pre">CompanySerializer</span></code></a><ul>
+<li><a class="reference internal" href="#company.serializers.CompanySerializer.Meta"><code class="docutils literal notranslate"><span class="pre">CompanySerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#company.serializers.CompanySerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">CompanySerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#company.serializers.CompanySerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">CompanySerializer.Meta.model</span></code></a></li>
+<li><a class="reference internal" href="#company.serializers.CompanySerializer.Meta.read_only_fields"><code class="docutils literal notranslate"><span class="pre">CompanySerializer.Meta.read_only_fields</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.serializers.CompanySerializer.get_membership"><code class="docutils literal notranslate"><span class="pre">CompanySerializer.get_membership()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.serializers.InvitationSerializer"><code class="docutils literal notranslate"><span class="pre">InvitationSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#company.serializers.InvitationSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">InvitationSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#company.serializers.InvitationSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">InvitationSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#company.serializers.InvitationSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">InvitationSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.serializers.InviteUserSerializer"><code class="docutils literal notranslate"><span class="pre">InviteUserSerializer</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-company.urls">company.urls module</a></li>
+<li><a class="reference internal" href="#module-company.views">company.views module</a><ul>
+<li><a class="reference internal" href="#company.views.AcceptInvitationView"><code class="docutils literal notranslate"><span class="pre">AcceptInvitationView</span></code></a><ul>
+<li><a class="reference internal" href="#company.views.AcceptInvitationView.permission_classes"><code class="docutils literal notranslate"><span class="pre">AcceptInvitationView.permission_classes</span></code></a></li>
+<li><a class="reference internal" href="#company.views.AcceptInvitationView.post"><code class="docutils literal notranslate"><span class="pre">AcceptInvitationView.post()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.views.AllCompaniesViewSet"><code class="docutils literal notranslate"><span class="pre">AllCompaniesViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#company.views.AllCompaniesViewSet.filter_backends"><code class="docutils literal notranslate"><span class="pre">AllCompaniesViewSet.filter_backends</span></code></a></li>
+<li><a class="reference internal" href="#company.views.AllCompaniesViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">AllCompaniesViewSet.permission_classes</span></code></a></li>
+<li><a class="reference internal" href="#company.views.AllCompaniesViewSet.queryset"><code class="docutils literal notranslate"><span class="pre">AllCompaniesViewSet.queryset</span></code></a></li>
+<li><a class="reference internal" href="#company.views.AllCompaniesViewSet.search_fields"><code class="docutils literal notranslate"><span class="pre">AllCompaniesViewSet.search_fields</span></code></a></li>
+<li><a class="reference internal" href="#company.views.AllCompaniesViewSet.serializer_class"><code class="docutils literal notranslate"><span class="pre">AllCompaniesViewSet.serializer_class</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.basename"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.basename</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.description"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.description</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.destroy"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.destroy()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.detail"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.detail</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.get_queryset()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.get_serializer_context"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.get_serializer_context()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.is_company_owner"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.is_company_owner()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.members"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.members()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.name"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.name</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.perform_create"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.perform_create()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.permission_classes</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.serializer_class"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.serializer_class</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.suffix</span></code></a></li>
+<li><a class="reference internal" href="#company.views.CompanyViewSet.update"><code class="docutils literal notranslate"><span class="pre">CompanyViewSet.update()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.views.DeleteInvitationView"><code class="docutils literal notranslate"><span class="pre">DeleteInvitationView</span></code></a><ul>
+<li><a class="reference internal" href="#company.views.DeleteInvitationView.delete"><code class="docutils literal notranslate"><span class="pre">DeleteInvitationView.delete()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.DeleteInvitationView.permission_classes"><code class="docutils literal notranslate"><span class="pre">DeleteInvitationView.permission_classes</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.views.InviteUserView"><code class="docutils literal notranslate"><span class="pre">InviteUserView</span></code></a><ul>
+<li><a class="reference internal" href="#company.views.InviteUserView.options"><code class="docutils literal notranslate"><span class="pre">InviteUserView.options()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.InviteUserView.permission_classes"><code class="docutils literal notranslate"><span class="pre">InviteUserView.permission_classes</span></code></a></li>
+<li><a class="reference internal" href="#company.views.InviteUserView.post"><code class="docutils literal notranslate"><span class="pre">InviteUserView.post()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.InviteUserView.schema"><code class="docutils literal notranslate"><span class="pre">InviteUserView.schema</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.views.ListInvitationsView"><code class="docutils literal notranslate"><span class="pre">ListInvitationsView</span></code></a><ul>
+<li><a class="reference internal" href="#company.views.ListInvitationsView.get"><code class="docutils literal notranslate"><span class="pre">ListInvitationsView.get()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.ListInvitationsView.permission_classes"><code class="docutils literal notranslate"><span class="pre">ListInvitationsView.permission_classes</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.views.RemoveMemberView"><code class="docutils literal notranslate"><span class="pre">RemoveMemberView</span></code></a><ul>
+<li><a class="reference internal" href="#company.views.RemoveMemberView.delete"><code class="docutils literal notranslate"><span class="pre">RemoveMemberView.delete()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.RemoveMemberView.permission_classes"><code class="docutils literal notranslate"><span class="pre">RemoveMemberView.permission_classes</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.views.UpdateMembershipRoleView"><code class="docutils literal notranslate"><span class="pre">UpdateMembershipRoleView</span></code></a><ul>
+<li><a class="reference internal" href="#company.views.UpdateMembershipRoleView.patch"><code class="docutils literal notranslate"><span class="pre">UpdateMembershipRoleView.patch()</span></code></a></li>
+<li><a class="reference internal" href="#company.views.UpdateMembershipRoleView.permission_classes"><code class="docutils literal notranslate"><span class="pre">UpdateMembershipRoleView.permission_classes</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-company">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=be50ab7b"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>
