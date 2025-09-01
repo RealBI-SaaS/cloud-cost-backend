@@ -15,7 +15,7 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from company.models import Company, CompanyMembership
+from company.models import Company, OrganizationMembership
 
 # from .aws_utils import fetch_cost_and_usage, get_tenant_aws_client
 from .aws_views import (
@@ -74,7 +74,7 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
         except Company.DoesNotExist:
             raise ValidationError({"company_id": "Invalid company ID."})
 
-        is_member = CompanyMembership.objects.filter(
+        is_member = OrganizationMembership.objects.filter(
             user=self.request.user, company=company
         ).exists()
         if not is_member:

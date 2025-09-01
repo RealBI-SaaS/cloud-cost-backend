@@ -24,7 +24,9 @@ urlpatterns = (
         path("admin/", admin.site.urls),
         path("myauth/", include("authentication.urls")),
         path("data/", include("data.urls")),
-        path("company/", include("company.urls")),
+        # company urls
+        path("company/", include("company.urls.company")),
+        path("organization/", include("company.urls.org")),
         re_path(r"^auth/", include("djoser.urls")),
         re_path(r"^auth/", include("djoser.urls.jwt")),
         path("", api_documentation, name="api-documentation"),

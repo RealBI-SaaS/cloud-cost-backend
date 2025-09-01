@@ -1,90 +1,126 @@
+import uuid
 from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.db.models import F
 from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 from django.utils.timezone import now
-from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema
-from rest_framework import filters, permissions, status, viewsets
+from drf_spectacular.utils import (
+    extend_schema,
+)
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# from rest_framework.permissions import IsAdminUser
-from .models import (
-    Company,
-    CompanyMembership,
+from company.models import (
     Invitation,
+    Organization,
+    OrganizationMembership,
 )
-from .serializers import CompanySerializer, InvitationSerializer, InviteUserSerializer
+from company.serializers.org import (
+    InvitationSerializer,
+    InviteUserSerializer,
+    OrganizationSerializer,
+)
 
 User = get_user_model()
 
 
-class CompanyViewSet(viewsets.ModelViewSet):
-    """Handles CRUD operations for companies"""
+class OrganizationViewSet(viewsets.ModelViewSet):
+    """Handles CRUD operations for organizations"""
 
-    serializer_class = CompanySerializer
+    serializer_class = OrganizationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_serializer_context(self):
-        return {"request": self.request}
-
-    def is_company_owner(self, company, user):
-        if user.is_staff:
-            return True
-        return (
-            CompanyMembership.objects.filter(
-                company=company, user=user, role="owner"
-            ).exists()
-            or CompanyMembership.objects.filter(
-                company=company, user=user, role="admin"
-            ).exists()
-        )
+    def _has_role(self, user, organization, allowed_roles):
+        return OrganizationMembership.objects.filter(
+            user=user, organization=organization, role__in=allowed_roles
+        ).exists()
 
     def get_queryset(self):
-        """Return companies owned by the current user"""
+        """Retrieve only organizations where the user is a member"""
+        # TODO: optimize with serializers
         if self.request.user.is_staff:
-            return Company.objects.all()
-        # return Company.objects.all()
-        return Company.objects.filter(companymembership__user=self.request.user)
-
-    def perform_create(self, serializer):
-        """Create the company and add the current user as owner in CompanyMembership."""
-        company = serializer.save()  # Save the company first
-
-        CompanyMembership.objects.create(
-            user=self.request.user, company=company, role="owner"
+            return (
+                Organization.objects.select_related("company").annotate(
+                    company_name=F("company__name"),
+                )
+            ).distinct()
+        return (
+            (
+                Organization.objects.filter(
+                    organizationmembership__user=self.request.user
+                )
+            )
+            .annotate(
+                role=F("organizationmembership__role"),
+                company_name=F("company__name"),
+            )
+            .distinct()
         )
 
-        return company
+    def perform_create(self, serializer):
+        """Create a new Organization"""
+        company = serializer.validated_data["company"]
+
+        if company.owner != self.request.user and not self.request.user.is_staff:
+            raise PermissionDenied(
+                "You can only create organizations for companies you own."
+            )
+
+        organization = serializer.save()
+        OrganizationMembership.objects.create(
+            user=self.request.user, organization=organization, role="owner"
+        )
 
     def update(self, request, *args, **kwargs):
-        # print("EDDIT", *args, **kwargs)
-        """Allow only company owners or staff to update"""
-        company = self.get_object()
-        if not self.is_company_owner(company, request.user):
-            raise PermissionDenied("You are not allowed to update this company.")
+        organization = self.get_object()
+        if (
+            not self._has_role(request.user, organization, ["owner", "admin"])
+            and not request.user.is_staff
+        ):
+            raise PermissionDenied("You are not allowed to update this organization.")
         return super().update(request, *args, **kwargs)
 
+    @extend_schema(
+        summary="Delete a specific Oorganization",
+    )
     def destroy(self, request, *args, **kwargs):
-        """Allow only company owners or staff to delete"""
-        company = self.get_object()
-        if not self.is_company_owner(company, request.user):
-            raise PermissionDenied("You are not allowed to delete this company.")
+        organization = self.get_object()
+        if (
+            not self._has_role(request.user, organization, ["owner"])
+            and not request.user.is_staff
+        ):
+            raise PermissionDenied("Only owners can delete the organization.")
         return super().destroy(request, *args, **kwargs)
+
+    # override views for docs
+    @extend_schema(
+        summary="List organizations",
+        description="Retrieve a list of all organizations for staff and only those you are a member of for non-staff users.",
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="Create organization",
+        description="Create a new organization with the given data.",
+    )
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
 
     @action(detail=True, methods=["get"])
     def members(self, request, pk=None):
-        """Get all members of a company with roles"""
-        company = self.get_object()
-        members = CompanyMembership.objects.filter(company=company).select_related(
-            "user"
-        )
+        """Get all members of an organization with roles"""
+        organization = self.get_object()
+        members = OrganizationMembership.objects.filter(
+            organization=organization
+        ).select_related("user")
         return Response(
             [
                 {
@@ -99,70 +135,50 @@ class CompanyViewSet(viewsets.ModelViewSet):
         )
 
 
-class AllCompaniesViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    Provides a read-only list of all companies with search support.
-    """
-
-    queryset = Company.objects.all()
-    serializer_class = CompanySerializer
-    permission_classes = [permissions.IsAdminUser]
-
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-    search_fields = ["name"]
-
-
-@extend_schema(
-    request=InviteUserSerializer,
-    # responses={201: OpenApiTypes.OBJECT},  # optional, or define a response serializer
-    description="Invite a user to a company by email. Admin/Owner only.",
-    summary="Invite User",
-)
 class InviteUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = InviteUserSerializer
 
-    def _has_role(self, user, company, allowed_roles):
-        return CompanyMembership.objects.filter(
-            user=user, company=company, role__in=allowed_roles
+    def _has_role(self, user, organization, allowed_roles):
+        return OrganizationMembership.objects.filter(
+            user=user, organization=organization, role__in=allowed_roles
         ).exists()
 
-    def post(self, request, company_id):
-        # email = request.data.get("email")
-        # role = request.data.get("role", "member")
-        #
-        # if not email:
-        #     return Response(
-        #         {"error": "Invitee email is missing"},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
-        #
-        # try:
-        #     org_uuid = uuid.UUID(str(company_id), version=4)
-        # except ValueError:
-        #     return Response(
-        #         {"error": "Invalid company ID format. Must be a valid UUID."},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
+    @extend_schema(
+        summary="Invite a user to an organization.",
+        description="Expects email and an optional role whick defaults to 'member' if ignored.",
+    )
+    def post(self, request, org_id):
+        email = request.data.get("email")
+        role = request.data.get("role", "member")
 
-        serializer = InviteUserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        email = serializer.validated_data["email"]
-        role = serializer.validated_data.get("role", "member")
+        if not email:
+            return Response(
+                {"error": "Invitee email is missing"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         try:
-            company = Company.objects.get(id=company_id)
+            uuid.UUID(str(org_id), version=4)
+        except ValueError:
+            return Response(
+                {"error": "Invalid organization ID format. Must be a valid UUID."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            organization = Organization.objects.get(id=org_id)
 
             if (
-                not self._has_role(request.user, company, ["admin", "owner"])
+                not self._has_role(request.user, organization, ["admin", "owner"])
                 and not request.user.is_staff
             ):
                 return Response(
                     {"error": "You don't have permission to invite users"},
                     status=status.HTTP_403_FORBIDDEN,
                 )
-
             existing_invite = Invitation.objects.filter(
-                company=company, invitee_email=email, status="pending"
+                organization=organization, invitee_email=email, status="pending"
             ).first()
 
             if existing_invite:
@@ -175,13 +191,8 @@ class InviteUserView(APIView):
                 invitation = existing_invite
             else:
                 invitation = Invitation.create_invitation(
-                    company, request.user, email, role
+                    organization, request.user, email, role
                 )
-
-                # assign user groups
-            # if groups:
-            #     invitation.user_groups.set(groups)
-
             invite_link = (
                 f"{settings.FRONTEND_BASE_URL}/accept-invitation/{invitation.token}/"
             )
@@ -189,14 +200,14 @@ class InviteUserView(APIView):
             html_message = render_to_string(
                 "email/invitation.html",
                 {
-                    "company": company,
+                    "organization": organization,
                     "role": role,
                     "invite_link": invite_link,
                 },
             )
 
             send_mail(
-                subject=f"You're Invited to Join {company} on Realbi!",
+                subject=f"You're Invited to Join {organization} on Realbi!",
                 message="",  # Plain text fallback can go here if you want
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[email],
@@ -207,20 +218,18 @@ class InviteUserView(APIView):
                 InvitationSerializer(invitation).data, status=status.HTTP_201_CREATED
             )
 
-        except Company.DoesNotExist:
+        except Organization.DoesNotExist:
             return Response(
-                {"error": "Company not found"}, status=status.HTTP_404_NOT_FOUND
+                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
 
 class AcceptInvitationView(APIView):
     permission_classes = [permissions.AllowAny]
 
-    def post(self, request, token):
+    def get(self, request, token):
         try:
             invitation = Invitation.objects.get(token=token)
-
-            # TODO: protect against acceptance with uninvited user
             if not request.user.email == invitation.invitee_email:
                 return Response(
                     {
@@ -247,24 +256,20 @@ class AcceptInvitationView(APIView):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            # TODO: lookout for duplicate memberships with different roles
-            membership, created = CompanyMembership.objects.get_or_create(
+            # Add user to organization
+            _, created = OrganizationMembership.objects.get_or_create(
                 user=user,
-                company=invitation.company,
+                organization=invitation.organization,
                 defaults={"role": invitation.role},
             )
 
             if not created:
                 return Response(
-                    {"error": "User is already a member of this company"},
+                    {"error": "User is already a member of this organization"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            # Add user to the invited user groups
-            # for group in invitation.user_groups.all():
-            #     group.users.add(user)
-
-            # Delete invitation after acceptance
+            # NOTE: Delete invitation after acceptance
             invitation.delete()
 
             return Response(
@@ -282,14 +287,17 @@ class AcceptInvitationView(APIView):
 class DeleteInvitationView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    @extend_schema(
+        summary="Delete a specific invitation",
+    )
     def delete(self, request, id):
         try:
             invitation = Invitation.objects.get(id=id)
 
             if (
-                not CompanyMembership.objects.filter(
+                not OrganizationMembership.objects.filter(
                     user=request.user,
-                    company=invitation.company,
+                    organization=invitation.organization,
                     role__in=["admin", "owner"],
                 ).exists()
                 and not request.user.is_staff
@@ -315,16 +323,19 @@ class DeleteInvitationView(APIView):
 
 class ListInvitationsView(APIView):
     """
-    View to list all invitations for an company.
+    View to list all invitations for an organization.
     """
 
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request, company_id):
+    @extend_schema(
+        summary="list invitations in an organization.",
+    )
+    def get(self, request, org_id):
         """
-        Retrieve all invitations for a given company.
+        Retrieve all invitations for a given organization.
         """
-        invitations = Invitation.objects.filter(company_id=company_id)
+        invitations = Invitation.objects.filter(organization_id=org_id)
         serializer = InvitationSerializer(invitations, many=True)
         return Response(serializer.data, status=200)
 
@@ -332,18 +343,21 @@ class ListInvitationsView(APIView):
 class UpdateMembershipRoleView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def patch(self, request, company_id, user_id):
+    @extend_schema(
+        summary="Update role of an organization member.",
+    )
+    def patch(self, request, org_id, user_id):
         try:
-            company = Company.objects.get(id=company_id)
-        except Company.DoesNotExist:
+            organization = Organization.objects.get(id=org_id)
+        except Organization.DoesNotExist:
             return Response(
-                {"error": "Company not found."}, status=status.HTTP_404_NOT_FOUND
+                {"error": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if (
-            not CompanyMembership.objects.filter(
+            not OrganizationMembership.objects.filter(
                 user=request.user,
-                company=company,
+                organization=organization,
                 role__in=["admin", "owner"],
             ).exists()
             and not request.user.is_staff
@@ -354,10 +368,10 @@ class UpdateMembershipRoleView(APIView):
             )
 
         try:
-            membership = CompanyMembership.objects.get(
-                company=company, user__id=user_id
+            membership = OrganizationMembership.objects.get(
+                organization=organization, user__id=user_id
             )
-        except CompanyMembership.DoesNotExist:
+        except OrganizationMembership.DoesNotExist:
             return Response(
                 {"error": "Membership not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -369,7 +383,7 @@ class UpdateMembershipRoleView(APIView):
             )
 
         new_role = request.data.get("role")
-        if new_role not in dict(CompanyMembership.ROLE_CHOICES):
+        if new_role not in dict(OrganizationMembership.ROLE_CHOICES):
             return Response(
                 {"error": "Invalid role."}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -385,18 +399,18 @@ class UpdateMembershipRoleView(APIView):
 class RemoveMemberView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def delete(self, request, company_id, user_id):
+    def delete(self, request, org_id, user_id):
         try:
-            company = Company.objects.get(id=company_id)
-        except Company.DoesNotExist:
+            organization = Organization.objects.get(id=org_id)
+        except Organization.DoesNotExist:
             return Response(
-                {"error": "Company not found."}, status=status.HTTP_404_NOT_FOUND
+                {"error": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if (
-            not CompanyMembership.objects.filter(
+            not OrganizationMembership.objects.filter(
                 user=request.user,
-                company=company,
+                organization=organization,
                 role__in=["admin", "owner"],
             ).exists()
             and not request.user.is_staff
@@ -407,17 +421,17 @@ class RemoveMemberView(APIView):
             )
 
         try:
-            membership = CompanyMembership.objects.get(
-                company=company, user__id=user_id
+            membership = OrganizationMembership.objects.get(
+                organization=organization, user__id=user_id
             )
-        except CompanyMembership.DoesNotExist:
+        except OrganizationMembership.DoesNotExist:
             return Response(
                 {"error": "Membership not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if membership.role == "owner":
             return Response(
-                {"error": "Cannot remove the company owner."},
+                {"error": "Cannot remove the organization owner."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
