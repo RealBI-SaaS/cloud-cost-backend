@@ -22,6 +22,7 @@ from .views import (
     billing_monthly_service_total,
     cost_summary_by_account,
     cost_summary_by_service,
+    refresh_billing_data,
 )
 
 router = DefaultRouter()
@@ -105,6 +106,12 @@ urlpatterns = [
         "cost-summary/monthly-service/<uuid:cloud_account_id>/",
         billing_monthly_service_total,
         name="cost-monthly-summary-by-service",
+    ),
+    # utils
+    path(
+        "manage/cloud-account/<uuid:cloud_account_id>/refresh/",
+        refresh_billing_data,
+        name="refresh-billing-data",
     ),
     *router.urls,
 ]

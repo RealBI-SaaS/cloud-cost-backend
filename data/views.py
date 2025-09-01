@@ -1,9 +1,12 @@
 import os
 import uuid
 from collections import defaultdict
+from datetime import timedelta
 
 from django.db.models import DecimalField, Sum, Value
 from django.db.models.functions import Coalesce, TruncDay, TruncMonth
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
 from dotenv import load_dotenv
 from drf_spectacular.utils import extend_schema
@@ -14,6 +17,12 @@ from rest_framework.response import Response
 
 from company.models import Company, CompanyMembership
 
+# from .aws_utils import fetch_cost_and_usage, get_tenant_aws_client
+from .aws_views import (
+    fetch_cost_and_usage,
+    get_tenant_aws_client,
+    save_billing_data_efficient,
+)
 from .models import (
     BillingRecord,
     CloudAccount,
@@ -305,3 +314,59 @@ def cost_summary_by_account(request, cloud_account_id):
 def billing_monthly_service_total(request, cloud_account_id):
     data = get_monthly_service_totals(cloud_account_id)
     return Response(data)
+
+
+# refresh data, currently only aws
+
+
+@api_view(["GET"])
+def refresh_billing_data(request, cloud_account_id):
+    cloud_account = get_object_or_404(CloudAccount, id=cloud_account_id)
+
+    # Check vendor type
+    if cloud_account.vendor.lower() != "aws":
+        return JsonResponse(
+            {"success": False, "message": "Cloud account is not AWS."}, status=400
+        )
+
+    # Determine start date = last usage_end + 1 day, or default 30 days ago
+    last_record = (
+        BillingRecord.objects.filter(cloud_account=cloud_account)
+        .order_by("-usage_end")
+        .first()
+    )
+    if last_record:
+        start_date = last_record.usage_end.date() + timedelta(days=1)
+    else:
+        start_date = now().date() - timedelta(days=30)  # fallback: last 30 days
+
+    end_date = now().date()
+
+    if start_date >= end_date:
+        return JsonResponse(
+            {"success": False, "message": "Data is already up to date."}, status=200
+        )
+
+    try:
+        # Get AWS Cost Explorer client
+        client = get_tenant_aws_client(cloud_account)
+
+        # Fetch new cost & usage data
+        cost_response = fetch_cost_and_usage(client, start_date, end_date)
+
+        # Save new records
+        save_billing_data_efficient(cloud_account, cost_response)
+
+        return JsonResponse(
+            {
+                "success": True,
+                "message": f"Billing data refreshed from {start_date} to {end_date}.",
+            },
+            status=200,
+        )
+
+    except Exception as e:
+        return JsonResponse(
+            {"success": False, "message": f"Error refreshing billing data: {str(e)}"},
+            status=500,
+        )
