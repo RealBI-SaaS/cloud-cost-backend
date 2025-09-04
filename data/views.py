@@ -15,7 +15,7 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from company.models import Company, OrganizationMembership
+from company.models import Organization, OrganizationMembership
 
 # from .aws_utils import fetch_cost_and_usage, get_tenant_aws_client
 from .aws_views import (
@@ -23,11 +23,7 @@ from .aws_views import (
     get_tenant_aws_client,
     save_billing_data_efficient,
 )
-from .models import (
-    BillingRecord,
-    CloudAccount,
-    Company,
-)
+from .models import BillingRecord, CloudAccount, Organization
 from .serializers import (
     CloudAccountSerializer,
     CostByRegionSerializer,
@@ -51,44 +47,46 @@ GOOGLE_DATA_CLIENT_SECRET = os.getenv("GOOGLE_DATA_CLIENT_SECRET")
 class CloudAccountViewSet(viewsets.ModelViewSet):
     serializer_class = CloudAccountSerializer
     permission_classes = [permissions.IsAuthenticated]
+    http_method_names = ["get", "put", "patch", "delete"]
 
-    def get_company(self):
+    def get_organization(self):
         """
         Retrieve the company from the request's query param or URL kwarg.
         """
-        company_id = self.kwargs.get("company_id") or self.request.query_params.get(
-            "company_id"
-        )
-        if not company_id:
-            raise ValidationError({"company_id": "This field is required."})
+        organization_id = self.kwargs.get(
+            "organization_id"
+        ) or self.request.query_params.get("organization_id")
+        if not organization_id:
+            raise ValidationError({"organization_id": "This field is required."})
         try:
-            company_id_uuid = uuid.UUID(str(company_id), version=4)
+            _ = uuid.UUID(str(organization_id), version=4)
         except ValueError:
             return Response(
-                {"error": "Invalid company ID format. Must be a valid UUID."},
+                {"error": "Invalid Organization ID format. Must be a valid UUID."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
-            company = Company.objects.get(id=company_id)
-        except Company.DoesNotExist:
-            raise ValidationError({"company_id": "Invalid company ID."})
+            organization = Organization.objects.get(id=organization_id)
+        except Organization.DoesNotExist:
+            raise ValidationError({"organization_id": "Invalid Organization ID."})
 
         is_member = OrganizationMembership.objects.filter(
-            user=self.request.user, company=company
+            user=self.request.user, organization=organization
         ).exists()
         if not is_member:
             raise PermissionDenied("You do not have access to this company.")
 
-        return company
+        return organization
 
     def get_queryset(self):
-        company = self.get_company()
-        return CloudAccount.objects.filter(company=company)
+        organization = self.get_organization()
+        return CloudAccount.objects.filter(organization=organization)
 
+    # dont use this method, create a specific account instead: AWS, GCP ...
     def perform_create(self, serializer):
-        company = self.get_company()
-        serializer.save(company=company)
+        organization = self.get_organization()
+        serializer.save(organization=organization)
 
 
 def get_daily_costs(cloud_account_id):
@@ -162,20 +160,6 @@ def get_account_totals(cloud_account_id):
     )
 
     return total_month, total_today
-
-
-# def get_monthly_service_totals(cloud_account_id):
-#     queryset = (
-#         BillingRecord.objects.filter(cloud_account_id=cloud_account_id)
-#         .annotate(month=TruncMonth("usage_start"))
-#         .values("service_name", "month")
-#         .annotate(
-#             total_usage=Sum("usage_amount"),
-#             total_cost=Sum("cost"),
-#         )
-#         .order_by("month", "service_name")
-#     )
-#     return list(queryset)
 
 
 def get_monthly_service_totals(cloud_account_id):
@@ -261,15 +245,10 @@ def billing_cost_by_service_day(request, cloud_account_id):
 def cost_summary_by_service(request, cloud_account_id):
     today = now().date()
 
-    # FIX: only current month, no month setting
     start_month = today.replace(day=1)
 
     qs = CloudAccount.objects.get(id=cloud_account_id).billing_records
-    # print(qs, start_month)
 
-    # qs = qs.billing_records
-    #
-    # print(qs)
     # today totals
     today_totals = (
         qs.filter(usage_start__date=today)

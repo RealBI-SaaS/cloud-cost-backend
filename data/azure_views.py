@@ -9,7 +9,7 @@ from django.utils.timezone import now, timedelta
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 
-from company.models import Company
+from company.models import Organization
 
 from .models import AzureOAuthToken, BillingRecord, CloudAccount
 
@@ -18,10 +18,10 @@ AZURE_TOKEN_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
 
 
 @api_view(["GET"])
-def start_azure_auth_view(request, company_id, account_name):
-    state = str(company_id) + "," + account_name
-    if not company_id:
-        raise ValidationError({"company_id": "This field is required."})
+def start_azure_auth_view(request, organization_id, account_name):
+    state = str(organization_id) + "," + account_name
+    if not organization_id:
+        raise ValidationError({"organization_id": "This field is required."})
 
     params = {
         "client_id": settings.AZURE_DATA_CLIENT_ID,
@@ -37,10 +37,9 @@ def start_azure_auth_view(request, company_id, account_name):
 @api_view(["GET"])
 def azure_oauth_callback_view(request):
     state = request.GET.get("state")
-    company_id, account_name = state.split(",")
-    company_id = uuid.UUID(company_id)  # validate it’s a proper UUID
+    organization_id, account_name = state.split(",")
+    organization_id = uuid.UUID(organization_id)
     code = request.GET.get("code")
-    company_id = request.GET.get("state")  # Came from start_azure_auth_view
 
     token_data = {
         "client_id": settings.AZURE_DATA_CLIENT_ID,
@@ -62,10 +61,10 @@ def azure_oauth_callback_view(request):
     # membership = CompanyMembership.objects.filter(
     #     company_id=company_id, role__in=["owner", "admin"]
     # ).first()
-    company = Company.objects.get(id=company_id)
+    organization = Organization.objects.get(id=organization_id)
 
     cloud_account = CloudAccount.objects.create(
-        company=company,
+        organization=organization,
         vendor="azure",
         account_name="Azure Account",
         account_id="unknown",  # You can fill this in after querying subscriptions

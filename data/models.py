@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from django.utils.timezone import now
 
-from company.models import Company
+from company.models import Organization
 
 
 class CloudVendor(models.TextChoices):
@@ -15,23 +15,23 @@ class CloudVendor(models.TextChoices):
 
 class CloudAccount(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    company = models.ForeignKey(
-        Company, on_delete=models.CASCADE, related_name="cloud_accounts"
+    organization = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="cloud_accounts"
     )
     vendor = models.CharField(max_length=10, choices=CloudVendor.choices)
     account_name = models.CharField(max_length=255)  # Display name
     account_id = models.CharField(
         max_length=255
-    )  # e.g., AWS account ID, GCP project ID
+    )  # NOTE: AWS account ID, GCP project ID
     # credentials_info = models.JSONField(
     #     blank=True, null=True
-    # )  # Store OAuth credentials, keys, etc. (encrypted in practice)
+    # )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ("company", "account_name", "account_id")
+        unique_together = ("organization", "account_name", "account_id")
         ordering = ["vendor", "account_name"]
 
     def __str__(self):

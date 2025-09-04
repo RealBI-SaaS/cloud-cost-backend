@@ -27,9 +27,9 @@ from .views import (
 
 router = DefaultRouter()
 router.register(
-    r"companies/(?P<company_id>[^/.]+)/cloud-accounts",
+    r"organizations/(?P<organization_id>[^/.]+)/cloud-accounts",
     CloudAccountViewSet,
-    basename="company-cloudaccounts",
+    basename="organization-cloudaccounts",
 )
 
 
@@ -46,13 +46,13 @@ urlpatterns = [
         name="google_oauth_callback",
     ),
     path(
-        "google/oauth/start/<uuid:company_id>/<str:account_name>",
+        "google/oauth/start/<uuid:organization_id>/<str:account_name>",
         start_google_auth_view,
         name="google_oauth_start",
     ),
     # azure
     path(
-        "azure/oauth/start/<uuid:company_id>/<str:account_name>",
+        "azure/oauth/start/<uuid:organization_id>/<str:account_name>",
         start_azure_auth_view,
         name="azure_oauth_start",
     ),

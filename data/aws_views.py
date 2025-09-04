@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from company.models import Company
+from company.models import Organization
 
 # from .aws_utils import fetch_cost_and_usage, get_tenant_aws_client, save_billing_data
 from .models import AWSRole, BillingRecord, CloudAccount
@@ -47,7 +47,7 @@ from .models import AWSRole, BillingRecord, CloudAccount
 def aws_register_role_view(request):
     role_arn = request.data["role_arn"]
     external_id = request.data["external_id"]
-    company_id = request.data["company_id"]
+    organization_id = request.data["organization_id"]
     connection_name = request.data["name"]
 
     # Step 1: Validate AWS credentials before saving
@@ -67,9 +67,9 @@ def aws_register_role_view(request):
         )
 
     # Step 2: Only save if credentials are valid
-    company = Company.objects.get(id=company_id)
+    organization = Organization.objects.get(id=organization_id)
     cloud_account = CloudAccount.objects.create(
-        company=company,
+        organization=organization,
         vendor="AWS",
         account_name=connection_name,
         # FIX: use something else
@@ -262,7 +262,7 @@ def save_billing_data_efficient(cloud_account, cost_response):
 
 
 def ingest_aws_billing(cloud_account, start_date, end_date):
-    company = cloud_account.company
+    # Organization = cloud_account.organization
     client = get_tenant_aws_client(cloud_account)
     response = fetch_cost_and_usage(client, start_date, end_date)
     save_billing_data_efficient(cloud_account, response)

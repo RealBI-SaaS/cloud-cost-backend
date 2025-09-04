@@ -4,12 +4,12 @@ from .models import CloudAccount
 
 
 class CloudAccountSerializer(serializers.ModelSerializer):
-    company = serializers.UUIDField(source="company.id", read_only=True)
+    organization = serializers.UUIDField(source="organization.id", read_only=True)
 
     class Meta:
         model = CloudAccount
         fields = "__all__"
-        read_only_fields = ("id", "created_at", "updated_at", "company")
+        read_only_fields = ("id", "created_at", "updated_at", "organization")
 
 
 # cost views

@@ -12,7 +12,7 @@ from django.utils.timezone import now, timedelta
 from dotenv import load_dotenv
 from rest_framework.decorators import api_view
 
-from company.models import Company
+from company.models import Organization
 
 from .models import CloudAccount, GoogleOAuthToken
 
@@ -32,18 +32,19 @@ LOGIN_FROM_REDIRECT_URL = os.getenv("LOGIN_FROM_REDIRECT_URL")
 
 
 @api_view(["GET"])
-def start_google_auth_view(request, company_id, account_name):
+def start_google_auth_view(request, organization_id, account_name):
     # company_id = request.GET.get("company_id")
-    if not company_id or not account_name:
+    # TODO: better/specific response
+    if not organization_id or not account_name:
         return JsonResponse(
-            {"error": "company_id and account_name are required"}, status=400
+            {"error": "organization_id and account_name are required"}, status=400
         )
     # Sign the state to prevent tampering
-    state_data = {"company_id": str(company_id), "account_name": account_name}
+    state_data = {"organization_id": str(organization_id), "account_name": account_name}
     state_signed = signing.dumps(state_data)
     # Sign the company_id so it can't be tampered with
     # state = serializer.dumps({"company_id": company_id})
-    state = str(company_id) + "," + str(account_name)
+    state = str(organization_id) + "," + str(account_name)
     params = {
         "client_id": GOOGLE_DATA_CLIENT_ID,
         "redirect_uri": GOOGLE_DATA_REDIRECT_URL,
@@ -69,7 +70,7 @@ def google_oauth_callback_view(request):
     try:
         # Verify and decode the signed state
         state_data = signing.loads(state_signed)
-        company_id = state_data["company_id"]
+        organization_id = state_data["organization_id"]
         account_name = state_data["account_name"]
     except signing.BadSignature:
         return JsonResponse({"error": "Invalid state signature"}, status=400)
@@ -95,10 +96,10 @@ def google_oauth_callback_view(request):
     expires_in = tokens["expires_in"]
     expires_at = now() + timedelta(seconds=expires_in)
 
-    company = Company.objects.get(id=company_id)
+    organization = Organization.objects.get(id=organization_id)
 
     cloud_account = CloudAccount.objects.create(
-        company=company,
+        organization=organization,
         vendor="GCP",
         account_name=account_name,
         account_id="temp",  # will update in fetch view
