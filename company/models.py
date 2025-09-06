@@ -11,9 +11,25 @@ from authentication.models import CustomUser
 class Company(models.Model):
     """Model representing a company - parent of orgnaizations"""
 
+    THEME_CHOICES = [
+        ("default", "Default"),
+        ("simple", "Simple"),
+        ("classic", "Classic"),
+        ("amber-minimal", "Amber Minimal"),
+        ("bold-tech", "Bold Tech"),
+        ("caffeine", "Caffeine"),
+        ("elegant-luxury", "Elegant Luxury"),
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    theme = models.CharField(
+        max_length=50,
+        choices=THEME_CHOICES,
+        default="default",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
