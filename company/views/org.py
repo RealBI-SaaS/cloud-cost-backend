@@ -133,6 +133,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             ]
         )
 
+<<<<<<< HEAD
     @extend_schema(
         responses=inline_serializer(
             name="CompanyWithOwnership",
@@ -147,6 +148,8 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             },
         )
     )
+=======
+>>>>>>> de1d7d5 ([feat]: comp info for an org)
     @action(detail=True, methods=["get"])
     def company(self, request, pk=None):
         """Get the company info of this organization including user's ownership data"""
