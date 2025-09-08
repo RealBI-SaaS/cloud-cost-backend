@@ -44,4 +44,3 @@ urlpatterns = [
     # DELETE to remove a member
     path("<uuid:org_id>/members/<uuid:user_id>/", RemoveMemberView.as_view()),
 ]
-

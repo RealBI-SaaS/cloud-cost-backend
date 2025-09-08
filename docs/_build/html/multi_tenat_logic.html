@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="core package" href="core.html" /><link rel="prev" title="Numlock - Backend" href="modules.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Numlock - Backend" href="modules.html" /><link rel="prev" title="Installation" href="installation.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
-        <title>authentication package - NumLock 0.9.9 documentation</title>
+        <title>Multi-tenant API Overview - NumLock 0.9.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -200,9 +200,9 @@
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Numlock - Backend</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">authentication package</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Multi-tenant API Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
@@ -229,7 +229,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="_sources/authentication.rst.txt" title="View this page">
+  <a class="muted-link" href="_sources/multi_tenat_logic.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -249,51 +249,117 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="authentication-package">
-<h1>authentication package<a class="headerlink" href="#authentication-package" title="Link to this heading">¶</a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+          <section id="multi-tenant-api-overview">
+<h1>Multi-tenant API Overview<a class="headerlink" href="#multi-tenant-api-overview" title="Link to this heading">¶</a></h1>
+<p>This project uses a multi-tenant setup with <strong>Companies</strong> (parent entities)
+and <strong>Organizations</strong> (child entities). A user can be:</p>
+<ul class="simple">
+<li><p><strong>Company owner</strong> → owns a company, can edit its details.</p></li>
+<li><p><strong>Organization member/admin/owner</strong> → belongs to one or more organizations under a company.</p></li>
+<li><p><strong>Staff (is_staff=True)</strong> → superuser-like access, can see all companies and organizations.</p></li>
+</ul>
+<section id="vital-endpoints">
+<h2>Vital Endpoints<a class="headerlink" href="#vital-endpoints" title="Link to this heading">¶</a></h2>
+<section id="company">
+<h3><strong>/company/</strong><a class="headerlink" href="#company" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>For <em>regular users</em>: returns all companies owned by the requesting user.</p></li>
+<li><p>For <em>staff users</em>: returns all companies in the system.</p></li>
+</ul>
+<p>Response Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;dd00c54e-610b-463e-b49f-888e57865146&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;comp2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-08-20T10:11:58.581325Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-09-08T13:15:51.947985Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;bf95540c-1108-4637-8d5e-1b3162396c8a&quot;</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
 </section>
-<section id="module-authentication.apps">
-<span id="authentication-apps-module"></span><h2>authentication.apps module<a class="headerlink" href="#module-authentication.apps" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="authentication.apps.AuthConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">authentication.apps.</span></span><span class="sig-name descname"><span class="pre">AuthConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/authentication/apps.html#AuthConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#authentication.apps.AuthConfig" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="authentication.apps.AuthConfig.default_auto_field">
-<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#authentication.apps.AuthConfig.default_auto_field" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<section id="organization">
+<h3><strong>/organization/</strong><a class="headerlink" href="#organization" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>For <em>regular users</em>: returns all organizations where the user is a member,
+including their <cite>role</cite> (member, admin, owner).</p></li>
+<li><p>For <em>staff users</em>: returns all organizations across all companies.</p></li>
+</ul>
+<p>Response Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;org-123&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Org A&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;company_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Acme Inc&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-09-08T15:44:50.257Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-09-08T15:44:50.257Z&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;org-456&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Org B&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;company_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Acme Inc&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;member&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-09-08T15:44:50.257Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-09-08T15:44:50.257Z&quot;</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="organization-id-company">
+<h3><strong>/organization/{id}/company/</strong><a class="headerlink" href="#organization-id-company" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Returns the company details for the given organization.</p></li>
+<li><p>Includes an <cite>is_owner</cite> flag so the frontend knows if the user
+can edit the company details.</p></li>
+</ul>
+<p>Response Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;dd00c54e-610b-463e-b49f-888e57865146&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;comp2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-08-20T10:11:58.581325Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-09-08T13:15:51.947985Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;bf95540c-1108-4637-8d5e-1b3162396c8a&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_owner&quot;</span><span class="p">:</span> <span class="n">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="frontend-usage-flow">
+<h2>Frontend Usage Flow<a class="headerlink" href="#frontend-usage-flow" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>After login, <strong>fetch organizations</strong> for the signed-in user from <code class="docutils literal notranslate"><span class="pre">/organization/</span></code>.
+- This gives the list of orgs the user belongs to, along with roles.</p></li>
+<li><p>If the user navigates to a <strong>company detail page</strong>, fetch their company data:
+- Use <code class="docutils literal notranslate"><span class="pre">/company/</span></code> to get companies they <em>own</em> (regular users) or all companies (staff).
+- Or use <code class="docutils literal notranslate"><span class="pre">/organization/{id}/company/</span></code> to fetch the parent company for a specific org.</p></li>
+<li><p>Company and organization data are <strong>independent</strong>, except that an organization always belongs to one company.</p></li>
+</ol>
+<pre  class="mermaid">
+        sequenceDiagram
+    participant U as User
+    participant FE as Frontend App
+    participant API as Backend API
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="authentication.apps.AuthConfig.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'authentication'</span></em><a class="headerlink" href="#authentication.apps.AuthConfig.name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+    U-&gt;&gt;FE: Login with credentials
+    FE-&gt;&gt;API: POST /auth/login
+    API--&gt;&gt;FE: 200 OK + JWT/Session
 
-</dd></dl>
+    Note over FE: After login, fetch orgs
 
-</section>
-<section id="authentication-auth-backends-module">
-<h2>authentication.auth_backends module<a class="headerlink" href="#authentication-auth-backends-module" title="Link to this heading">¶</a></h2>
-</section>
-<section id="authentication-models-module">
-<h2>authentication.models module<a class="headerlink" href="#authentication-models-module" title="Link to this heading">¶</a></h2>
-</section>
-<section id="authentication-serializers-module">
-<h2>authentication.serializers module<a class="headerlink" href="#authentication-serializers-module" title="Link to this heading">¶</a></h2>
-</section>
-<section id="module-authentication.tests">
-<span id="authentication-tests-module"></span><h2>authentication.tests module<a class="headerlink" href="#module-authentication.tests" title="Link to this heading">¶</a></h2>
-</section>
-<section id="authentication-urls-module">
-<h2>authentication.urls module<a class="headerlink" href="#authentication-urls-module" title="Link to this heading">¶</a></h2>
-</section>
-<section id="authentication-views-module">
-<h2>authentication.views module<a class="headerlink" href="#authentication-views-module" title="Link to this heading">¶</a></h2>
-</section>
-<section id="module-authentication">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-authentication" title="Link to this heading">¶</a></h2>
-</section>
+    FE-&gt;&gt;API: GET /organization/
+    API--&gt;&gt;FE: List of organizations (with role &amp; company_name)
+
+    alt User navigates to company detail page
+        FE-&gt;&gt;API: GET /organization/{id}/company/
+        API--&gt;&gt;FE: Company details + is_owner flag
+    end
+    </pre></section>
 </section>
 
         </article>
@@ -301,23 +367,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="core.html">
+          <a class="next-page" href="modules.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">core package</div>
+                <div class="title">Numlock - Backend</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="modules.html">
+          <a class="prev-page" href="installation.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Numlock - Backend</div>
+                <div class="title">Installation</div>
                 
               </div>
             </a>
@@ -351,23 +417,14 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">authentication package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-authentication.apps">authentication.apps module</a><ul>
-<li><a class="reference internal" href="#authentication.apps.AuthConfig"><code class="docutils literal notranslate"><span class="pre">AuthConfig</span></code></a><ul>
-<li><a class="reference internal" href="#authentication.apps.AuthConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">AuthConfig.default_auto_field</span></code></a></li>
-<li><a class="reference internal" href="#authentication.apps.AuthConfig.name"><code class="docutils literal notranslate"><span class="pre">AuthConfig.name</span></code></a></li>
+<li><a class="reference internal" href="#">Multi-tenant API Overview</a><ul>
+<li><a class="reference internal" href="#vital-endpoints">Vital Endpoints</a><ul>
+<li><a class="reference internal" href="#company"><strong>/company/</strong></a></li>
+<li><a class="reference internal" href="#organization"><strong>/organization/</strong></a></li>
+<li><a class="reference internal" href="#organization-id-company"><strong>/organization/{id}/company/</strong></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a class="reference internal" href="#authentication-auth-backends-module">authentication.auth_backends module</a></li>
-<li><a class="reference internal" href="#authentication-models-module">authentication.models module</a></li>
-<li><a class="reference internal" href="#authentication-serializers-module">authentication.serializers module</a></li>
-<li><a class="reference internal" href="#module-authentication.tests">authentication.tests module</a></li>
-<li><a class="reference internal" href="#authentication-urls-module">authentication.urls module</a></li>
-<li><a class="reference internal" href="#authentication-views-module">authentication.views module</a></li>
-<li><a class="reference internal" href="#module-authentication">Module contents</a></li>
+<li><a class="reference internal" href="#frontend-usage-flow">Frontend Usage Flow</a></li>
 </ul>
 </li>
 </ul>
@@ -383,5 +440,13 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     </body>
 </html>

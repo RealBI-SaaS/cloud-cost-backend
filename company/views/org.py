@@ -22,6 +22,7 @@ from company.models import (
     Organization,
     OrganizationMembership,
 )
+from company.serializers.company import CompanySerializer
 from company.serializers.org import (
     InvitationSerializer,
     InviteUserSerializer,
@@ -88,7 +89,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         return super().update(request, *args, **kwargs)
 
     @extend_schema(
-        summary="Delete a specific Oorganization",
+        summary="Delete a specific Organization",
     )
     def destroy(self, request, *args, **kwargs):
         organization = self.get_object()
@@ -134,7 +135,22 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             ]
         )
 
+    @action(detail=True, methods=["get"])
+    def company(self, request, pk=None):
+        """Get the company info of this organization including user's ownership data"""
+        organization = self.get_object()
+        company = organization.company
 
+        is_owner = company.owner == request.user or request.user.is_staff
+
+        serializer = CompanySerializer(company, context={"request": request})
+        data = serializer.data
+        data["is_owner"] = is_owner
+
+        return Response(data)
+
+
+# TODO: make sure to only allow admins and owners
 class InviteUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = InviteUserSerializer
@@ -294,6 +310,7 @@ class DeleteInvitationView(APIView):
         try:
             invitation = Invitation.objects.get(id=id)
 
+            # TODO: refactor permission
             if (
                 not OrganizationMembership.objects.filter(
                     user=request.user,
@@ -354,6 +371,7 @@ class UpdateMembershipRoleView(APIView):
                 {"error": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
+        # TODO: refactor this, simple fix
         if (
             not OrganizationMembership.objects.filter(
                 user=request.user,
@@ -407,6 +425,7 @@ class RemoveMemberView(APIView):
                 {"error": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
+        # FIX: This too
         if (
             not OrganizationMembership.objects.filter(
                 user=request.user,

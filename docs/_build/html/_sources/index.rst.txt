@@ -6,11 +6,7 @@
 NumLock Documentation
 =====================
 
-Welcome to the NumLock project documentation! This project provides a platform to manage cloud costs, track usage, and generate billing reports for multiple cloud accounts.
-
-Introduction
-------------
-NumLock is designed to help companies efficiently monitor and control cloud spending. It supports AWS, GCP, and other cloud providers, providing detailed dashboards and analytics.
+Welcome to the NumLock project developer documentation! 
 
 
 Contents
@@ -21,6 +17,7 @@ Contents
    :caption: Table of Contents
 
    installation
+   multi_tenat_logic
    modules
 
 

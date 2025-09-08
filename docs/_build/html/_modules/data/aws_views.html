@@ -199,6 +199,7 @@
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../authentication.html">authentication package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../core.html">core package</a></li>
@@ -254,8 +255,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsAuthenticated</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">company.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">company.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Organization</span>
 
+<span class="c1"># from .aws_utils import fetch_cost_and_usage, get_tenant_aws_client, save_billing_data</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AWSRole</span><span class="p">,</span> <span class="n">BillingRecord</span><span class="p">,</span> <span class="n">CloudAccount</span>
 
 <span class="c1">#</span>
@@ -292,7 +294,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">aws_register_role_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">role_arn</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;role_arn&quot;</span><span class="p">]</span>
     <span class="n">external_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;external_id&quot;</span><span class="p">]</span>
-    <span class="n">company_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;company_id&quot;</span><span class="p">]</span>
+    <span class="n">organization_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;organization_id&quot;</span><span class="p">]</span>
     <span class="n">connection_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
     <span class="c1"># Step 1: Validate AWS credentials before saving</span>
@@ -312,9 +314,9 @@
         <span class="p">)</span>
 
     <span class="c1"># Step 2: Only save if credentials are valid</span>
-    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">company_id</span><span class="p">)</span>
+    <span class="n">organization</span> <span class="o">=</span> <span class="n">Organization</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">organization_id</span><span class="p">)</span>
     <span class="n">cloud_account</span> <span class="o">=</span> <span class="n">CloudAccount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">company</span><span class="o">=</span><span class="n">company</span><span class="p">,</span>
+        <span class="n">organization</span><span class="o">=</span><span class="n">organization</span><span class="p">,</span>
         <span class="n">vendor</span><span class="o">=</span><span class="s2">&quot;AWS&quot;</span><span class="p">,</span>
         <span class="n">account_name</span><span class="o">=</span><span class="n">connection_name</span><span class="p">,</span>
         <span class="c1"># FIX: use something else</span>
@@ -528,7 +530,7 @@
 <div class="viewcode-block" id="ingest_aws_billing">
 <a class="viewcode-back" href="../../data.html#data.aws_views.ingest_aws_billing">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ingest_aws_billing</span><span class="p">(</span><span class="n">cloud_account</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>
-    <span class="n">company</span> <span class="o">=</span> <span class="n">cloud_account</span><span class="o">.</span><span class="n">company</span>
+    <span class="c1"># Organization = cloud_account.organization</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">get_tenant_aws_client</span><span class="p">(</span><span class="n">cloud_account</span><span class="p">)</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">fetch_cost_and_usage</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
     <span class="n">save_billing_data_efficient</span><span class="p">(</span><span class="n">cloud_account</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span></div>
@@ -569,5 +571,13 @@
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     </body>
 </html>

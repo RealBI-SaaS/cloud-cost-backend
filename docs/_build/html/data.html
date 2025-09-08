@@ -200,6 +200,7 @@
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Numlock - Backend</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
@@ -774,7 +775,7 @@ object the first time, the query is executed.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="data.models.CloudAccount">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.models.</span></span><span class="sig-name descname"><span class="pre">CloudAccount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">company</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vendor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/models.html#CloudAccount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.models.CloudAccount" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.models.</span></span><span class="sig-name descname"><span class="pre">CloudAccount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">organization</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vendor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/models.html#CloudAccount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.models.CloudAccount" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="data.models.CloudAccount.DoesNotExist">
@@ -844,24 +845,6 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="data.models.CloudAccount.company">
-<span class="sig-name descname"><span class="pre">company</span></span><a class="headerlink" href="#data.models.CloudAccount.company" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="data.models.CloudAccount.company_id">
-<span class="sig-name descname"><span class="pre">company_id</span></span><a class="headerlink" href="#data.models.CloudAccount.company_id" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="data.models.CloudAccount.created_at">
 <span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#data.models.CloudAccount.created_at" title="Link to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
@@ -916,6 +899,24 @@ object the first time, the query is executed.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="data.models.CloudAccount.objects">
 <span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#data.models.CloudAccount.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CloudAccount.organization">
+<span class="sig-name descname"><span class="pre">organization</span></span><a class="headerlink" href="#data.models.CloudAccount.organization" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CloudAccount.organization_id">
+<span class="sig-name descname"><span class="pre">organization_id</span></span><a class="headerlink" href="#data.models.CloudAccount.organization_id" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1096,7 +1097,7 @@ object the first time, the query is executed.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="data.serializers.CloudAccountSerializer.Meta.read_only_fields">
-<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'created_at',</span> <span class="pre">'updated_at',</span> <span class="pre">'company')</span></em><a class="headerlink" href="#data.serializers.CloudAccountSerializer.Meta.read_only_fields" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'created_at',</span> <span class="pre">'updated_at',</span> <span class="pre">'organization')</span></em><a class="headerlink" href="#data.serializers.CloudAccountSerializer.Meta.read_only_fields" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1180,8 +1181,8 @@ object the first time, the query is executed.</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="data.views.CloudAccountViewSet.get_company">
-<span class="sig-name descname"><span class="pre">get_company</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#CloudAccountViewSet.get_company"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.CloudAccountViewSet.get_company" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="data.views.CloudAccountViewSet.get_organization">
+<span class="sig-name descname"><span class="pre">get_organization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#CloudAccountViewSet.get_organization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.CloudAccountViewSet.get_organization" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieve the company from the request’s query param or URL kwarg.</p>
 </dd></dl>
 
@@ -1200,6 +1201,11 @@ querysets depending on the incoming request.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CloudAccountViewSet.http_method_names">
+<span class="sig-name descname"><span class="pre">http_method_names</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['get',</span> <span class="pre">'put',</span> <span class="pre">'patch',</span> <span class="pre">'delete']</span></em><a class="headerlink" href="#data.views.CloudAccountViewSet.http_method_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="data.views.CloudAccountViewSet.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CloudAccountViewSet.name" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1211,7 +1217,7 @@ querysets depending on the incoming request.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="data.views.CloudAccountViewSet.permission_classes">
-<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#data.views.CloudAccountViewSet.permission_classes" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'company.permissions.IsOrgAdminOrOwnerOrReadOnly'&gt;]</span></em><a class="headerlink" href="#data.views.CloudAccountViewSet.permission_classes" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1290,6 +1296,11 @@ querysets depending on the incoming request.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="data.views.get_usage_by_service_and_day">
 <span class="sig-prename descclassname"><span class="pre">data.views.</span></span><span class="sig-name descname"><span class="pre">get_usage_by_service_and_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cloud_account_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#get_usage_by_service_and_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.get_usage_by_service_and_day" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.views.refresh_billing_data">
+<span class="sig-prename descclassname"><span class="pre">data.views.</span></span><span class="sig-name descname"><span class="pre">refresh_billing_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#refresh_billing_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.refresh_billing_data" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -1470,8 +1481,6 @@ querysets depending on the incoming request.</p>
 <li><a class="reference internal" href="#data.models.CloudAccount.aws_role_values"><code class="docutils literal notranslate"><span class="pre">CloudAccount.aws_role_values</span></code></a></li>
 <li><a class="reference internal" href="#data.models.CloudAccount.azure_oauth_token"><code class="docutils literal notranslate"><span class="pre">CloudAccount.azure_oauth_token</span></code></a></li>
 <li><a class="reference internal" href="#data.models.CloudAccount.billing_records"><code class="docutils literal notranslate"><span class="pre">CloudAccount.billing_records</span></code></a></li>
-<li><a class="reference internal" href="#data.models.CloudAccount.company"><code class="docutils literal notranslate"><span class="pre">CloudAccount.company</span></code></a></li>
-<li><a class="reference internal" href="#data.models.CloudAccount.company_id"><code class="docutils literal notranslate"><span class="pre">CloudAccount.company_id</span></code></a></li>
 <li><a class="reference internal" href="#data.models.CloudAccount.created_at"><code class="docutils literal notranslate"><span class="pre">CloudAccount.created_at</span></code></a></li>
 <li><a class="reference internal" href="#data.models.CloudAccount.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">CloudAccount.get_next_by_created_at()</span></code></a></li>
 <li><a class="reference internal" href="#data.models.CloudAccount.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">CloudAccount.get_next_by_updated_at()</span></code></a></li>
@@ -1481,6 +1490,8 @@ querysets depending on the incoming request.</p>
 <li><a class="reference internal" href="#data.models.CloudAccount.google_oauth_token"><code class="docutils literal notranslate"><span class="pre">CloudAccount.google_oauth_token</span></code></a></li>
 <li><a class="reference internal" href="#data.models.CloudAccount.id"><code class="docutils literal notranslate"><span class="pre">CloudAccount.id</span></code></a></li>
 <li><a class="reference internal" href="#data.models.CloudAccount.objects"><code class="docutils literal notranslate"><span class="pre">CloudAccount.objects</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CloudAccount.organization"><code class="docutils literal notranslate"><span class="pre">CloudAccount.organization</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CloudAccount.organization_id"><code class="docutils literal notranslate"><span class="pre">CloudAccount.organization_id</span></code></a></li>
 <li><a class="reference internal" href="#data.models.CloudAccount.updated_at"><code class="docutils literal notranslate"><span class="pre">CloudAccount.updated_at</span></code></a></li>
 <li><a class="reference internal" href="#data.models.CloudAccount.vendor"><code class="docutils literal notranslate"><span class="pre">CloudAccount.vendor</span></code></a></li>
 </ul>
@@ -1541,8 +1552,9 @@ querysets depending on the incoming request.</p>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.basename"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.basename</span></code></a></li>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.description"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.description</span></code></a></li>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.detail"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.detail</span></code></a></li>
-<li><a class="reference internal" href="#data.views.CloudAccountViewSet.get_company"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.get_company()</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CloudAccountViewSet.get_organization"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.get_organization()</span></code></a></li>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.get_queryset()</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CloudAccountViewSet.http_method_names"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.http_method_names</span></code></a></li>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.name"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.name</span></code></a></li>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.perform_create"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.perform_create()</span></code></a></li>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.permission_classes</span></code></a></li>
@@ -1563,6 +1575,7 @@ querysets depending on the incoming request.</p>
 <li><a class="reference internal" href="#data.views.get_daily_costs"><code class="docutils literal notranslate"><span class="pre">get_daily_costs()</span></code></a></li>
 <li><a class="reference internal" href="#data.views.get_monthly_service_totals"><code class="docutils literal notranslate"><span class="pre">get_monthly_service_totals()</span></code></a></li>
 <li><a class="reference internal" href="#data.views.get_usage_by_service_and_day"><code class="docutils literal notranslate"><span class="pre">get_usage_by_service_and_day()</span></code></a></li>
+<li><a class="reference internal" href="#data.views.refresh_billing_data"><code class="docutils literal notranslate"><span class="pre">refresh_billing_data()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-data">Module contents</a></li>

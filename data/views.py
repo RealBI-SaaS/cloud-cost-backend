@@ -15,7 +15,8 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from company.models import Organization, OrganizationMembership
+from company.models import Organization
+from company.permissions import IsOrgAdminOrOwnerOrReadOnly
 
 # from .aws_utils import fetch_cost_and_usage, get_tenant_aws_client
 from .aws_views import (
@@ -46,7 +47,7 @@ GOOGLE_DATA_CLIENT_SECRET = os.getenv("GOOGLE_DATA_CLIENT_SECRET")
 
 class CloudAccountViewSet(viewsets.ModelViewSet):
     serializer_class = CloudAccountSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOrgAdminOrOwnerOrReadOnly]
     http_method_names = ["get", "put", "patch", "delete"]
 
     def get_organization(self):
@@ -69,13 +70,14 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
         try:
             organization = Organization.objects.get(id=organization_id)
         except Organization.DoesNotExist:
+            # TODO: make 404 error
             raise ValidationError({"organization_id": "Invalid Organization ID."})
 
-        is_member = OrganizationMembership.objects.filter(
-            user=self.request.user, organization=organization
-        ).exists()
-        if not is_member:
-            raise PermissionDenied("You do not have access to this company.")
+        # is_member = OrganizationMembership.objects.filter(
+        #     user=self.request.user, organization=organization
+        # ).exists()
+        # if not is_member:
+        #     raise PermissionDenied("You do not have access to this company.")
 
         return organization
 

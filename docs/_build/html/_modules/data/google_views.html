@@ -199,6 +199,7 @@
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../authentication.html">authentication package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../core.html">core package</a></li>
@@ -256,7 +257,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_view</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">company.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">company.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Organization</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CloudAccount</span><span class="p">,</span> <span class="n">GoogleOAuthToken</span>
 
@@ -278,18 +279,19 @@
 <div class="viewcode-block" id="start_google_auth_view">
 <a class="viewcode-back" href="../../data.html#data.google_views.start_google_auth_view">[docs]</a>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">start_google_auth_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">company_id</span><span class="p">,</span> <span class="n">account_name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">start_google_auth_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">account_name</span><span class="p">):</span>
     <span class="c1"># company_id = request.GET.get(&quot;company_id&quot;)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">company_id</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">account_name</span><span class="p">:</span>
+    <span class="c1"># TODO: better/specific response</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">organization_id</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">account_name</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;company_id and account_name are required&quot;</span><span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="mi">400</span>
+            <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;organization_id and account_name are required&quot;</span><span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="mi">400</span>
         <span class="p">)</span>
     <span class="c1"># Sign the state to prevent tampering</span>
-    <span class="n">state_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;company_id&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">company_id</span><span class="p">),</span> <span class="s2">&quot;account_name&quot;</span><span class="p">:</span> <span class="n">account_name</span><span class="p">}</span>
+    <span class="n">state_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;organization_id&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">),</span> <span class="s2">&quot;account_name&quot;</span><span class="p">:</span> <span class="n">account_name</span><span class="p">}</span>
     <span class="n">state_signed</span> <span class="o">=</span> <span class="n">signing</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">state_data</span><span class="p">)</span>
     <span class="c1"># Sign the company_id so it can&#39;t be tampered with</span>
     <span class="c1"># state = serializer.dumps({&quot;company_id&quot;: company_id})</span>
-    <span class="n">state</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">company_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">account_name</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">account_name</span><span class="p">)</span>
     <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="n">GOOGLE_DATA_CLIENT_ID</span><span class="p">,</span>
         <span class="s2">&quot;redirect_uri&quot;</span><span class="p">:</span> <span class="n">GOOGLE_DATA_REDIRECT_URL</span><span class="p">,</span>
@@ -318,7 +320,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Verify and decode the signed state</span>
         <span class="n">state_data</span> <span class="o">=</span> <span class="n">signing</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">state_signed</span><span class="p">)</span>
-        <span class="n">company_id</span> <span class="o">=</span> <span class="n">state_data</span><span class="p">[</span><span class="s2">&quot;company_id&quot;</span><span class="p">]</span>
+        <span class="n">organization_id</span> <span class="o">=</span> <span class="n">state_data</span><span class="p">[</span><span class="s2">&quot;organization_id&quot;</span><span class="p">]</span>
         <span class="n">account_name</span> <span class="o">=</span> <span class="n">state_data</span><span class="p">[</span><span class="s2">&quot;account_name&quot;</span><span class="p">]</span>
     <span class="k">except</span> <span class="n">signing</span><span class="o">.</span><span class="n">BadSignature</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid state signature&quot;</span><span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
@@ -344,10 +346,10 @@
     <span class="n">expires_in</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="s2">&quot;expires_in&quot;</span><span class="p">]</span>
     <span class="n">expires_at</span> <span class="o">=</span> <span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">expires_in</span><span class="p">)</span>
 
-    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">company_id</span><span class="p">)</span>
+    <span class="n">organization</span> <span class="o">=</span> <span class="n">Organization</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">organization_id</span><span class="p">)</span>
 
     <span class="n">cloud_account</span> <span class="o">=</span> <span class="n">CloudAccount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">company</span><span class="o">=</span><span class="n">company</span><span class="p">,</span>
+        <span class="n">organization</span><span class="o">=</span><span class="n">organization</span><span class="p">,</span>
         <span class="n">vendor</span><span class="o">=</span><span class="s2">&quot;GCP&quot;</span><span class="p">,</span>
         <span class="n">account_name</span><span class="o">=</span><span class="n">account_name</span><span class="p">,</span>
         <span class="n">account_id</span><span class="o">=</span><span class="s2">&quot;temp&quot;</span><span class="p">,</span>  <span class="c1"># will update in fetch view</span>
@@ -533,5 +535,13 @@
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     </body>
 </html>

@@ -26,6 +26,7 @@ class CloudAccount(models.Model):
     # credentials_info = models.JSONField(
     #     blank=True, null=True
     # )
+    # TODO: add status and last refreshed
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

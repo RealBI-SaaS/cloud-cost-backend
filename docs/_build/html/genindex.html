@@ -198,6 +198,7 @@
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
@@ -243,7 +244,7 @@
           
 <section class="genindex-section">
   <h1 id="index">Index</h1>
-  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a></div>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a></div>
 </section>
 <section id="A" class="genindex-section">
   <h2>A</h2>
@@ -389,8 +390,6 @@
           <li><a href="company.html#module-company">module</a>
 </li>
         </ul></li>
-        <li><a href="data.html#data.models.CloudAccount.company">company (data.models.CloudAccount attribute)</a>
-</li>
         <li>
     company.apps
 
@@ -398,12 +397,24 @@
           <li><a href="company.html#module-company.apps">module</a>
 </li>
         </ul></li>
-        <li><a href="data.html#data.models.CloudAccount.company_id">company_id (data.models.CloudAccount attribute)</a>
+        <li>
+    company.serializers
+
+        <ul>
+          <li><a href="company.html#module-company.serializers">module</a>
 </li>
-        <li><a href="company.html#company.apps.CompanyConfig">CompanyConfig (class in company.apps)</a>
+        </ul></li>
+        <li>
+    company.views
+
+        <ul>
+          <li><a href="company.html#module-company.views">module</a>
 </li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="company.html#company.apps.CompanyConfig">CompanyConfig (class in company.apps)</a>
+</li>
         <li>
     core
 
@@ -618,8 +629,6 @@
 </li>
         <li><a href="data.html#data.views.get_account_totals">get_account_totals() (in module data.views)</a>
 </li>
-        <li><a href="data.html#data.views.CloudAccountViewSet.get_company">get_company() (data.views.CloudAccountViewSet method)</a>
-</li>
         <li><a href="data.html#data.views.get_cost_by_region">get_cost_by_region() (in module data.views)</a>
 </li>
         <li><a href="data.html#data.views.get_cost_by_service">get_cost_by_service() (in module data.views)</a>
@@ -662,9 +671,11 @@
         </ul></li>
         <li><a href="data.html#data.models.BillingRecord.get_next_by_usage_end">get_next_by_usage_end() (data.models.BillingRecord method)</a>
 </li>
+        <li><a href="data.html#data.models.BillingRecord.get_next_by_usage_start">get_next_by_usage_start() (data.models.BillingRecord method)</a>
+</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="data.html#data.models.BillingRecord.get_next_by_usage_start">get_next_by_usage_start() (data.models.BillingRecord method)</a>
+        <li><a href="data.html#data.views.CloudAccountViewSet.get_organization">get_organization() (data.views.CloudAccountViewSet method)</a>
 </li>
         <li><a href="data.html#data.models.AWSRole.get_previous_by_created_at">get_previous_by_created_at() (data.models.AWSRole method)</a>
 
@@ -713,6 +724,16 @@
         <li><a href="data.html#data.models.GoogleOAuthToken.DoesNotExist">GoogleOAuthToken.DoesNotExist</a>
 </li>
         <li><a href="data.html#data.models.GoogleOAuthToken.MultipleObjectsReturned">GoogleOAuthToken.MultipleObjectsReturned</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="H" class="genindex-section">
+  <h2>H</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="data.html#data.views.CloudAccountViewSet.http_method_names">http_method_names (data.views.CloudAccountViewSet attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -778,6 +799,10 @@
           <li><a href="company.html#module-company">company</a>
 </li>
           <li><a href="company.html#module-company.apps">company.apps</a>
+</li>
+          <li><a href="company.html#module-company.serializers">company.serializers</a>
+</li>
+          <li><a href="company.html#module-company.views">company.views</a>
 </li>
           <li><a href="core.html#module-core">core</a>
 </li>
@@ -859,6 +884,12 @@
 </li>
         </ul></li>
     </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="data.html#data.models.CloudAccount.organization">organization (data.models.CloudAccount attribute)</a>
+</li>
+        <li><a href="data.html#data.models.CloudAccount.organization_id">organization_id (data.models.CloudAccount attribute)</a>
+</li>
+    </ul></td>
   </tr></table>
 </section>
 
@@ -886,16 +917,18 @@
 </li>
         <li><a href="data.html#data.azure_views.refresh_azure_token">refresh_azure_token() (in module data.azure_views)</a>
 </li>
+        <li><a href="data.html#data.views.refresh_billing_data">refresh_billing_data() (in module data.views)</a>
+</li>
         <li><a href="data.html#data.google_views.refresh_google_token">refresh_google_token() (in module data.google_views)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="data.html#data.models.AzureOAuthToken.refresh_token">refresh_token (data.models.AzureOAuthToken attribute)</a>
 
         <ul>
           <li><a href="data.html#data.models.GoogleOAuthToken.refresh_token">(data.models.GoogleOAuthToken attribute)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="data.html#data.models.BillingRecord.region">region (data.models.BillingRecord attribute)</a>
 </li>
         <li><a href="data.html#data.models.BillingRecord.resource">resource (data.models.BillingRecord attribute)</a>
@@ -1026,5 +1059,13 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     </body>
 </html>

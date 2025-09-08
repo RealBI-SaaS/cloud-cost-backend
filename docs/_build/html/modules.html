@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="authentication package" href="authentication.html" /><link rel="prev" title="Installation" href="installation.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="authentication package" href="authentication.html" /><link rel="prev" title="Multi-tenant API Overview" href="multi_tenat_logic.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
         <title>Numlock - Backend - NumLock 0.9.9 documentation</title>
@@ -200,6 +200,7 @@
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Numlock - Backend</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
@@ -397,8 +398,6 @@
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.aws_role_values"><code class="docutils literal notranslate"><span class="pre">CloudAccount.aws_role_values</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.azure_oauth_token"><code class="docutils literal notranslate"><span class="pre">CloudAccount.azure_oauth_token</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.billing_records"><code class="docutils literal notranslate"><span class="pre">CloudAccount.billing_records</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.company"><code class="docutils literal notranslate"><span class="pre">CloudAccount.company</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.company_id"><code class="docutils literal notranslate"><span class="pre">CloudAccount.company_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.created_at"><code class="docutils literal notranslate"><span class="pre">CloudAccount.created_at</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">CloudAccount.get_next_by_created_at()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">CloudAccount.get_next_by_updated_at()</span></code></a></li>
@@ -408,6 +407,8 @@
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.google_oauth_token"><code class="docutils literal notranslate"><span class="pre">CloudAccount.google_oauth_token</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.id"><code class="docutils literal notranslate"><span class="pre">CloudAccount.id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.objects"><code class="docutils literal notranslate"><span class="pre">CloudAccount.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.organization"><code class="docutils literal notranslate"><span class="pre">CloudAccount.organization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.organization_id"><code class="docutils literal notranslate"><span class="pre">CloudAccount.organization_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.updated_at"><code class="docutils literal notranslate"><span class="pre">CloudAccount.updated_at</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudAccount.vendor"><code class="docutils literal notranslate"><span class="pre">CloudAccount.vendor</span></code></a></li>
 </ul>
@@ -463,8 +464,9 @@
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.basename"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.basename</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.description"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.description</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.detail"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.detail</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.get_company"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.get_company()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.get_organization"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.get_organization()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.get_queryset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.http_method_names"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.http_method_names</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.name"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.perform_create"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.perform_create()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.permission_classes</span></code></a></li>
@@ -485,6 +487,7 @@
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.get_daily_costs"><code class="docutils literal notranslate"><span class="pre">get_daily_costs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.get_monthly_service_totals"><code class="docutils literal notranslate"><span class="pre">get_monthly_service_totals()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.get_usage_by_service_and_day"><code class="docutils literal notranslate"><span class="pre">get_usage_by_service_and_day()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.refresh_billing_data"><code class="docutils literal notranslate"><span class="pre">refresh_billing_data()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="data.html#module-data">Module contents</a></li>
@@ -505,9 +508,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="company.html#company-models-module">company.models module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="company.html#company-serializers-module">company.serializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="company.html#module-company.serializers">company.serializers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="company.html#company-urls-module">company.urls module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="company.html#company-views-module">company.views module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="company.html#module-company.views">company.views module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="company.html#module-company">Module contents</a></li>
 </ul>
 </li>
@@ -529,14 +532,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="installation.html">
+          <a class="prev-page" href="multi_tenat_logic.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Installation</div>
+                <div class="title">Multi-tenant API Overview</div>
                 
               </div>
             </a>

@@ -178,7 +178,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -200,6 +200,7 @@
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
@@ -242,7 +243,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -250,11 +251,7 @@
         <article role="main" id="furo-main-content">
           <section id="numlock-documentation">
 <h1>NumLock Documentation<a class="headerlink" href="#numlock-documentation" title="Link to this heading">¶</a></h1>
-<p>Welcome to the NumLock project documentation! This project provides a platform to manage cloud costs, track usage, and generate billing reports for multiple cloud accounts.</p>
-<section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
-<p>NumLock is designed to help companies efficiently monitor and control cloud spending. It supports AWS, GCP, and other cloud providers, providing detailed dashboards and analytics.</p>
-</section>
+<p>Welcome to the NumLock project developer documentation!</p>
 </section>
 <section id="contents">
 <h1>Contents<a class="headerlink" href="#contents" title="Link to this heading">¶</a></h1>
@@ -262,6 +259,11 @@
 <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="multi_tenat_logic.html#vital-endpoints">Vital Endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_tenat_logic.html#frontend-usage-flow">Frontend Usage Flow</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Numlock - Backend</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
@@ -307,28 +309,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">NumLock Documentation</a><ul>
-<li><a class="reference internal" href="#introduction">Introduction</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#contents">Contents</a></li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

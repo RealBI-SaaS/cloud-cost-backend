@@ -29,6 +29,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         """Allow only the owner to update the company"""
         company = self.get_object()
+        # FIX: since queryset already filters it out no need to verify
         if company.owner != request.user and not request.user.is_staff:
             raise PermissionDenied("You are not allowed to update this company.")
         return super().update(request, *args, **kwargs)
@@ -36,6 +37,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         """Allow only the owner to delete the company"""
         company = self.get_object()
+        # FIX: since queryset already filters it out no need to verify
         if company.owner != request.user and not request.user.is_staff:
             raise PermissionDenied("You are not allowed to delete this company.")
         return super().destroy(request, *args, **kwargs)
@@ -44,7 +46,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
     def organizations(self, request, pk=None):
         """
         Get all organizations for a specific company (by company ID) for admins.
-        Its purpose is no for user functionalities but rather for admin settings, use base organization endpoints for fetching users' organizations.
+        Its purpose is not for user functionalities but rather for admin settings, use base organization endpoints for fetching users' organizations.
         """
         company = get_object_or_404(Company, id=pk)
         # TODO: recheck this priviledge control

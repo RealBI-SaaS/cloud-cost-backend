@@ -199,6 +199,7 @@
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../authentication.html">authentication package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../core.html">core package</a></li>
@@ -253,7 +254,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_view</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">company.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">company.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Organization</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AzureOAuthToken</span><span class="p">,</span> <span class="n">BillingRecord</span><span class="p">,</span> <span class="n">CloudAccount</span>
 
@@ -264,10 +265,10 @@
 <div class="viewcode-block" id="start_azure_auth_view">
 <a class="viewcode-back" href="../../data.html#data.azure_views.start_azure_auth_view">[docs]</a>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">start_azure_auth_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">company_id</span><span class="p">,</span> <span class="n">account_name</span><span class="p">):</span>
-    <span class="n">state</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">company_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="n">account_name</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">company_id</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">({</span><span class="s2">&quot;company_id&quot;</span><span class="p">:</span> <span class="s2">&quot;This field is required.&quot;</span><span class="p">})</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">start_azure_auth_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">account_name</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="n">account_name</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">organization_id</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">({</span><span class="s2">&quot;organization_id&quot;</span><span class="p">:</span> <span class="s2">&quot;This field is required.&quot;</span><span class="p">})</span>
 
     <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">AZURE_DATA_CLIENT_ID</span><span class="p">,</span>
@@ -286,10 +287,9 @@
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">azure_oauth_callback_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">state</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span>
-    <span class="n">company_id</span><span class="p">,</span> <span class="n">account_name</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
-    <span class="n">company_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="n">company_id</span><span class="p">)</span>  <span class="c1"># validate it’s a proper UUID</span>
+    <span class="n">organization_id</span><span class="p">,</span> <span class="n">account_name</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="n">organization_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="n">organization_id</span><span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;code&quot;</span><span class="p">)</span>
-    <span class="n">company_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span>  <span class="c1"># Came from start_azure_auth_view</span>
 
     <span class="n">token_data</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">AZURE_DATA_CLIENT_ID</span><span class="p">,</span>
@@ -311,10 +311,10 @@
     <span class="c1"># membership = CompanyMembership.objects.filter(</span>
     <span class="c1">#     company_id=company_id, role__in=[&quot;owner&quot;, &quot;admin&quot;]</span>
     <span class="c1"># ).first()</span>
-    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">company_id</span><span class="p">)</span>
+    <span class="n">organization</span> <span class="o">=</span> <span class="n">Organization</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">organization_id</span><span class="p">)</span>
 
     <span class="n">cloud_account</span> <span class="o">=</span> <span class="n">CloudAccount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">company</span><span class="o">=</span><span class="n">company</span><span class="p">,</span>
+        <span class="n">organization</span><span class="o">=</span><span class="n">organization</span><span class="p">,</span>
         <span class="n">vendor</span><span class="o">=</span><span class="s2">&quot;azure&quot;</span><span class="p">,</span>
         <span class="n">account_name</span><span class="o">=</span><span class="s2">&quot;Azure Account&quot;</span><span class="p">,</span>
         <span class="n">account_id</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>  <span class="c1"># You can fill this in after querying subscriptions</span>
@@ -437,5 +437,13 @@
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     </body>
 </html>
