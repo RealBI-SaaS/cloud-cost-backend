@@ -79,12 +79,15 @@ Response Example::
 
 Frontend Usage Flow
 -------------------
+
 1. After login, **fetch organizations** for the signed-in user from ``/organization/``.
+
    - This gives the list of orgs the user belongs to, along with roles.
 
-2. If the user navigates to a **company detail page**, fetch their company data:
-   - Use ``/company/`` to get companies they *own* (regular users) or all companies (staff).
-   - Or use ``/organization/{id}/company/`` to fetch the parent company for a specific org.
+2. If the user navigates to a **company detail page**, fetch their current organization's company data:
+
+   - Use ``/organization/{id}/company/`` to fetch the parent company for a specific org.
+   - This is different from the  ``/company/`` endpoint because it doesn't expect the requesting user to be the company's owner and returns the ``is_owner`` value. 
 
 3. Company and organization data are **independent**, except that an organization always belongs to one company.
 

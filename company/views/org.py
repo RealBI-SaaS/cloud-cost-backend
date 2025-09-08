@@ -8,10 +8,8 @@ from django.db.models import F
 from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 from django.utils.timezone import now
-from drf_spectacular.utils import (
-    extend_schema,
-)
-from rest_framework import permissions, status, viewsets
+from drf_spectacular.utils import extend_schema, inline_serializer
+from rest_framework import permissions, serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
@@ -135,6 +133,20 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             ]
         )
 
+    @extend_schema(
+        responses=inline_serializer(
+            name="CompanyWithOwnership",
+            fields={
+                "id": serializers.UUIDField(),
+                "name": serializers.CharField(),
+                "theme": serializers.CharField(),
+                "created_at": serializers.DateTimeField(),
+                "updated_at": serializers.DateTimeField(),
+                "owner": serializers.UUIDField(),
+                "is_owner": serializers.BooleanField(),
+            },
+        )
+    )
     @action(detail=True, methods=["get"])
     def company(self, request, pk=None):
         """Get the company info of this organization including user's ownership data"""

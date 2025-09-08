@@ -333,11 +333,17 @@ can edit the company details.</p></li>
 <section id="frontend-usage-flow">
 <h2>Frontend Usage Flow<a class="headerlink" href="#frontend-usage-flow" title="Link to this heading">¶</a></h2>
 <ol class="arabic simple">
-<li><p>After login, <strong>fetch organizations</strong> for the signed-in user from <code class="docutils literal notranslate"><span class="pre">/organization/</span></code>.
-- This gives the list of orgs the user belongs to, along with roles.</p></li>
-<li><p>If the user navigates to a <strong>company detail page</strong>, fetch their company data:
-- Use <code class="docutils literal notranslate"><span class="pre">/company/</span></code> to get companies they <em>own</em> (regular users) or all companies (staff).
-- Or use <code class="docutils literal notranslate"><span class="pre">/organization/{id}/company/</span></code> to fetch the parent company for a specific org.</p></li>
+<li><p>After login, <strong>fetch organizations</strong> for the signed-in user from <code class="docutils literal notranslate"><span class="pre">/organization/</span></code>.</p>
+<ul class="simple">
+<li><p>This gives the list of orgs the user belongs to, along with roles.</p></li>
+</ul>
+</li>
+<li><p>If the user navigates to a <strong>company detail page</strong>, fetch their current organization’s company data:</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">/organization/{id}/company/</span></code> to fetch the parent company for a specific org.</p></li>
+<li><p>This is different from the  <code class="docutils literal notranslate"><span class="pre">/company/</span></code> endpoint because it doesn’t expect the requesting user to be the company’s owner and returns the <code class="docutils literal notranslate"><span class="pre">is_owner</span></code> value.</p></li>
+</ul>
+</li>
 <li><p>Company and organization data are <strong>independent</strong>, except that an organization always belongs to one company.</p></li>
 </ol>
 <pre  class="mermaid">
