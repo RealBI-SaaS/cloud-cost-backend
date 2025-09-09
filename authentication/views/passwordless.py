@@ -25,8 +25,8 @@ from authentication.utils.hash import hash_code, verify_code
 from core.throttles import OTPRequestThrottle, OTPVerifyThrottle
 
 # magic link valid lifetime (minutes)
-MAGIC_LINK_LIFETIME = 1
-OTC_LIFETIME = 1
+MAGIC_LINK_LIFETIME = 15
+OTC_LIFETIME = 15
 
 User = get_user_model()
 

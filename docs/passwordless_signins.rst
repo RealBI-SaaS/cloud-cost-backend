@@ -10,16 +10,6 @@ Overview
 - **Magic Link Flow**: Users receive single-use link via email that redirects them to the ``frontend_url/magiclink-activation/token=?<token>``.
 - **OTP Flow**: Users receive a six-digit numeric code via email.
 
-All passwordless credentials are stored in the `OneTimeCredential` model with the following fields:
-
-- `id` (UUID): Primary key
-- `user` (FK): Reference to `User`
-- `secret` (str): Random token or hashed OTP
-- `type` (str): Either `"magic_link"` or `"otp"`
-- `created_at` (datetime)
-- `expires_at` (datetime)
-
-
 Magic Link Authentication
 -------------------------
 
@@ -152,7 +142,7 @@ Security Considerations
 - Responses for non-existent emails are **non-identifying**.
 - Tokens/codes are deleted after use or on new requests.
 - OTPs are stored **hashed**, and verification is constant-time to prevent timing attacks.
-- Throttling is implemented per email to prevent abuse. Currently 2 coder requests every and 3 code verification requests are permited before the following response:
+- Throttling is implemented per email to prevent abuse. Currently ``2 token/OTP requests`` and ``3 token/OTP verification requests`` are permited before the following response:
 
   .. code-block:: json
 
