@@ -17,7 +17,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from authentication.views import api_documentation
+from authentication.views.user import api_documentation
 
 urlpatterns = (
     [

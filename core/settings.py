@@ -126,6 +126,14 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.SearchFilter",
     ],
+    # "DEFAULT_THROTTLE_CLASSES": [
+    #     "rest_framework.throttling.UserRateThrottle",
+    #     "rest_framework.throttling.AnonRateThrottle",
+    # ],
+    "DEFAULT_THROTTLE_RATES": {
+        "otp_verify": "3/minute",
+        "otp_request": "2/minute",
+    },
 }
 
 
