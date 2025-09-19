@@ -24,6 +24,7 @@ from .aws_views import (
     get_tenant_aws_client,
     save_billing_data_efficient,
 )
+from .metrics import cost_request_counter
 from .models import BillingRecord, CloudAccount
 from .serializers import (
     CloudAccountSerializer,
@@ -268,6 +269,8 @@ def cost_summary_by_service(request, cloud_account_id):
         .annotate(total_cost=Sum("cost"))
     )
 
+    cost_request_counter.labels(type="cost-summary-by-service").inc()
+
     return Response(
         {
             "today": {i["service_name"]: i["total_cost"] for i in today_totals},
@@ -285,6 +288,8 @@ def cost_summary_by_service(request, cloud_account_id):
 def cost_summary_by_account(request, cloud_account_id):
     # cloud_account = CloudAccount.objects.get(id=cloud_account_id)
     total_month, total_today = get_account_totals(cloud_account_id)
+
+    cost_request_counter.labels(type="cost-summary-by-account").inc()
 
     return Response({"total_month": total_month, "total_today": total_today})
 
@@ -349,6 +354,7 @@ def cost_summary_by_orgs(request):
 @api_view(["GET"])
 def billing_monthly_service_total(request, cloud_account_id):
     data = get_monthly_service_totals(cloud_account_id)
+    cost_request_counter.labels(type="monthly-service-total").inc()
     return Response(data)
 
 

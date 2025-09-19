@@ -1,18 +1,23 @@
-version: "3.9"
+version: "3.7"
 
 services:
-  web:
+  django:
     build: .
-    container_name: numlk-django
-    command: sh -c "uv run python manage.py migrate && uv run python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/app
     ports:
       - "8000:8000"
-    environment:
-      PG_DB_NAME: numlock
-      PG_USER: devuser
-      PG_PASSWORD: devpass
-      PG_HOST: localhost
-      PG_PORT: 5432
-    network_mode: "container:pg-dev"
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - django
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
