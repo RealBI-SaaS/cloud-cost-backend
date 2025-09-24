@@ -10,18 +10,18 @@ from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
 from dotenv import load_dotenv
 from drf_spectacular.utils import extend_schema
-from rest_framework import permissions, status, viewsets
+from rest_framework import permissions, viewsets
 from rest_framework.decorators import api_view
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
 
 from company.models import Organization
 from company.permissions import IsOrgAdminOrOwnerOrReadOnly
 
 # from .aws_utils import fetch_cost_and_usage, get_tenant_aws_client
-from .aws_views import (
+from .integration_helpers.aws import (
     fetch_cost_and_usage,
-    get_tenant_aws_client,
+    get_account_aws_client,
     save_billing_data_efficient,
 )
 from .metrics import cost_request_counter
@@ -57,21 +57,23 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
         organization_id = self.kwargs.get(
             "organization_id"
         ) or self.request.query_params.get("organization_id")
+
         if not organization_id:
             raise ValidationError({"organization_id": "This field is required."})
+
         try:
-            _ = uuid.UUID(str(organization_id), version=4)
+            uuid.UUID(str(organization_id), version=4)
         except ValueError:
-            return Response(
-                {"error": "Invalid Organization ID format. Must be a valid UUID."},
-                status=status.HTTP_400_BAD_REQUEST,
+            raise ValidationError(
+                {
+                    "organization_id": "Invalid Organization ID format. Must be a valid UUID."
+                }
             )
 
         try:
-            organization = Organization.objects.get(id=organization_id)
+            return Organization.objects.get(id=organization_id)
         except Organization.DoesNotExist:
-            # TODO: make 404 error
-            raise ValidationError({"organization_id": "Invalid Organization ID."})
+            raise NotFound({"organization_id": "Organization not found."})
 
         # is_member = OrganizationMembership.objects.filter(
         #     user=self.request.user, organization=organization
@@ -395,7 +397,7 @@ def refresh_billing_data(request, cloud_account_id):
 
     try:
         # Get AWS Cost Explorer client
-        client = get_tenant_aws_client(cloud_account)
+        client = get_account_aws_client(cloud_account)
 
         # Fetch new cost & usage data
         cost_response = fetch_cost_and_usage(client, start_date, end_date)

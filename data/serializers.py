@@ -4,7 +4,9 @@ from .models import CloudAccount
 
 
 class CloudAccountSerializer(serializers.ModelSerializer):
-    organization = serializers.UUIDField(source="organization.id", read_only=True)
+    # ?
+    # organization = serializers.UUIDField(source="organization.id", read_only=True)
+    organization = serializers.UUIDField(source="organization_id", read_only=True)
 
     class Meta:
         model = CloudAccount

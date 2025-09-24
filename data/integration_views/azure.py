@@ -11,7 +11,7 @@ from rest_framework.exceptions import ValidationError
 
 from company.models import Organization
 
-from .models import AzureOAuthToken, BillingRecord, CloudAccount
+from ..models import AzureOAuthToken, BillingRecord, CloudAccount
 
 AZURE_AUTH_BASE = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
 AZURE_TOKEN_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/token"

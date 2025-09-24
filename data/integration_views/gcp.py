@@ -14,10 +14,10 @@ from rest_framework.decorators import api_view
 
 from company.models import Organization
 
-from .models import CloudAccount, GoogleOAuthToken
+from ..models import CloudAccount, GoogleOAuthToken
 
 # from .services.google_api import get_gcp_billing_data, get_gcp_projects
-from .services.ingestion import ingest_billing_data
+from ..services.ingestion import ingest_billing_data
 
 load_dotenv()
 #

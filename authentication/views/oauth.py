@@ -54,7 +54,7 @@ LOGIN_FROM_REDIRECT_URL = os.getenv("GOOGLE_LOGIN_FROM_REDIRECT_URL")
         "- Retrieves Google profile info (email, name)\n"
         "- Creates or retrieves the corresponding user in the system\n"
         "- Issues JWT access and refresh tokens\n"
-        "- Redirects to the frontend with tokens appended as query parameters\n\n"
+        "- Redirects to the frontend with tokens and user novelity status appended as query parameters\n\n"
         "**Success:** 302 redirect to `SUCCESS_REDIRECT_URL?access=...&refresh=...&created=true/false`\n\n"
         "**Failure:** Returns JSON with error details"
     ),

@@ -1,14 +1,13 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from data.azure_views import azure_oauth_callback_view
-
-from .aws_views import aws_register_role_view, test
-from .azure_views import (
+from .integration_views.aws import aws_register_role_view, test
+from .integration_views.azure import (
+    azure_oauth_callback_view,
     fetch_azure_billing_view,
     start_azure_auth_view,
 )
-from .google_views import (
+from .integration_views.gcp import (
     fetch_google_projects_and_billing_view,
     google_oauth_callback_view,
     start_google_auth_view,
