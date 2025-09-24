@@ -55,7 +55,7 @@ LOGIN_FROM_REDIRECT_URL = os.getenv("GOOGLE_LOGIN_FROM_REDIRECT_URL")
         "- Creates or retrieves the corresponding user in the system\n"
         "- Issues JWT access and refresh tokens\n"
         "- Redirects to the frontend with tokens appended as query parameters\n\n"
-        "**Success:** 302 redirect to `SUCCESS_REDIRECT_URL?access=...&refresh=...`\n\n"
+        "**Success:** 302 redirect to `SUCCESS_REDIRECT_URL?access=...&refresh=...&created=true/false`\n\n"
         "**Failure:** Returns JSON with error details"
     ),
 )
@@ -111,7 +111,11 @@ def google_oauth_callback(request):
         refresh_token = str(refresh)
 
         # Create redirect URL with tokens as parameters
-        params = {"access": access_token, "refresh": refresh_token}
+        params = {
+            "access": access_token,
+            "refresh": refresh_token,
+            "created": str(created).lower(),
+        }
         redirect_url = f"{SUCCESS_REDIRECT_URL}?{urlencode(params)}"
 
         return redirect(redirect_url)
