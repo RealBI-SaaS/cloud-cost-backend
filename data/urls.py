@@ -21,6 +21,7 @@ from .views import (
     billing_daily_costs,
     billing_monthly_service_total,
     cost_summary_by_account,
+    cost_summary_by_orgs,
     cost_summary_by_service,
     refresh_billing_data,
 )
@@ -106,6 +107,11 @@ urlpatterns = [
         "cost-summary/monthly-service/<uuid:cloud_account_id>/",
         billing_monthly_service_total,
         name="cost-monthly-summary-by-service",
+    ),
+    path(
+        "cost-summary/orgs/",
+        cost_summary_by_orgs,
+        name="cost-monthly-daily-summary-by-organization",
     ),
     # utils
     path(

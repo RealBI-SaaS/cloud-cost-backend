@@ -50,6 +50,25 @@ class CostSummaryByAccountSerializer(serializers.Serializer):
     total_today = serializers.DecimalField(max_digits=20, decimal_places=2)
 
 
+class CostSummaryByOrgRequestSerializer(serializers.Serializer):
+    org_ids = serializers.ListField(
+        child=serializers.UUIDField(),
+        help_text="List of organization UUIDs to fetch cost summary for",
+    )
+
+
+class CostSummaryByOrgSerializer(serializers.Serializer):
+    """
+    Serializer for multiple orgs' cost summary.
+    Keys are org IDs (as string) and values are OrgCostSummarySerializer.
+    """
+
+    # results = serializers.DictField(
+    org_id = CostSummaryByAccountSerializer()
+    #     help_text="Keys are organization IDs, values are cost summaries",
+    # )
+
+
 class MonthlyServiceTotalsEntrySerializer(serializers.Serializer):
     month = serializers.DateField()
     total_usage = serializers.FloatField()

@@ -24,20 +24,19 @@ from .aws_views import (
     get_tenant_aws_client,
     save_billing_data_efficient,
 )
-from .models import BillingRecord, CloudAccount, Organization
+from .models import BillingRecord, CloudAccount
 from .serializers import (
     CloudAccountSerializer,
     CostByRegionSerializer,
     CostByServiceSerializer,
     CostSummaryByAccountSerializer,
+    CostSummaryByOrgRequestSerializer,
+    CostSummaryByOrgSerializer,
     CostSummaryByServiceSerializer,
     DailyCostSerializer,
     MonthlyServiceTotalsSerializer,
     UsageByServiceDaySerializer,
 )
-
-# from .services.bigquery_client import fetch_billing_data_from_bq
-# from .services.ingestion import ingest_billing_data
 
 load_dotenv()
 
@@ -134,26 +133,30 @@ def get_usage_by_service_and_day(cloud_account_id):
     return list(queryset)
 
 
-def get_account_totals(cloud_account_id):
-    qs = CloudAccount.objects.get(id=cloud_account_id).billing_records
-    # qs = BillingRecord.objects.filter(cloud_account=cloud_account_id)
-    today = now().date()
+def get_account_totals(cloud_account_ids):
+    """
+    Accepts either:
+    - a single cloud_account_id (int/UUID)
+    - or a list of cloud_account_ids
+    Returns: total_month, total_today
+    """
 
-    # FIX: only current month, no month setting
+    today = now().date()
     start_month = today.replace(day=1)
 
-    # First day of next month
-    # if start_month.month == 12:
-    #     next_month = start_month.replace(year=start_month.year + 1, month=1)
-    # else:
-    #     next_month = start_month.replace(month=start_month.month + 1)
+    # Normalize input to a list
+    if not isinstance(cloud_account_ids, (list, tuple)):
+        cloud_account_ids = [cloud_account_ids]
 
-    # total today
+    # Get all BillingRecords for the accounts
+    qs = BillingRecord.objects.filter(cloud_account_id__in=cloud_account_ids)
+
+    # Total today
     total_today = (
         qs.filter(usage_start__date=today).aggregate(total=Sum("cost"))["total"] or 0
     )
 
-    # total this month (from start_month inclusive to next_month exclusive)
+    # Total this month (from first day of month to today)
     total_month = (
         qs.filter(usage_start__date__gte=start_month).aggregate(total=Sum("cost"))[
             "total"
@@ -275,7 +278,7 @@ def cost_summary_by_service(request, cloud_account_id):
 
 @extend_schema(
     responses=CostSummaryByAccountSerializer,
-    description="Returns total costs for today and for the current month.",
+    description="Returns total costs for today and for the current month for a specifc integrated account.",
     summary="Account Cost Summary",
 )
 @api_view(["GET"])
@@ -284,6 +287,58 @@ def cost_summary_by_account(request, cloud_account_id):
     total_month, total_today = get_account_totals(cloud_account_id)
 
     return Response({"total_month": total_month, "total_today": total_today})
+
+
+@extend_schema(
+    request=CostSummaryByOrgRequestSerializer,
+    responses=CostSummaryByOrgSerializer,
+    description=(
+        "Returns total costs for today and for the current month "
+        "for all integrated accounts in MULTIPLE organizations -- Supports querying multiple organizations."
+    ),
+    summary="Organization Cost Summary",
+)
+@api_view(["POST"])
+def cost_summary_by_orgs(request):
+    """
+    Expects JSON body:
+    {
+        "org_ids": ["uuid1", "uuid2", "uuid3"]
+    }
+    """
+
+    org_ids = request.data.get("org_ids", [])
+    if not isinstance(org_ids, list):
+        raise ValidationError({"org_ids": "Must be a list of UUIDs."})
+    res = {}
+
+    for org_id in org_ids:
+        try:
+            org_uuid = uuid.UUID(org_id)
+        except ValueError:
+            raise ValidationError({"org_id": f"Invalid UUID: {org_id}"})
+
+        try:
+            org = Organization.objects.get(pk=org_uuid)
+        except Organization.DoesNotExist:
+            raise ValidationError(
+                {"organization_id": f"Invalid Organization {org_id} ID included."}
+            )
+
+        # Get all cloud accounts for this org
+        # cloud_account_ids = org.cloud_accounts.values_list("id", flat=True)
+        cloud_account_ids = list(
+            CloudAccount.objects.filter(organization=org).values_list("id", flat=True)
+        )
+
+        total_month, total_today = get_account_totals(cloud_account_ids)
+
+        res[org_id] = {
+            "total_month": total_month,
+            "total_today": total_today,
+        }
+
+    return Response(res)
 
 
 @extend_schema(
@@ -300,6 +355,10 @@ def billing_monthly_service_total(request, cloud_account_id):
 # refresh data, currently only aws
 
 
+@extend_schema(
+    description=("Refresh an integration's data. Triggers a call to the CSP."),
+    summary="Cloud Account Data Refresher",
+)
 @api_view(["GET"])
 def refresh_billing_data(request, cloud_account_id):
     cloud_account = get_object_or_404(CloudAccount, id=cloud_account_id)
