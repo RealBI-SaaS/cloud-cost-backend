@@ -400,7 +400,7 @@ def refresh_billing_data(request, organization_id):
 
         if start_date >= end_date:
             return JsonResponse(
-                {"success": False, "message": "Data is already up to date."}, status=200
+                {"success": True, "message": "Data is already up to date."}, status=200
             )
 
         try:
