@@ -1,5 +1,5 @@
 Multi-tenant API Overview
-========================
+==========================
 
 This project uses a multi-tenant setup with **Companies** (parent entities) 
 and **Organizations** (child entities). A user can be:
@@ -9,10 +9,10 @@ and **Organizations** (child entities). A user can be:
 - **Staff (is_staff=True)** → superuser-like access, can see all companies and organizations.
 
 Vital Endpoints
---------------
+----------------
 
 **/company/**
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 - For *regular users*: returns all companies owned by the requesting user.
 - For *staff users*: returns all companies in the system.
 
@@ -79,26 +79,16 @@ Response Example::
 
 Frontend Usage Flow
 -------------------
-<<<<<<< HEAD
 
 1. After login, **fetch organizations** for the signed-in user from ``/organization/``.
-
    - This gives the list of orgs the user belongs to, along with roles.
 
 2. If the user navigates to a **company detail page**, fetch their current organization's company data:
 
    - Use ``/organization/{id}/company/`` to fetch the parent company for a specific org.
    - This is different from the  ``/company/`` endpoint because it doesn't expect the requesting user to be the company's owner and returns the ``is_owner`` value. 
-=======
-1. After login, **fetch organizations** for the signed-in user from ``/organization/``.
-   - This gives the list of orgs the user belongs to, along with roles.
 
-2. If the user navigates to a **company detail page**, fetch their company data:
-   - Use ``/company/`` to get companies they *own* (regular users) or all companies (staff).
-   - Or use ``/organization/{id}/company/`` to fetch the parent company for a specific org.
->>>>>>> de1d7d5 ([feat]: comp info for an org)
-
-3. Company and organization data are **independent**, except that an organization always belongs to one company.
+   3. Company and organization data are **independent**, except that an organization always belongs to one company.
 
 
 

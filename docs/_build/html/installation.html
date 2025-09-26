@@ -201,16 +201,30 @@
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
-<<<<<<< HEAD
 <li class="toctree-l1"><a class="reference internal" href="passwordless_signins.html">Passwordless Authentication</a></li>
-=======
->>>>>>> de1d7d5 ([feat]: comp info for an org)
-<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="company.html">company package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/authentication.migrations.html">authentication.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/authentication.utils.html">authentication.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/authentication.views.html">authentication.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/company.html">company package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of company package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/company.migrations.html">company.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/company.serializers.html">company.serializers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/company.urls.html">company.urls package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/company.views.html">company.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html">core package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/data.integration_helpers.html">data.integration_helpers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/data.integration_views.html">data.integration_views package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/data.migrations.html">data.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/data.utils.html">data.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/manage.html">manage module</a></li>
 </ul>
 </li>
 </ul>
@@ -255,63 +269,79 @@
         <article role="main" id="furo-main-content">
           <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
-<p>To install NumLock locally, follow these steps:</p>
 <ol class="arabic">
-<li><p><strong>Clone the frontend repository</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/RealBI-SaaS/cloud-cost-saas.git
-<span class="nb">cd</span><span class="w"> </span>cloud-cost-saas
-</pre></div>
-</div>
-</li>
-<li><p><strong>Install frontend packages</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install
-</pre></div>
-</div>
-</li>
-<li><p><strong>Run the frontend app</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>run<span class="w"> </span>dev
-</pre></div>
-</div>
-</li>
-<li><p><strong>Clone the backend repository</strong>:</p>
+<li><p><strong>Clone the repository</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/RealBI-SaaS/cloud-cost-backend.git
 <span class="nb">cd</span><span class="w"> </span>cloud-cost-backend
 </pre></div>
 </div>
 </li>
-<li><p><strong>Setup backend environment</strong>:</p>
-<ul>
-<li><p>Rename <cite>.env_example</cite> to <cite>.env</cite> and add all required values.</p></li>
-<li><p>Create a virtual environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
-<span class="nb">source</span><span class="w"> </span>venv/bin/activate<span class="w">   </span><span class="c1"># Linux/macOS</span>
-<span class="c1"># .\venv\Scripts\activate  # Windows</span>
+<li><p><strong>Configure environment variables</strong></p>
+<p>Rename the provided example file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mv<span class="w"> </span>.env.example<span class="w"> </span>.env
+</pre></div>
+</div>
+<p>Then edit <code class="docutils literal notranslate"><span class="pre">.env</span></code> and add the required values.</p>
+</li>
+<li><p><strong>Install dependencies</strong></p>
+<p>You have three options:</p>
+<ol class="upperalpha simple">
+<li><p><strong>Using Docker</strong></p></li>
+</ol>
+<ol class="arabic">
+<li><p>Build the Docker image:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>numlock-backend<span class="w"> </span>.
 </pre></div>
 </div>
 </li>
-<li><p>Install backend packages:</p>
+<li><p>Run the container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>numlock-backend
+</pre></div>
+</div>
+<p>The service will be available at: <code class="docutils literal notranslate"><span class="pre">http://localhost:8000</span></code></p>
+</li>
+</ol>
+<p><strong>Using Docker Compose</strong>
+If you also want to run Prometheus and Grafana alongside the backend:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>up
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Backend: <code class="docutils literal notranslate"><span class="pre">http://localhost:8000</span></code></p></li>
+<li><p>Prometheus: <code class="docutils literal notranslate"><span class="pre">http://localhost:9090</span></code></p></li>
+<li><p>Grafana: <code class="docutils literal notranslate"><span class="pre">http://localhost:3000</span></code></p></li>
+</ul>
+<ol class="upperalpha simple" start="2">
+<li><p><strong>Using pip (virtual environment)</strong></p></li>
+</ol>
+<ol class="arabic">
+<li><p>Create and activate a virtual environment (Linux/Unix):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</pre></div>
+</div>
+</li>
+<li><p>Install packages:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </pre></div>
 </div>
 </li>
-</ul>
-</li>
-<li><p><strong>Run backend migrations</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>manage.py<span class="w"> </span>migrate
+<li><p>Run the development server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>manage.py<span class="w"> </span>runserver
 </pre></div>
 </div>
-</li>
-<li><p><strong>Run the backend server</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>manage.py<span class="w"> </span>runserver
-</pre></div>
-</div>
-</li>
-<li><p><strong>Open the frontend app in your browser</strong>:</p>
-<p>Go to: <cite>http://localhost:5173</cite></p>
 </li>
 </ol>
-<ol class="arabic" start="4">
-<li><p>Run Sphinx locally:</p>
+<ol class="upperalpha simple" start="3">
+<li><p><strong>Using uv</strong></p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>add<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+uv<span class="w"> </span>run<span class="w"> </span>manage.py<span class="w"> </span>runserver
+</pre></div>
+</div>
+</li>
+<li><p><strong>Build documentation locally</strong></p>
+<p>To generate Sphinx docs:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>docs
 make<span class="w"> </span>html
 </pre></div>
@@ -349,7 +379,7 @@ make<span class="w"> </span>html
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Natty Y.
+                Copyright &#169; 2025, NumLock
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

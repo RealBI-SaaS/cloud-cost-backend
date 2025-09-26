@@ -200,16 +200,30 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../multi_tenat_logic.html">Multi-tenant API Overview</a></li>
-<<<<<<< HEAD
 <li class="toctree-l1"><a class="reference internal" href="../../passwordless_signins.html">Passwordless Authentication</a></li>
-=======
->>>>>>> de1d7d5 ([feat]: comp info for an org)
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../authentication.html">authentication package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../core.html">core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../data.html">data package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../manage.html">manage module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../company.html">company package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/authentication.migrations.html">authentication.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/authentication.utils.html">authentication.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/authentication.views.html">authentication.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/company.html">company package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of company package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/company.migrations.html">company.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/company.serializers.html">company.serializers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/company.urls.html">company.urls package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/company.views.html">company.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/core.html">core package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/data.integration_helpers.html">data.integration_helpers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/data.integration_views.html">data.integration_views package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/data.migrations.html">data.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/data.utils.html">data.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/manage.html">manage module</a></li>
 </ul>
 </li>
 </ul>
@@ -255,7 +269,9 @@
 <div class="viewcode-block" id="CloudAccountSerializer">
 <a class="viewcode-back" href="../../data.html#data.serializers.CloudAccountSerializer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CloudAccountSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
-    <span class="n">organization</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">UUIDField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;organization.id&quot;</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># ?</span>
+    <span class="c1"># organization = serializers.UUIDField(source=&quot;organization.id&quot;, read_only=True)</span>
+    <span class="n">organization</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">UUIDField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;organization_id&quot;</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CloudAccountSerializer.Meta">
 <a class="viewcode-back" href="../../data.html#data.serializers.CloudAccountSerializer.Meta">[docs]</a>
@@ -323,6 +339,31 @@
 
 
 
+<div class="viewcode-block" id="CostSummaryByOrgRequestSerializer">
+<a class="viewcode-back" href="../../data.html#data.serializers.CostSummaryByOrgRequestSerializer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CostSummaryByOrgRequestSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
+    <span class="n">org_ids</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ListField</span><span class="p">(</span>
+        <span class="n">child</span><span class="o">=</span><span class="n">serializers</span><span class="o">.</span><span class="n">UUIDField</span><span class="p">(),</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;List of organization UUIDs to fetch cost summary for&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="CostSummaryByOrgSerializer">
+<a class="viewcode-back" href="../../data.html#data.serializers.CostSummaryByOrgSerializer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CostSummaryByOrgSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Serializer for multiple orgs&#39; cost summary.</span>
+<span class="sd">    Keys are org IDs (as string) and values are OrgCostSummarySerializer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># results = serializers.DictField(</span>
+    <span class="n">org_id</span> <span class="o">=</span> <span class="n">CostSummaryByAccountSerializer</span><span class="p">()</span></div>
+
+    <span class="c1">#     help_text=&quot;Keys are organization IDs, values are cost summaries&quot;,</span>
+    <span class="c1"># )</span>
+
+
 <div class="viewcode-block" id="MonthlyServiceTotalsEntrySerializer">
 <a class="viewcode-back" href="../../data.html#data.serializers.MonthlyServiceTotalsEntrySerializer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MonthlyServiceTotalsEntrySerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
@@ -350,7 +391,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Natty Y.
+                Copyright &#169; 2025, NumLock
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

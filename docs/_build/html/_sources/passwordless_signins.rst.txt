@@ -106,7 +106,7 @@ Request an OTP
     }
 
 Verify an OTP
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 **Endpoint**: ``POST /auth/otp/verify/``
 

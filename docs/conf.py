@@ -16,7 +16,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 # django.setup()
 
 project = "NumLock"
-copyright = "2025, Natty Y."
+copyright = "2025, NumLock"
 author = "Natty Y."
 release = "0.9.9"
 
@@ -28,6 +28,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
+    "sphinx.ext.autosummary",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]

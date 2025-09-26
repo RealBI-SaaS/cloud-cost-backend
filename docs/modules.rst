@@ -1,4 +1,4 @@
-Numlock - Backend
+NumLock - Backend
 ==================
 
 .. toctree::

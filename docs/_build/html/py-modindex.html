@@ -199,16 +199,30 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
-<<<<<<< HEAD
 <li class="toctree-l1"><a class="reference internal" href="passwordless_signins.html">Passwordless Authentication</a></li>
-=======
->>>>>>> de1d7d5 ([feat]: comp info for an org)
-<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="company.html">company package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/authentication.migrations.html">authentication.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/authentication.utils.html">authentication.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/authentication.views.html">authentication.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/company.html">company package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of company package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/company.migrations.html">company.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/company.serializers.html">company.serializers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/company.urls.html">company.urls package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/company.views.html">company.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html">core package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/data.integration_helpers.html">data.integration_helpers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/data.integration_views.html">data.integration_views package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/data.migrations.html">data.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/data.utils.html">data.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/manage.html">manage module</a></li>
 </ul>
 </li>
 </ul>
@@ -267,7 +281,61 @@
   <tr class="cg-1">
     <td></td>
     <td>&#160;&#160;&#160;
+        <a href="api/authentication.html#module-authentication.admin"><code class="xref">authentication.admin</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
         <a href="authentication.html#module-authentication.apps"><code class="xref">authentication.apps</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="authentication.html#module-authentication.auth_backends"><code class="xref">authentication.auth_backends</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.migrations.html#module-authentication.migrations"><code class="xref">authentication.migrations</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.migrations.html#module-authentication.migrations.0001_initial"><code class="xref">authentication.migrations.0001_initial</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.migrations.html#module-authentication.migrations.0001_squashed_0002_remove_companymember_company_and_more"><code class="xref">authentication.migrations.0001_squashed_0002_remove_companymember_company_and_more</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.migrations.html#module-authentication.migrations.0002_remove_companymember_company_and_more"><code class="xref">authentication.migrations.0002_remove_companymember_company_and_more</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.migrations.html#module-authentication.migrations.0003_onetimecredential"><code class="xref">authentication.migrations.0003_onetimecredential</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="authentication.html#module-authentication.models"><code class="xref">authentication.models</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="authentication.html#module-authentication.serializers"><code class="xref">authentication.serializers</code></a></td><td>
     <em></em></td>
   </tr>
   <tr class="cg-1">
@@ -279,7 +347,43 @@
   <tr class="cg-1">
     <td></td>
     <td>&#160;&#160;&#160;
+        <a href="authentication.html#module-authentication.urls"><code class="xref">authentication.urls</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.utils.html#module-authentication.utils"><code class="xref">authentication.utils</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.utils.html#module-authentication.utils.hash"><code class="xref">authentication.utils.hash</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
         <a href="authentication.html#module-authentication.views"><code class="xref">authentication.views</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.views.html#module-authentication.views.oauth"><code class="xref">authentication.views.oauth</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.views.html#module-authentication.views.passwordless"><code class="xref">authentication.views.passwordless</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/authentication.views.html#module-authentication.views.user"><code class="xref">authentication.views.user</code></a></td><td>
     <em></em></td>
   </tr>
   <tr class="pcap">
@@ -298,7 +402,55 @@
   <tr class="cg-2">
     <td></td>
     <td>&#160;&#160;&#160;
+        <a href="api/company.html#module-company.admin"><code class="xref">company.admin</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
         <a href="company.html#module-company.apps"><code class="xref">company.apps</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.migrations.html#module-company.migrations"><code class="xref">company.migrations</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.migrations.html#module-company.migrations.0001_initial"><code class="xref">company.migrations.0001_initial</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.migrations.html#module-company.migrations.0002_company_owner_alter_company_table_and_more"><code class="xref">company.migrations.0002_company_owner_alter_company_table_and_more</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.migrations.html#module-company.migrations.0003_theme_company_theme"><code class="xref">company.migrations.0003_theme_company_theme</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.migrations.html#module-company.migrations.0004_alter_company_theme_delete_theme"><code class="xref">company.migrations.0004_alter_company_theme_delete_theme</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="company.html#module-company.models"><code class="xref">company.models</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.html#module-company.permissions"><code class="xref">company.permissions</code></a></td><td>
     <em></em></td>
   </tr>
   <tr class="cg-2">
@@ -310,7 +462,55 @@
   <tr class="cg-2">
     <td></td>
     <td>&#160;&#160;&#160;
+        <a href="api/company.serializers.html#module-company.serializers.company"><code class="xref">company.serializers.company</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.serializers.html#module-company.serializers.org"><code class="xref">company.serializers.org</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.html#module-company.tests"><code class="xref">company.tests</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="company.html#module-company.urls"><code class="xref">company.urls</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.urls.html#module-company.urls.company"><code class="xref">company.urls.company</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.urls.html#module-company.urls.org"><code class="xref">company.urls.org</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
         <a href="company.html#module-company.views"><code class="xref">company.views</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.views.html#module-company.views.company"><code class="xref">company.views.company</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-2">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/company.views.html#module-company.views.org"><code class="xref">company.views.org</code></a></td><td>
     <em></em></td>
   </tr>
   <tr>
@@ -330,6 +530,12 @@
     <td></td>
     <td>&#160;&#160;&#160;
         <a href="core.html#module-core.settings"><code class="xref">core.settings</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-3">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/core.html#module-core.throttles"><code class="xref">core.throttles</code></a></td><td>
     <em></em></td>
   </tr>
   <tr class="cg-3">
@@ -360,6 +566,12 @@
   <tr class="cg-4">
     <td></td>
     <td>&#160;&#160;&#160;
+        <a href="api/data.html#module-data.admin"><code class="xref">data.admin</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
         <a href="data.html#module-data.apps"><code class="xref">data.apps</code></a></td><td>
     <em></em></td>
   </tr>
@@ -372,19 +584,73 @@
   <tr class="cg-4">
     <td></td>
     <td>&#160;&#160;&#160;
-        <a href="data.html#module-data.aws_views"><code class="xref">data.aws_views</code></a></td><td>
+        <a href="api/data.integration_helpers.html#module-data.integration_helpers"><code class="xref">data.integration_helpers</code></a></td><td>
     <em></em></td>
   </tr>
   <tr class="cg-4">
     <td></td>
     <td>&#160;&#160;&#160;
-        <a href="data.html#module-data.azure_views"><code class="xref">data.azure_views</code></a></td><td>
+        <a href="api/data.integration_helpers.html#module-data.integration_helpers.aws"><code class="xref">data.integration_helpers.aws</code></a></td><td>
     <em></em></td>
   </tr>
   <tr class="cg-4">
     <td></td>
     <td>&#160;&#160;&#160;
-        <a href="data.html#module-data.google_views"><code class="xref">data.google_views</code></a></td><td>
+        <a href="api/data.integration_views.html#module-data.integration_views"><code class="xref">data.integration_views</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.integration_views.html#module-data.integration_views.aws"><code class="xref">data.integration_views.aws</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.integration_views.html#module-data.integration_views.azure"><code class="xref">data.integration_views.azure</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.integration_views.html#module-data.integration_views.gcp"><code class="xref">data.integration_views.gcp</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.html#module-data.metrics"><code class="xref">data.metrics</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.migrations.html#module-data.migrations"><code class="xref">data.migrations</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.migrations.html#module-data.migrations.0001_initial"><code class="xref">data.migrations.0001_initial</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.migrations.html#module-data.migrations.0002_alter_cloudaccount_unique_together_and_more"><code class="xref">data.migrations.0002_alter_cloudaccount_unique_together_and_more</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.migrations.html#module-data.migrations.0003_alter_billingservicesummary_unique_together_and_more"><code class="xref">data.migrations.0003_alter_billingservicesummary_unique_together_and_more</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.migrations.html#module-data.migrations.0004_alter_cloudaccount_unique_together_and_more"><code class="xref">data.migrations.0004_alter_cloudaccount_unique_together_and_more</code></a></td><td>
     <em></em></td>
   </tr>
   <tr class="cg-4">
@@ -409,6 +675,18 @@
     <td></td>
     <td>&#160;&#160;&#160;
         <a href="data.html#module-data.urls"><code class="xref">data.urls</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.utils.html#module-data.utils"><code class="xref">data.utils</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-4">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="api/data.utils.html#module-data.utils.sanitize_cur_report_name"><code class="xref">data.utils.sanitize_cur_report_name</code></a></td><td>
     <em></em></td>
   </tr>
   <tr class="cg-4">
@@ -442,7 +720,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Natty Y.
+                Copyright &#169; 2025, NumLock
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

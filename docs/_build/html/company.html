@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="manage module" href="manage.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
         <title>company package - NumLock 0.9.9 documentation</title>
@@ -198,19 +198,33 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
-<<<<<<< HEAD
 <li class="toctree-l1"><a class="reference internal" href="passwordless_signins.html">Passwordless Authentication</a></li>
-=======
->>>>>>> de1d7d5 ([feat]: comp info for an org)
-<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Numlock - Backend</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="authentication.html">authentication package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">company package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/authentication.migrations.html">authentication.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/authentication.utils.html">authentication.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/authentication.views.html">authentication.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/company.html">company package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of company package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/company.migrations.html">company.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/company.serializers.html">company.serializers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/company.urls.html">company.urls package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/company.views.html">company.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html">core package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/data.integration_helpers.html">data.integration_helpers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/data.integration_views.html">data.integration_views package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/data.migrations.html">data.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/data.utils.html">data.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/manage.html">manage module</a></li>
 </ul>
 </li>
 </ul>
@@ -277,14 +291,516 @@
 </dd></dl>
 
 </section>
-<section id="company-models-module">
-<h2>company.models module<a class="headerlink" href="#company-models-module" title="Link to this heading">¶</a></h2>
+<section id="module-company.models">
+<span id="company-models-module"></span><h2>company.models module<a class="headerlink" href="#module-company.models" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="company.models.Company">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.models.</span></span><span class="sig-name descname"><span class="pre">Company</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/models.html#Company"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.models.Company" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Model representing a company - parent of orgnaizations</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Company.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#company.models.Company.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Company.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#company.models.Company.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.THEME_CHOICES">
+<span class="sig-name descname"><span class="pre">THEME_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('default',</span> <span class="pre">'Default'),</span> <span class="pre">('simple',</span> <span class="pre">'Simple'),</span> <span class="pre">('classic',</span> <span class="pre">'Classic'),</span> <span class="pre">('amber-minimal',</span> <span class="pre">'Amber</span> <span class="pre">Minimal'),</span> <span class="pre">('bold-tech',</span> <span class="pre">'Bold</span> <span class="pre">Tech'),</span> <span class="pre">('caffeine',</span> <span class="pre">'Caffeine'),</span> <span class="pre">('elegant-luxury',</span> <span class="pre">'Elegant</span> <span class="pre">Luxury')]</span></em><a class="headerlink" href="#company.models.Company.THEME_CHOICES" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#company.models.Company.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Company.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Company.get_next_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Company.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Company.get_next_by_updated_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Company.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Company.get_previous_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Company.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Company.get_previous_by_updated_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Company.get_theme_display">
+<span class="sig-name descname"><span class="pre">get_theme_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">theme&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Company.get_theme_display" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#company.models.Company.id" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#company.models.Company.name" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#company.models.Company.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.organization_set">
+<span class="sig-name descname"><span class="pre">organization_set</span></span><a class="headerlink" href="#company.models.Company.organization_set" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.owner">
+<span class="sig-name descname"><span class="pre">owner</span></span><a class="headerlink" href="#company.models.Company.owner" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.owner_id">
+<span class="sig-name descname"><span class="pre">owner_id</span></span><a class="headerlink" href="#company.models.Company.owner_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.theme">
+<span class="sig-name descname"><span class="pre">theme</span></span><a class="headerlink" href="#company.models.Company.theme" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Company.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#company.models.Company.updated_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.models.Invitation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.models.</span></span><span class="sig-name descname"><span class="pre">Invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/models.html#Invitation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.models.Invitation" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Handles invitations to join an Organization</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Invitation.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#company.models.Invitation.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Invitation.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#company.models.Invitation.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.create_invitation">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invited_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'member'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/models.html#Invitation.create_invitation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.models.Invitation.create_invitation" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#company.models.Invitation.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.expires_at">
+<span class="sig-name descname"><span class="pre">expires_at</span></span><a class="headerlink" href="#company.models.Invitation.expires_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_next_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_next_by_expires_at">
+<span class="sig-name descname"><span class="pre">get_next_by_expires_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">expires_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_next_by_expires_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_previous_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_previous_by_expires_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_expires_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">expires_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_previous_by_expires_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_role_display">
+<span class="sig-name descname"><span class="pre">get_role_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">role&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_role_display" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Invitation.get_status_display">
+<span class="sig-name descname"><span class="pre">get_status_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">status&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Invitation.get_status_display" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#company.models.Invitation.id" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.invited_by">
+<span class="sig-name descname"><span class="pre">invited_by</span></span><a class="headerlink" href="#company.models.Invitation.invited_by" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.invited_by_id">
+<span class="sig-name descname"><span class="pre">invited_by_id</span></span><a class="headerlink" href="#company.models.Invitation.invited_by_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.invitee_email">
+<span class="sig-name descname"><span class="pre">invitee_email</span></span><a class="headerlink" href="#company.models.Invitation.invitee_email" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#company.models.Invitation.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.organization">
+<span class="sig-name descname"><span class="pre">organization</span></span><a class="headerlink" href="#company.models.Invitation.organization" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.organization_id">
+<span class="sig-name descname"><span class="pre">organization_id</span></span><a class="headerlink" href="#company.models.Invitation.organization_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.role">
+<span class="sig-name descname"><span class="pre">role</span></span><a class="headerlink" href="#company.models.Invitation.role" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.status">
+<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#company.models.Invitation.status" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Invitation.token">
+<span class="sig-name descname"><span class="pre">token</span></span><a class="headerlink" href="#company.models.Invitation.token" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.models.Organization">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.models.</span></span><span class="sig-name descname"><span class="pre">Organization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/models.html#Organization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.models.Organization" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Model representing an organization</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Organization.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#company.models.Organization.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.Organization.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#company.models.Organization.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.cloud_accounts">
+<span class="sig-name descname"><span class="pre">cloud_accounts</span></span><a class="headerlink" href="#company.models.Organization.cloud_accounts" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.company">
+<span class="sig-name descname"><span class="pre">company</span></span><a class="headerlink" href="#company.models.Organization.company" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.company_id">
+<span class="sig-name descname"><span class="pre">company_id</span></span><a class="headerlink" href="#company.models.Organization.company_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#company.models.Organization.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Organization.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Organization.get_next_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Organization.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Organization.get_next_by_updated_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Organization.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Organization.get_previous_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.Organization.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Organization.get_previous_by_updated_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#company.models.Organization.id" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.invitation_set">
+<span class="sig-name descname"><span class="pre">invitation_set</span></span><a class="headerlink" href="#company.models.Organization.invitation_set" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#company.models.Organization.name" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#company.models.Organization.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.organizationmembership_set">
+<span class="sig-name descname"><span class="pre">organizationmembership_set</span></span><a class="headerlink" href="#company.models.Organization.organizationmembership_set" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#company.models.Organization.updated_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">company.models.</span></span><span class="sig-name descname"><span class="pre">OrganizationMembership</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/company/models.html#OrganizationMembership"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#company.models.OrganizationMembership" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Manages users and roles within an Organization</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#company.models.OrganizationMembership.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#company.models.OrganizationMembership.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.ROLE_CHOICES">
+<span class="sig-name descname"><span class="pre">ROLE_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('owner',</span> <span class="pre">'Owner'),</span> <span class="pre">('admin',</span> <span class="pre">'Admin'),</span> <span class="pre">('member',</span> <span class="pre">'Member')]</span></em><a class="headerlink" href="#company.models.OrganizationMembership.ROLE_CHOICES" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.get_next_by_joined_at">
+<span class="sig-name descname"><span class="pre">get_next_by_joined_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">joined_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.OrganizationMembership.get_next_by_joined_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.get_previous_by_joined_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_joined_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">joined_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.OrganizationMembership.get_previous_by_joined_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.get_role_display">
+<span class="sig-name descname"><span class="pre">get_role_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">role&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.OrganizationMembership.get_role_display" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#company.models.OrganizationMembership.id" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.joined_at">
+<span class="sig-name descname"><span class="pre">joined_at</span></span><a class="headerlink" href="#company.models.OrganizationMembership.joined_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#company.models.OrganizationMembership.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.organization">
+<span class="sig-name descname"><span class="pre">organization</span></span><a class="headerlink" href="#company.models.OrganizationMembership.organization" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.organization_id">
+<span class="sig-name descname"><span class="pre">organization_id</span></span><a class="headerlink" href="#company.models.OrganizationMembership.organization_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.role">
+<span class="sig-name descname"><span class="pre">role</span></span><a class="headerlink" href="#company.models.OrganizationMembership.role" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.user">
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#company.models.OrganizationMembership.user" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.OrganizationMembership.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><a class="headerlink" href="#company.models.OrganizationMembership.user_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-company.serializers">
 <span id="company-serializers-module"></span><h2>company.serializers module<a class="headerlink" href="#module-company.serializers" title="Link to this heading">¶</a></h2>
 </section>
-<section id="company-urls-module">
-<h2>company.urls module<a class="headerlink" href="#company-urls-module" title="Link to this heading">¶</a></h2>
+<section id="module-company.urls">
+<span id="company-urls-module"></span><h2>company.urls module<a class="headerlink" href="#module-company.urls" title="Link to this heading">¶</a></h2>
 </section>
 <section id="module-company.views">
 <span id="company-views-module"></span><h2>company.views module<a class="headerlink" href="#module-company.views" title="Link to this heading">¶</a></h2>
@@ -300,22 +816,12 @@
         
         <div class="related-pages">
           
-          <a class="prev-page" href="manage.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">manage module</div>
-                
-              </div>
-            </a>
+          
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Natty Y.
+                Copyright &#169; 2025, NumLock
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -351,9 +857,91 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#company-models-module">company.models module</a></li>
+<li><a class="reference internal" href="#module-company.models">company.models module</a><ul>
+<li><a class="reference internal" href="#company.models.Company"><code class="docutils literal notranslate"><span class="pre">Company</span></code></a><ul>
+<li><a class="reference internal" href="#company.models.Company.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Company.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Company.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.THEME_CHOICES"><code class="docutils literal notranslate"><span class="pre">Company.THEME_CHOICES</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.created_at"><code class="docutils literal notranslate"><span class="pre">Company.created_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Company.get_next_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Company.get_next_by_updated_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Company.get_previous_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Company.get_previous_by_updated_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.get_theme_display"><code class="docutils literal notranslate"><span class="pre">Company.get_theme_display()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.id"><code class="docutils literal notranslate"><span class="pre">Company.id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.name"><code class="docutils literal notranslate"><span class="pre">Company.name</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.objects"><code class="docutils literal notranslate"><span class="pre">Company.objects</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.organization_set"><code class="docutils literal notranslate"><span class="pre">Company.organization_set</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.owner"><code class="docutils literal notranslate"><span class="pre">Company.owner</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.owner_id"><code class="docutils literal notranslate"><span class="pre">Company.owner_id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.theme"><code class="docutils literal notranslate"><span class="pre">Company.theme</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Company.updated_at"><code class="docutils literal notranslate"><span class="pre">Company.updated_at</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.models.Invitation"><code class="docutils literal notranslate"><span class="pre">Invitation</span></code></a><ul>
+<li><a class="reference internal" href="#company.models.Invitation.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Invitation.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Invitation.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.create_invitation"><code class="docutils literal notranslate"><span class="pre">Invitation.create_invitation()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.created_at"><code class="docutils literal notranslate"><span class="pre">Invitation.created_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.expires_at"><code class="docutils literal notranslate"><span class="pre">Invitation.expires_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Invitation.get_next_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_next_by_expires_at"><code class="docutils literal notranslate"><span class="pre">Invitation.get_next_by_expires_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Invitation.get_previous_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_previous_by_expires_at"><code class="docutils literal notranslate"><span class="pre">Invitation.get_previous_by_expires_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_role_display"><code class="docutils literal notranslate"><span class="pre">Invitation.get_role_display()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.get_status_display"><code class="docutils literal notranslate"><span class="pre">Invitation.get_status_display()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.id"><code class="docutils literal notranslate"><span class="pre">Invitation.id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.invited_by"><code class="docutils literal notranslate"><span class="pre">Invitation.invited_by</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.invited_by_id"><code class="docutils literal notranslate"><span class="pre">Invitation.invited_by_id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.invitee_email"><code class="docutils literal notranslate"><span class="pre">Invitation.invitee_email</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.objects"><code class="docutils literal notranslate"><span class="pre">Invitation.objects</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.organization"><code class="docutils literal notranslate"><span class="pre">Invitation.organization</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.organization_id"><code class="docutils literal notranslate"><span class="pre">Invitation.organization_id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.role"><code class="docutils literal notranslate"><span class="pre">Invitation.role</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.status"><code class="docutils literal notranslate"><span class="pre">Invitation.status</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Invitation.token"><code class="docutils literal notranslate"><span class="pre">Invitation.token</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.models.Organization"><code class="docutils literal notranslate"><span class="pre">Organization</span></code></a><ul>
+<li><a class="reference internal" href="#company.models.Organization.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Organization.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Organization.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.cloud_accounts"><code class="docutils literal notranslate"><span class="pre">Organization.cloud_accounts</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.company"><code class="docutils literal notranslate"><span class="pre">Organization.company</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.company_id"><code class="docutils literal notranslate"><span class="pre">Organization.company_id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.created_at"><code class="docutils literal notranslate"><span class="pre">Organization.created_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_next_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_next_by_updated_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_previous_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_previous_by_updated_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.id"><code class="docutils literal notranslate"><span class="pre">Organization.id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.invitation_set"><code class="docutils literal notranslate"><span class="pre">Organization.invitation_set</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.name"><code class="docutils literal notranslate"><span class="pre">Organization.name</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.objects"><code class="docutils literal notranslate"><span class="pre">Organization.objects</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.organizationmembership_set"><code class="docutils literal notranslate"><span class="pre">Organization.organizationmembership_set</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.updated_at"><code class="docutils literal notranslate"><span class="pre">Organization.updated_at</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership</span></code></a><ul>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.ROLE_CHOICES"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.ROLE_CHOICES</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.get_next_by_joined_at"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.get_next_by_joined_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.get_previous_by_joined_at"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.get_previous_by_joined_at()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.get_role_display"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.get_role_display()</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.id"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.joined_at"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.joined_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.objects"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.objects</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.organization"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.organization</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.organization_id"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.organization_id</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.role"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.role</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.user"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.user</span></code></a></li>
+<li><a class="reference internal" href="#company.models.OrganizationMembership.user_id"><code class="docutils literal notranslate"><span class="pre">OrganizationMembership.user_id</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-company.serializers">company.serializers module</a></li>
-<li><a class="reference internal" href="#company-urls-module">company.urls module</a></li>
+<li><a class="reference internal" href="#module-company.urls">company.urls module</a></li>
 <li><a class="reference internal" href="#module-company.views">company.views module</a></li>
 <li><a class="reference internal" href="#module-company">Module contents</a></li>
 </ul>

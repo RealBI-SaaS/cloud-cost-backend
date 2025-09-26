@@ -200,16 +200,30 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../multi_tenat_logic.html">Multi-tenant API Overview</a></li>
-<<<<<<< HEAD
 <li class="toctree-l1"><a class="reference internal" href="../../passwordless_signins.html">Passwordless Authentication</a></li>
-=======
->>>>>>> de1d7d5 ([feat]: comp info for an org)
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Numlock - Backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Numlock - Backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../authentication.html">authentication package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../core.html">core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../data.html">data package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../manage.html">manage module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../company.html">company package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/authentication.migrations.html">authentication.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/authentication.utils.html">authentication.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/authentication.views.html">authentication.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/company.html">company package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of company package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/company.migrations.html">company.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/company.serializers.html">company.serializers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/company.urls.html">company.urls package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/company.views.html">company.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/core.html">core package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/data.integration_helpers.html">data.integration_helpers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/data.integration_views.html">data.integration_views package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/data.migrations.html">data.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/data.utils.html">data.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/manage.html">manage module</a></li>
 </ul>
 </li>
 </ul>
@@ -259,34 +273,34 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.utils.timezone</span><span class="w"> </span><span class="kn">import</span> <span class="n">now</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">drf_spectacular.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">extend_schema</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">permissions</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">viewsets</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">permissions</span><span class="p">,</span> <span class="n">viewsets</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_view</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">NotFound</span><span class="p">,</span> <span class="n">ValidationError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">company.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Organization</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">company.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsOrgAdminOrOwnerOrReadOnly</span>
 
 <span class="c1"># from .aws_utils import fetch_cost_and_usage, get_tenant_aws_client</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.aws_views</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.integration_helpers.aws</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">fetch_cost_and_usage</span><span class="p">,</span>
-    <span class="n">get_tenant_aws_client</span><span class="p">,</span>
+    <span class="n">get_account_aws_client</span><span class="p">,</span>
     <span class="n">save_billing_data_efficient</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">BillingRecord</span><span class="p">,</span> <span class="n">CloudAccount</span><span class="p">,</span> <span class="n">Organization</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">cost_request_counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">BillingRecord</span><span class="p">,</span> <span class="n">CloudAccount</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CloudAccountSerializer</span><span class="p">,</span>
     <span class="n">CostByRegionSerializer</span><span class="p">,</span>
     <span class="n">CostByServiceSerializer</span><span class="p">,</span>
     <span class="n">CostSummaryByAccountSerializer</span><span class="p">,</span>
+    <span class="n">CostSummaryByOrgRequestSerializer</span><span class="p">,</span>
+    <span class="n">CostSummaryByOrgSerializer</span><span class="p">,</span>
     <span class="n">CostSummaryByServiceSerializer</span><span class="p">,</span>
     <span class="n">DailyCostSerializer</span><span class="p">,</span>
     <span class="n">MonthlyServiceTotalsSerializer</span><span class="p">,</span>
     <span class="n">UsageByServiceDaySerializer</span><span class="p">,</span>
 <span class="p">)</span>
-
-<span class="c1"># from .services.bigquery_client import fetch_billing_data_from_bq</span>
-<span class="c1"># from .services.ingestion import ingest_billing_data</span>
 
 <span class="n">load_dotenv</span><span class="p">()</span>
 
@@ -310,21 +324,23 @@
         <span class="n">organization_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
             <span class="s2">&quot;organization_id&quot;</span>
         <span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;organization_id&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">organization_id</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">({</span><span class="s2">&quot;organization_id&quot;</span><span class="p">:</span> <span class="s2">&quot;This field is required.&quot;</span><span class="p">})</span>
+
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">),</span> <span class="n">version</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+            <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">),</span> <span class="n">version</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid Organization ID format. Must be a valid UUID.&quot;</span><span class="p">},</span>
-                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">,</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;organization_id&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid Organization ID format. Must be a valid UUID.&quot;</span>
+                <span class="p">}</span>
             <span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">organization</span> <span class="o">=</span> <span class="n">Organization</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">organization_id</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Organization</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">organization_id</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">Organization</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
-            <span class="c1"># TODO: make 404 error</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">({</span><span class="s2">&quot;organization_id&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid Organization ID.&quot;</span><span class="p">})</span>
+            <span class="k">raise</span> <span class="n">NotFound</span><span class="p">({</span><span class="s2">&quot;organization_id&quot;</span><span class="p">:</span> <span class="s2">&quot;Organization not found.&quot;</span><span class="p">})</span>
 
         <span class="c1"># is_member = OrganizationMembership.objects.filter(</span>
         <span class="c1">#     user=self.request.user, organization=organization</span>
@@ -409,26 +425,30 @@
 
 <div class="viewcode-block" id="get_account_totals">
 <a class="viewcode-back" href="../../data.html#data.views.get_account_totals">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_account_totals</span><span class="p">(</span><span class="n">cloud_account_id</span><span class="p">):</span>
-    <span class="n">qs</span> <span class="o">=</span> <span class="n">CloudAccount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">cloud_account_id</span><span class="p">)</span><span class="o">.</span><span class="n">billing_records</span>
-    <span class="c1"># qs = BillingRecord.objects.filter(cloud_account=cloud_account_id)</span>
-    <span class="n">today</span> <span class="o">=</span> <span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_account_totals</span><span class="p">(</span><span class="n">cloud_account_ids</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accepts either:</span>
+<span class="sd">    - a single cloud_account_id (int/UUID)</span>
+<span class="sd">    - or a list of cloud_account_ids</span>
+<span class="sd">    Returns: total_month, total_today</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># FIX: only current month, no month setting</span>
+    <span class="n">today</span> <span class="o">=</span> <span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
     <span class="n">start_month</span> <span class="o">=</span> <span class="n">today</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">day</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># First day of next month</span>
-    <span class="c1"># if start_month.month == 12:</span>
-    <span class="c1">#     next_month = start_month.replace(year=start_month.year + 1, month=1)</span>
-    <span class="c1"># else:</span>
-    <span class="c1">#     next_month = start_month.replace(month=start_month.month + 1)</span>
+    <span class="c1"># Normalize input to a list</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cloud_account_ids</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">cloud_account_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">cloud_account_ids</span><span class="p">]</span>
 
-    <span class="c1"># total today</span>
+    <span class="c1"># Get all BillingRecords for the accounts</span>
+    <span class="n">qs</span> <span class="o">=</span> <span class="n">BillingRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">cloud_account_id__in</span><span class="o">=</span><span class="n">cloud_account_ids</span><span class="p">)</span>
+
+    <span class="c1"># Total today</span>
     <span class="n">total_today</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">qs</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">usage_start__date</span><span class="o">=</span><span class="n">today</span><span class="p">)</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s2">&quot;cost&quot;</span><span class="p">))[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">0</span>
     <span class="p">)</span>
 
-    <span class="c1"># total this month (from start_month inclusive to next_month exclusive)</span>
+    <span class="c1"># Total this month (from first day of month to today)</span>
     <span class="n">total_month</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">qs</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">usage_start__date__gte</span><span class="o">=</span><span class="n">start_month</span><span class="p">)</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s2">&quot;cost&quot;</span><span class="p">))[</span>
             <span class="s2">&quot;total&quot;</span>
@@ -558,6 +578,8 @@
         <span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">total_cost</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s2">&quot;cost&quot;</span><span class="p">))</span>
     <span class="p">)</span>
 
+    <span class="n">cost_request_counter</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;cost-summary-by-service&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">inc</span><span class="p">()</span>
+
     <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
         <span class="p">{</span>
             <span class="s2">&quot;today&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;service_name&quot;</span><span class="p">]:</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;total_cost&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">today_totals</span><span class="p">},</span>
@@ -571,7 +593,7 @@
 <a class="viewcode-back" href="../../data.html#data.views.cost_summary_by_account">[docs]</a>
 <span class="nd">@extend_schema</span><span class="p">(</span>
     <span class="n">responses</span><span class="o">=</span><span class="n">CostSummaryByAccountSerializer</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Returns total costs for today and for the current month.&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Returns total costs for today and for the current month for a specifc integrated account.&quot;</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Account Cost Summary&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
@@ -579,7 +601,64 @@
     <span class="c1"># cloud_account = CloudAccount.objects.get(id=cloud_account_id)</span>
     <span class="n">total_month</span><span class="p">,</span> <span class="n">total_today</span> <span class="o">=</span> <span class="n">get_account_totals</span><span class="p">(</span><span class="n">cloud_account_id</span><span class="p">)</span>
 
+    <span class="n">cost_request_counter</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;cost-summary-by-account&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">inc</span><span class="p">()</span>
+
     <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;total_month&quot;</span><span class="p">:</span> <span class="n">total_month</span><span class="p">,</span> <span class="s2">&quot;total_today&quot;</span><span class="p">:</span> <span class="n">total_today</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="cost_summary_by_orgs">
+<a class="viewcode-back" href="../../data.html#data.views.cost_summary_by_orgs">[docs]</a>
+<span class="nd">@extend_schema</span><span class="p">(</span>
+    <span class="n">request</span><span class="o">=</span><span class="n">CostSummaryByOrgRequestSerializer</span><span class="p">,</span>
+    <span class="n">responses</span><span class="o">=</span><span class="n">CostSummaryByOrgSerializer</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;Returns total costs for today and for the current month &quot;</span>
+        <span class="s2">&quot;for all integrated accounts in MULTIPLE organizations -- Supports querying multiple organizations.&quot;</span>
+    <span class="p">),</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Organization Cost Summary&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cost_summary_by_orgs</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expects JSON body:</span>
+<span class="sd">    {</span>
+<span class="sd">        &quot;org_ids&quot;: [&quot;uuid1&quot;, &quot;uuid2&quot;, &quot;uuid3&quot;]</span>
+<span class="sd">    }</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">org_ids</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;org_ids&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">org_ids</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">({</span><span class="s2">&quot;org_ids&quot;</span><span class="p">:</span> <span class="s2">&quot;Must be a list of UUIDs.&quot;</span><span class="p">})</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">org_id</span> <span class="ow">in</span> <span class="n">org_ids</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">org_uuid</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="n">org_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">({</span><span class="s2">&quot;org_id&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Invalid UUID: </span><span class="si">{</span><span class="n">org_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">org</span> <span class="o">=</span> <span class="n">Organization</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">org_uuid</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">Organization</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;organization_id&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Invalid Organization </span><span class="si">{</span><span class="n">org_id</span><span class="si">}</span><span class="s2"> ID included.&quot;</span><span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Get all cloud accounts for this org</span>
+        <span class="c1"># cloud_account_ids = org.cloud_accounts.values_list(&quot;id&quot;, flat=True)</span>
+        <span class="n">cloud_account_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">CloudAccount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">organization</span><span class="o">=</span><span class="n">org</span><span class="p">)</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">total_month</span><span class="p">,</span> <span class="n">total_today</span> <span class="o">=</span> <span class="n">get_account_totals</span><span class="p">(</span><span class="n">cloud_account_ids</span><span class="p">)</span>
+
+        <span class="n">res</span><span class="p">[</span><span class="n">org_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;total_month&quot;</span><span class="p">:</span> <span class="n">total_month</span><span class="p">,</span>
+            <span class="s2">&quot;total_today&quot;</span><span class="p">:</span> <span class="n">total_today</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
 
@@ -593,6 +672,7 @@
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">billing_monthly_service_total</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">cloud_account_id</span><span class="p">):</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">get_monthly_service_totals</span><span class="p">(</span><span class="n">cloud_account_id</span><span class="p">)</span>
+    <span class="n">cost_request_counter</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;monthly-service-total&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">inc</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 
@@ -602,6 +682,10 @@
 
 <div class="viewcode-block" id="refresh_billing_data">
 <a class="viewcode-back" href="../../data.html#data.views.refresh_billing_data">[docs]</a>
+<span class="nd">@extend_schema</span><span class="p">(</span>
+    <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Refresh an integration&#39;s data. Triggers a call to the CSP.&quot;</span><span class="p">),</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Cloud Account Data Refresher&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">refresh_billing_data</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">cloud_account_id</span><span class="p">):</span>
     <span class="n">cloud_account</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CloudAccount</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">cloud_account_id</span><span class="p">)</span>
@@ -632,7 +716,7 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Get AWS Cost Explorer client</span>
-        <span class="n">client</span> <span class="o">=</span> <span class="n">get_tenant_aws_client</span><span class="p">(</span><span class="n">cloud_account</span><span class="p">)</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">get_account_aws_client</span><span class="p">(</span><span class="n">cloud_account</span><span class="p">)</span>
 
         <span class="c1"># Fetch new cost &amp; usage data</span>
         <span class="n">cost_response</span> <span class="o">=</span> <span class="n">fetch_cost_and_usage</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
@@ -666,7 +750,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Natty Y.
+                Copyright &#169; 2025, NumLock
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

@@ -1,72 +1,92 @@
-
 Installation
-------------
-To install NumLock locally, follow these steps:
+============
 
-1. **Clone the frontend repository**:
-
-   .. code-block:: bash
-
-       git clone https://github.com/RealBI-SaaS/cloud-cost-saas.git
-       cd cloud-cost-saas
-
-2. **Install frontend packages**:
+1. **Clone the repository**
 
    .. code-block:: bash
 
-       npm install
+      git clone https://github.com/RealBI-SaaS/cloud-cost-backend.git
+      cd cloud-cost-backend
 
-3. **Run the frontend app**:
 
-   .. code-block:: bash
+2. **Configure environment variables**
 
-       npm run dev
-
-4. **Clone the backend repository**:
+   Rename the provided example file:
 
    .. code-block:: bash
 
-       git clone https://github.com/RealBI-SaaS/cloud-cost-backend.git
-       cd cloud-cost-backend
+      mv .env.example .env
 
-5. **Setup backend environment**:
+   Then edit ``.env`` and add the required values.
 
-   - Rename `.env_example` to `.env` and add all required values.  
-   - Create a virtual environment:
 
-     .. code-block:: bash
+3. **Install dependencies**
 
-         python -m venv venv
-         source venv/bin/activate   # Linux/macOS
-         # .\venv\Scripts\activate  # Windows
+   You have three options:
 
-   - Install backend packages:
+   A. **Using Docker**
 
-     .. code-block:: bash
+   1. Build the Docker image:
+
+      .. code-block:: bash
+
+         docker build -t numlock-backend .
+
+   2. Run the container:
+
+      .. code-block:: bash
+
+         docker run -p 8000:8000 numlock-backend
+
+      The service will be available at: ``http://localhost:8000``
+
+   **Using Docker Compose**  
+   If you also want to run Prometheus and Grafana alongside the backend:
+
+   .. code-block:: bash
+
+      docker-compose up
+
+   - Backend: ``http://localhost:8000``  
+   - Prometheus: ``http://localhost:9090``  
+   - Grafana: ``http://localhost:3000``
+
+
+   B. **Using pip (virtual environment)**
+
+   1. Create and activate a virtual environment (Linux/Unix):
+
+      .. code-block:: bash
+
+         python3 -m venv .venv
+         source .venv/bin/activate
+
+   2. Install packages:
+
+      .. code-block:: bash
 
          pip install -r requirements.txt
 
-6. **Run backend migrations**:
+   3. Run the development server:
+
+      .. code-block:: bash
+
+         python3 manage.py runserver
+
+
+   C. **Using uv**
 
    .. code-block:: bash
 
-       python manage.py migrate
+      uv add -r requirements.txt
+      uv run manage.py runserver
 
-7. **Run the backend server**:
 
-   .. code-block:: bash
+4. **Build documentation locally**
 
-       python manage.py runserver
-
-8. **Open the frontend app in your browser**:
-
-   Go to: `http://localhost:5173`
-4. Run Sphinx locally:
+   To generate Sphinx docs:
 
    .. code-block:: bash
 
-       cd docs
-       make html
-
-
-
+      cd docs
+      make html

@@ -18,11 +18,8 @@ Contents
 
    installation
    multi_tenat_logic
-<<<<<<< HEAD
    passwordless_signins
-=======
->>>>>>> de1d7d5 ([feat]: comp info for an org)
-   modules
+   api/modules
 
 
 
