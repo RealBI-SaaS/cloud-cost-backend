@@ -25,8 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("SECRET_KEY", get_random_secret_key())
 
 DEBUG = env("DEBUG", False) == "True"
-# ALLOWED_HOSTS = env("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
-ALLOWED_HOSTS = ["*"]
+
+# use postgres or sqlite
+USE_PG = env("USE_PG", False) == "True"
+
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+
+# uncomment the next like to allow prometheus and docker host
+# ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -94,25 +100,26 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if not USE_PG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": env("PG_DB_NAME"),
-#         "USER": env("PG_USER"),
-#         "PASSWORD": env("PG_PASSWORD"),
-#         "HOST": env("PG_HOST", "localhost"),
-#         "PORT": env("PG_PORT", "5432"),
-#         "CONN_MAX_AGE": None,
-#         "OPTIONS": {"sslmode": env("PG_SSL_MODE")},
-#     }
-# }
-#
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env("PG_DB_NAME"),
+            "USER": env("PG_USER"),
+            "PASSWORD": env("PG_PASSWORD"),
+            "HOST": env("PG_HOST", "localhost"),
+            "PORT": env("PG_PORT", "5432"),
+            "CONN_MAX_AGE": None,
+            "OPTIONS": {"sslmode": env("PG_SSL_MODE")},
+        }
+    }
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [

@@ -1,50 +1,18 @@
-# Project Title
+# NumLock Backend
+
+NumLock Backend Repo.
 
 ## Introduction
 
+Handles:
 
-## Installation Guide
-To install this project, follow these steps:
+- user authentication, autherization and managment
+- company, organization and cloud-accounts integration and CRUD
+- provides daily, monthly, by-service, by-account .... data via the available endpoins.
 
-1. **Clone the repository**:
-   ```bash
-   git clone .git link
-   ```
+## Docs
 
-2. **Navigate to the project directory**:
-   ```bash
-   cd yourproject
-   ```
+To learn more about the project, install it or get more in-depth info, check out:
 
-3. **Set up a virtual environment** (optional but recommended):
-   ```bash
-   python -m venv venv
-   ```
-
-4. **Activate the virtual environment**:
-   - On Windows:
-     ```bash
-     venv\Scripts\activate
-     ```
-   - On macOS/Linux:
-     ```bash
-     source venv/bin/activate
-     ```
-
-5. **Install the required dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-6. **add your environment variables**:
-   *** add your variable to .example_env and rename .eample_env to .env
-   
-6. **Migrate your db**:
-   ```bash
-   python manage.py migrate
-   ```
-
-6. **Run the application**:
-   ```bash
-   python manage.py runserver
-   ```
+- https://numlk-v1.readthedocs.io/en/latest/
+- https://ceres.pythonanywhere.com
