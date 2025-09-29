@@ -364,57 +364,68 @@ def billing_monthly_service_total(request, cloud_account_id):
 
 
 @extend_schema(
-    description=("Refresh an integration's data. Triggers a call to the CSP."),
-    summary="Cloud Account Data Refresher",
+    description=(
+        "Refresh an org's cloud integrations' data. Triggers a call to the CSPs - currently only AWS supported."
+    ),
+    summary="Organization data Refresher",
 )
 @api_view(["GET"])
-def refresh_billing_data(request, cloud_account_id):
-    cloud_account = get_object_or_404(CloudAccount, id=cloud_account_id)
+def refresh_billing_data(request, organization_id):
+    org = get_object_or_404(Organization, id=organization_id)
+    # TODO: such optimization
+    # cloud_accounts = list(
+    #         CloudAccount.objects.filter(organization=org).values_list("id", "vendor")
+    #     )
+    cloud_accounts = list(CloudAccount.objects.filter(organization=org))
 
     # Check vendor type
-    if cloud_account.vendor.lower() != "aws":
-        return JsonResponse(
-            {"success": False, "message": "Cloud account is not AWS."}, status=400
+    for cloud_account in cloud_accounts:
+        if cloud_account.vendor.lower() != "aws":
+            return JsonResponse(
+                {"success": False, "message": "Cloud account is not AWS."}, status=400
+            )
+
+        # Determine start date = last usage_end + 1 day, or default 30 days ago
+        last_record = (
+            BillingRecord.objects.filter(cloud_account=cloud_account)
+            .order_by("-usage_end")
+            .first()
         )
+        if last_record:
+            start_date = last_record.usage_end.date() + timedelta(days=1)
+        else:
+            start_date = now().date() - timedelta(days=30)
 
-    # Determine start date = last usage_end + 1 day, or default 30 days ago
-    last_record = (
-        BillingRecord.objects.filter(cloud_account=cloud_account)
-        .order_by("-usage_end")
-        .first()
-    )
-    if last_record:
-        start_date = last_record.usage_end.date() + timedelta(days=1)
-    else:
-        start_date = now().date() - timedelta(days=30)  # fallback: last 30 days
+        end_date = now().date()
 
-    end_date = now().date()
+        if start_date >= end_date:
+            return JsonResponse(
+                {"success": False, "message": "Data is already up to date."}, status=200
+            )
 
-    if start_date >= end_date:
-        return JsonResponse(
-            {"success": False, "message": "Data is already up to date."}, status=200
-        )
+        try:
+            # Get AWS Cost Explorer client
+            client = get_account_aws_client(cloud_account)
 
-    try:
-        # Get AWS Cost Explorer client
-        client = get_account_aws_client(cloud_account)
+            # Fetch new cost & usage data
+            cost_response = fetch_cost_and_usage(client, start_date, end_date)
 
-        # Fetch new cost & usage data
-        cost_response = fetch_cost_and_usage(client, start_date, end_date)
+            # Save new records
+            save_billing_data_efficient(cloud_account, cost_response)
 
-        # Save new records
-        save_billing_data_efficient(cloud_account, cost_response)
+            return JsonResponse(
+                {
+                    "success": True,
+                    "message": f"Billing data refreshed from {start_date} to {end_date}.",
+                },
+                status=200,
+            )
 
-        return JsonResponse(
-            {
-                "success": True,
-                "message": f"Billing data refreshed from {start_date} to {end_date}.",
-            },
-            status=200,
-        )
-
-    except Exception as e:
-        return JsonResponse(
-            {"success": False, "message": f"Error refreshing billing data: {str(e)}"},
-            status=500,
-        )
+        except Exception as e:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": f"Error refreshing billing data: {str(e)}",
+                },
+                status=500,
+            )

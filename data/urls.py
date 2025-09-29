@@ -114,7 +114,7 @@ urlpatterns = [
     ),
     # utils
     path(
-        "manage/cloud-account/<uuid:cloud_account_id>/refresh/",
+        "manage/org/<uuid:organization_id>/refresh/",
         refresh_billing_data,
         name="refresh-billing-data",
     ),
