@@ -75,14 +75,6 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
         except Organization.DoesNotExist:
             raise NotFound({"organization_id": "Organization not found."})
 
-        # is_member = OrganizationMembership.objects.filter(
-        #     user=self.request.user, organization=organization
-        # ).exists()
-        # if not is_member:
-        #     raise PermissionDenied("You do not have access to this company.")
-
-        return organization
-
     def get_queryset(self):
         organization = self.get_organization()
         return CloudAccount.objects.filter(organization=organization)
@@ -93,6 +85,7 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
         serializer.save(organization=organization)
 
 
+# TODO: bound these data on how back they go, now it goes as far as available data
 def get_daily_costs(cloud_account_id):
     queryset = (
         BillingRecord.objects.filter(cloud_account_id=cloud_account_id)
@@ -136,40 +129,6 @@ def get_usage_by_service_and_day(cloud_account_id):
     return list(queryset)
 
 
-def get_account_totals(cloud_account_ids):
-    """
-    Accepts either:
-    - a single cloud_account_id (int/UUID)
-    - or a list of cloud_account_ids
-    Returns: total_month, total_today
-    """
-
-    today = now().date()
-    start_month = today.replace(day=1)
-
-    # Normalize input to a list
-    if not isinstance(cloud_account_ids, (list, tuple)):
-        cloud_account_ids = [cloud_account_ids]
-
-    # Get all BillingRecords for the accounts
-    qs = BillingRecord.objects.filter(cloud_account_id__in=cloud_account_ids)
-
-    # Total today
-    total_today = (
-        qs.filter(usage_start__date=today).aggregate(total=Sum("cost"))["total"] or 0
-    )
-
-    # Total this month (from first day of month to today)
-    total_month = (
-        qs.filter(usage_start__date__gte=start_month).aggregate(total=Sum("cost"))[
-            "total"
-        ]
-        or 0
-    )
-
-    return total_month, total_today
-
-
 def get_monthly_service_totals(cloud_account_id):
     queryset = (
         BillingRecord.objects.filter(cloud_account_id=cloud_account_id)
@@ -197,6 +156,42 @@ def get_monthly_service_totals(cloud_account_id):
 
     result = [{"service_name": k, "monthly": v} for k, v in grouped.items()]
     return result
+
+
+# NOTE: these only go back 30 days
+def get_account_totals(cloud_account_ids):
+    """
+    Accepts either:
+    - a single cloud_account_id (int/UUID)
+    - or a list of cloud_account_ids
+    Returns: total_month, total_today
+    """
+
+    today = now().date()
+    # start_month = today.replace(day=1)
+    last_30_days = today - timedelta(days=30)
+
+    # Normalize input to a list
+    if not isinstance(cloud_account_ids, (list, tuple)):
+        cloud_account_ids = [cloud_account_ids]
+
+    # Get all BillingRecords for the accounts
+    qs = BillingRecord.objects.filter(cloud_account_id__in=cloud_account_ids)
+
+    # Total today
+    total_today = (
+        qs.filter(usage_start__date=today).aggregate(total=Sum("cost"))["total"] or 0
+    )
+
+    # 30 days total
+    total_month = (
+        qs.filter(usage_start__date__gte=last_30_days).aggregate(total=Sum("cost"))[
+            "total"
+        ]
+        or 0
+    )
+
+    return total_month, total_today
 
 
 # TODO: add permissions.IsAuthenticated
@@ -246,14 +241,15 @@ def billing_cost_by_service_day(request, cloud_account_id):
 
 @extend_schema(
     responses=CostSummaryByServiceSerializer,
-    description="Returns today's and this month's costs, grouped by service.",
+    description="Returns today's and last 30 days' costs, grouped by service.",
     summary="Service Cost Summary",
 )
 @api_view(["GET"])
 def cost_summary_by_service(request, cloud_account_id):
     today = now().date()
 
-    start_month = today.replace(day=1)
+    # start_month = today.replace(day=1)
+    last_30_days = today - timedelta(days=30)
 
     qs = CloudAccount.objects.get(id=cloud_account_id).billing_records
 
@@ -266,7 +262,7 @@ def cost_summary_by_service(request, cloud_account_id):
 
     # month totals
     month_totals = (
-        qs.filter(usage_start__date__gte=start_month)
+        qs.filter(usage_start__date__gte=last_30_days)
         .values("service_name")
         .annotate(total_cost=Sum("cost"))
     )
@@ -276,6 +272,7 @@ def cost_summary_by_service(request, cloud_account_id):
     return Response(
         {
             "today": {i["service_name"]: i["total_cost"] for i in today_totals},
+            # TODO: rename the key to more discriptive: last_30_day or just month
             "this_month": {i["service_name"]: i["total_cost"] for i in month_totals},
         }
     )
@@ -283,7 +280,7 @@ def cost_summary_by_service(request, cloud_account_id):
 
 @extend_schema(
     responses=CostSummaryByAccountSerializer,
-    description="Returns total costs for today and for the current month for a specifc integrated account.",
+    description="Returns total costs for today and for the last 30 days for a specifc integrated account.",
     summary="Account Cost Summary",
 )
 @api_view(["GET"])
@@ -293,14 +290,16 @@ def cost_summary_by_account(request, cloud_account_id):
 
     cost_request_counter.labels(type="cost-summary-by-account").inc()
 
+    # rename the key here too, for the month
     return Response({"total_month": total_month, "total_today": total_today})
 
 
+# NOTE: maybe kind of duplicate with the summary for cloud account, cost_summary_by_account
 @extend_schema(
     request=CostSummaryByOrgRequestSerializer,
     responses=CostSummaryByOrgSerializer,
     description=(
-        "Returns total costs for today and for the current month "
+        "Returns total costs for today and for the last 30 days "
         "for all integrated accounts in MULTIPLE organizations -- Supports querying multiple organizations."
     ),
     summary="Organization Cost Summary",
@@ -342,12 +341,14 @@ def cost_summary_by_orgs(request):
 
         res[org_id] = {
             "total_month": total_month,
+            # rename this too
             "total_today": total_today,
         }
 
     return Response(res)
 
 
+# historic view, better names would help here too
 @extend_schema(
     responses=MonthlyServiceTotalsSerializer(many=True),
     description="Returns monthly usage and cost aggregated by service.",
@@ -361,8 +362,6 @@ def billing_monthly_service_total(request, cloud_account_id):
 
 
 # refresh data, currently only aws
-
-
 @extend_schema(
     description=(
         "Refresh an org's cloud integrations' data. Triggers a call to the CSPs - currently only AWS supported."
