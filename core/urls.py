@@ -24,6 +24,7 @@ urlpatterns = (
         path("admin/", admin.site.urls),
         path("myauth/", include("authentication.urls")),
         path("data/", include("data.urls")),
+        path("platform/", include("_platform.urls")),
         # company urls
         path("company/", include("company.urls.company")),
         path("organization/", include("company.urls.org")),

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "company",
     "django_filters",
     "data",
+    "_platform",
     "django_prometheus",
 ]
 
