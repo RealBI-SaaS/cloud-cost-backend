@@ -23,7 +23,11 @@ class Company(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
-    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    owner = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="company",
+    )
 
     theme = models.CharField(
         max_length=50,
