@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="cloud-cost-backend" href="api/modules.html" /><link rel="prev" title="Passwordless Authentication" href="passwordless_signins.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
-        <title>core package - NumLock 0.9.9 documentation</title>
+        <title>Cloud Account Cost &amp; Usage APIs Summary - NumLock 0.9.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -198,11 +198,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passwordless_signins.html">Passwordless Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data_views.html">Cloud Account Cost &amp; Usage APIs Summary</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Cloud Account Cost &amp; Usage APIs Summary</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/authentication.migrations.html">authentication.migrations package</a></li>
@@ -248,7 +248,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="_sources/core.rst.txt" title="View this page">
+  <a class="muted-link" href="_sources/data_views.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -268,44 +268,186 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="core-package">
-<h1>core package<a class="headerlink" href="#core-package" title="Link to this heading">¶</a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+          <section id="cloud-account-cost-usage-apis-summary">
+<h1>Cloud Account Cost &amp; Usage APIs Summary<a class="headerlink" href="#cloud-account-cost-usage-apis-summary" title="Link to this heading">¶</a></h1>
+<p>This endpoints allow retrieving aggregated billing and usage data for cloud accounts and organizations.
+Most endpoints support <strong>date framing</strong>, allowing you to specify custom reporting periods using query parameters.</p>
+<section id="date-framing">
+<h2>Date Framing<a class="headerlink" href="#date-framing" title="Link to this heading">¶</a></h2>
+<p>Endpoints that support date framing accept the following optional query parameters:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">GET /cost-summary/account/&lt;uuid:cloud_account_id&gt;/?days=7</span>
+<span class="err">GET /cost-summary/account/&lt;uuid:cloud_account_id&gt;/?since=2025-09-15&amp;until=2025-09-22</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>days</strong> — number of days back from today.</p></li>
+<li><p><strong>since</strong> — start date (<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code>) for the data range.</p></li>
+<li><p><strong>until</strong> — end date (<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code>) for the data range.</p></li>
+</ul>
+<p>All framed responses include a <code class="docutils literal notranslate"><span class="pre">range</span></code> field showing the effective start and end dates.</p>
+<p>—</p>
 </section>
-<section id="module-core.asgi">
-<span id="core-asgi-module"></span><h2>core.asgi module<a class="headerlink" href="#module-core.asgi" title="Link to this heading">¶</a></h2>
-<p>ASGI config for core project.</p>
-<p>It exposes the ASGI callable as a module-level variable named <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
-<p>For more information on this file, see
-<a class="reference external" href="https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/">https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/</a></p>
+<section id="endpoints">
+<h2>Endpoints<a class="headerlink" href="#endpoints" title="Link to this heading">¶</a></h2>
+<section id="detail-info-views-provide-semi-summerized-detailed-info">
+<h3>1. Detail Info Views - Provide semi-summerized, detailed info<a class="headerlink" href="#detail-info-views-provide-semi-summerized-detailed-info" title="Link to this heading">¶</a></h3>
+<p><strong>1. billing_daily_costs</strong></p>
+<ul>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost/daily/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>Description:</strong> Returns total daily cost for a cloud account.</p></li>
+<li><p><strong>Supports:</strong> Date framing</p></li>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-02T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4398</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-03T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4398</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>2. billing_cost_by_service</strong></p>
+<ul>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost/service/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>Description:</strong> Returns total cost aggregated by service.</p></li>
+<li><p><strong>Supports:</strong> Date framing</p></li>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;service_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Amazon Elastic Compute Cloud - Compute&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.506</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;service_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Amazon Virtual Private Cloud&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.075</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>3. billing_cost_by_region</strong></p>
+<ul>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost/region/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>Description:</strong> Returns total cost aggregated by region.</p></li>
+<li><p><strong>Supports:</strong> Date framing</p></li>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.9476</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>4. billing_usage_service_day</strong></p>
+<ul>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">usage/service-day/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>Description:</strong> Returns daily usage aggregated by service for a given account.</p></li>
+<li><p><strong>Supports:</strong> Date framing</p></li>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;service_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EC2 - Other&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-01T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_usage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.522123</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;service_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Amazon Elastic Compute Cloud - Compute&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-01T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_usage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24.016832</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>—</p>
 </section>
-<section id="module-core.settings">
-<span id="core-settings-module"></span><h2>core.settings module<a class="headerlink" href="#module-core.settings" title="Link to this heading">¶</a></h2>
-<p>”
-Django settings for core project.</p>
-<p>Generated by ‘django-admin startproject’ using Django 5.1.7.</p>
-<p>For more information on this file, see
-<a class="reference external" href="https://docs.djangoproject.com/en/5.1/topics/settings/">https://docs.djangoproject.com/en/5.1/topics/settings/</a></p>
-<p>For the full list of settings and their values, see
-<a class="reference external" href="https://docs.djangoproject.com/en/5.1/ref/settings/">https://docs.djangoproject.com/en/5.1/ref/settings/</a></p>
+<section id="summary-info-views">
+<h3>2. Summary Info Views<a class="headerlink" href="#summary-info-views" title="Link to this heading">¶</a></h3>
+<p><strong>5. billing_monthly_service_total</strong></p>
+<ul>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/service-monthly/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>Description:</strong> Returns monthly cost and usage by service for a cloud account.</p></li>
+<li><p><strong>Supports:</strong> Date framing</p></li>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;service_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Amazon Elastic Compute Cloud - Compute&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;month&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-01T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;total_usage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">216.435914</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.506</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>6. cost_summary_by_service</strong></p>
+<ul>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/service/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>Description:</strong> Returns today’s and month-to-date totals per service.</p></li>
+<li><p><strong>Supports:</strong> No date framing</p></li>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;today&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">  </span><span class="nt">&quot;this_month&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Amazon Elastic Compute Cloud - Compute&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.506</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Amazon Simple Storage Service&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0003</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Amazon Virtual Private Cloud&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.075</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;EC2 - Other&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3563</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;AWS Cost Explorer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>7. cost_summary_by_account</strong></p>
+<ul>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/account/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>Description:</strong> Returns total cost for today and for a given period (defaults to month-to-date).</p></li>
+<li><p><strong>Supports:</strong> Date framing</p></li>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;total_today&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;total_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.9476</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>8. cost_summary_by_orgs</strong></p>
+<ul>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/orgs/</span></code></p></li>
+<li><p><strong>Description:</strong> Returns total costs for today and month-to-date for one or more organizations.</p></li>
+<li><p><strong>Supports:</strong> Date framing</p></li>
+<li><p><strong>Docs:</strong> <a class="reference external" href="https://ceres.pythonanywhere.com/swagger/#/data/data_cost_summary_orgs_create">https://ceres.pythonanywhere.com/swagger/#/data/data_cost_summary_orgs_create</a></p></li>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;org_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;total_month&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.32&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_today&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;34.223&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>—</p>
 </section>
-<section id="module-core.urls">
-<span id="core-urls-module"></span><h2>core.urls module<a class="headerlink" href="#module-core.urls" title="Link to this heading">¶</a></h2>
-<p>URL configuration for the core project.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">urlpatterns</span></code> list routes URLs to views.
-For more information, see the Django docs:
-<a class="reference external" href="https://docs.djangoproject.com/en/5.1/topics/http/urls/">https://docs.djangoproject.com/en/5.1/topics/http/urls/</a></p>
-</section>
-<section id="module-core.wsgi">
-<span id="core-wsgi-module"></span><h2>core.wsgi module<a class="headerlink" href="#module-core.wsgi" title="Link to this heading">¶</a></h2>
-<p>WSGI config for core project.</p>
-<p>It exposes the WSGI callable as a module-level variable named <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
-<p>For more information on this file, see
-<a class="reference external" href="https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/">https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/</a></p>
-</section>
-<section id="module-core">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-core" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
@@ -314,8 +456,26 @@ For more information, see the Django docs:
       <footer>
         
         <div class="related-pages">
-          
-          
+          <a class="next-page" href="api/modules.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">cloud-cost-backend</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="passwordless_signins.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Passwordless Authentication</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -346,13 +506,13 @@ For more information, see the Django docs:
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">core package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-core.asgi">core.asgi module</a></li>
-<li><a class="reference internal" href="#module-core.settings">core.settings module</a></li>
-<li><a class="reference internal" href="#module-core.urls">core.urls module</a></li>
-<li><a class="reference internal" href="#module-core.wsgi">core.wsgi module</a></li>
-<li><a class="reference internal" href="#module-core">Module contents</a></li>
+<li><a class="reference internal" href="#">Cloud Account Cost &amp; Usage APIs Summary</a><ul>
+<li><a class="reference internal" href="#date-framing">Date Framing</a></li>
+<li><a class="reference internal" href="#endpoints">Endpoints</a><ul>
+<li><a class="reference internal" href="#detail-info-views-provide-semi-summerized-detailed-info">1. Detail Info Views - Provide semi-summerized, detailed info</a></li>
+<li><a class="reference internal" href="#summary-info-views">2. Summary Info Views</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

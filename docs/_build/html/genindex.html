@@ -200,6 +200,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passwordless_signins.html">Passwordless Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_views.html">Cloud Account Cost &amp; Usage APIs Summary</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/authentication.migrations.html">authentication.migrations package</a></li>
@@ -473,13 +474,13 @@
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/data.html#data.views.billing_cost_by_service_day">billing_cost_by_service_day() (in module data.views)</a>, <a href="data.html#data.views.billing_cost_by_service_day">[1]</a>
-</li>
         <li><a href="api/data.html#data.views.billing_daily_costs">billing_daily_costs() (in module data.views)</a>, <a href="data.html#data.views.billing_daily_costs">[1]</a>
 </li>
         <li><a href="api/data.html#data.views.billing_monthly_service_total">billing_monthly_service_total() (in module data.views)</a>, <a href="data.html#data.views.billing_monthly_service_total">[1]</a>
 </li>
         <li><a href="api/data.html#data.models.CloudAccount.billing_records">billing_records (data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.billing_records">[1]</a>
+</li>
+        <li><a href="api/data.html#data.views.billing_usage_service_day">billing_usage_service_day() (in module data.views)</a>, <a href="data.html#data.views.billing_usage_service_day">[1]</a>
 </li>
         <li><a href="api/data.html#data.models.BillingRecord">BillingRecord (class in data.models)</a>, <a href="data.html#data.models.BillingRecord">[1]</a>
 </li>
@@ -538,6 +539,8 @@
           <li><a href="api/company.html#module-company">module</a>, <a href="company.html#module-company">[1]</a>
 </li>
         </ul></li>
+        <li><a href="api/authentication.html#authentication.models.CustomUser.company">company (authentication.models.CustomUser attribute)</a>, <a href="authentication.html#authentication.models.CustomUser.company">[1]</a>
+</li>
         <li><a href="api/company.html#company.models.Company">Company (class in company.models)</a>, <a href="company.html#company.models.Company">[1]</a>
 </li>
         <li><a href="api/company.html#company.models.Organization.company">company (company.models.Organization attribute)</a>, <a href="company.html#company.models.Organization.company">[1]</a>
@@ -684,8 +687,6 @@
 </li>
         </ul></li>
         <li><a href="api/company.html#company.models.Organization.company_id">company_id (company.models.Organization attribute)</a>, <a href="company.html#company.models.Organization.company_id">[1]</a>
-</li>
-        <li><a href="api/authentication.html#authentication.models.CustomUser.company_set">company_set (authentication.models.CustomUser attribute)</a>, <a href="authentication.html#authentication.models.CustomUser.company_set">[1]</a>
 </li>
         <li><a href="api/company.html#company.apps.CompanyConfig">CompanyConfig (class in company.apps)</a>, <a href="company.html#company.apps.CompanyConfig">[1]</a>
 </li>
@@ -1128,27 +1129,17 @@
         </ul></li>
         <li><a href="api/data.integration_helpers.html#data.integration_helpers.aws.get_account_aws_client">get_account_aws_client() (in module data.integration_helpers.aws)</a>
 </li>
-        <li><a href="api/data.html#data.views.get_account_totals">get_account_totals() (in module data.views)</a>, <a href="data.html#data.views.get_account_totals">[1]</a>
-</li>
         <li><a href="api/core.html#core.throttles.OTPRequestThrottle.get_cache_key">get_cache_key() (core.throttles.OTPRequestThrottle method)</a>
 
         <ul>
           <li><a href="api/core.html#core.throttles.OTPVerifyThrottle.get_cache_key">(core.throttles.OTPVerifyThrottle method)</a>
 </li>
         </ul></li>
-        <li><a href="api/data.html#data.views.get_cost_by_region">get_cost_by_region() (in module data.views)</a>, <a href="data.html#data.views.get_cost_by_region">[1]</a>
-</li>
-        <li><a href="api/data.html#data.views.get_cost_by_service">get_cost_by_service() (in module data.views)</a>, <a href="data.html#data.views.get_cost_by_service">[1]</a>
-</li>
         <li><a href="api/data.html#data.aws_utils.get_costexplorer_client_from_role">get_costexplorer_client_from_role() (in module data.aws_utils)</a>, <a href="data.html#data.aws_utils.get_costexplorer_client_from_role">[1]</a>
-</li>
-        <li><a href="api/data.html#data.views.get_daily_costs">get_daily_costs() (in module data.views)</a>, <a href="data.html#data.views.get_daily_costs">[1]</a>
 </li>
         <li><a href="api/data.integration_views.html#data.integration_views.gcp.get_gcp_billing_data">get_gcp_billing_data() (in module data.integration_views.gcp)</a>
 </li>
         <li><a href="api/data.integration_views.html#data.integration_views.gcp.get_gcp_projects">get_gcp_projects() (in module data.integration_views.gcp)</a>
-</li>
-        <li><a href="api/data.html#data.views.get_monthly_service_totals">get_monthly_service_totals() (in module data.views)</a>, <a href="data.html#data.views.get_monthly_service_totals">[1]</a>
 </li>
         <li><a href="api/authentication.html#authentication.models.CustomUser.get_next_by_created_at">get_next_by_created_at() (authentication.models.CustomUser method)</a>, <a href="authentication.html#authentication.models.CustomUser.get_next_by_created_at">[1]</a>
 
@@ -1283,8 +1274,6 @@
         <li><a href="api/company.html#company.models.Company.get_theme_display">get_theme_display() (company.models.Company method)</a>, <a href="company.html#company.models.Company.get_theme_display">[1]</a>
 </li>
         <li><a href="api/authentication.html#authentication.models.OneTimeCredential.get_type_display">get_type_display() (authentication.models.OneTimeCredential method)</a>, <a href="authentication.html#authentication.models.OneTimeCredential.get_type_display">[1]</a>
-</li>
-        <li><a href="api/data.html#data.views.get_usage_by_service_and_day">get_usage_by_service_and_day() (in module data.views)</a>, <a href="data.html#data.views.get_usage_by_service_and_day">[1]</a>
 </li>
         <li><a href="api/data.html#data.models.CloudAccount.get_vendor_display">get_vendor_display() (data.models.CloudAccount method)</a>, <a href="data.html#data.models.CloudAccount.get_vendor_display">[1]</a>
 </li>
@@ -1684,6 +1673,12 @@
           <li><a href="api/data.html#data.views.CloudAccountViewSet.name">(data.views.CloudAccountViewSet attribute)</a>, <a href="data.html#data.views.CloudAccountViewSet.name">[1]</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/authentication.html#authentication.models.CustomUser.notificationread_set">notificationread_set (authentication.models.CustomUser attribute)</a>, <a href="authentication.html#authentication.models.CustomUser.notificationread_set">[1]</a>
+</li>
+        <li><a href="api/authentication.html#authentication.models.CustomUser.notifications">notifications (authentication.models.CustomUser attribute)</a>, <a href="authentication.html#authentication.models.CustomUser.notifications">[1]</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
