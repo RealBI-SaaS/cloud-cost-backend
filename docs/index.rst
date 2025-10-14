@@ -19,6 +19,7 @@ Contents
    installation
    multi_tenat_logic
    passwordless_signins
+   data_views
    api/modules
 
 

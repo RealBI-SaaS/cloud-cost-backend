@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="authentication package" href="authentication.html" /><link rel="prev" title="Passwordless Authentication" href="../passwordless_signins.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="authentication package" href="authentication.html" /><link rel="prev" title="Cloud Account Cost &amp; Usage APIs Summary" href="../data_views.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
         <title>cloud-cost-backend - NumLock 0.9.9 documentation</title>
@@ -202,6 +202,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../passwordless_signins.html">Passwordless Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_views.html">Cloud Account Cost &amp; Usage APIs Summary</a></li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">cloud-cost-backend</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="authentication.migrations.html">authentication.migrations package</a></li>
@@ -321,7 +322,7 @@
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">CustomUser.MultipleObjectsReturned</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.REQUIRED_FIELDS"><code class="docutils literal notranslate"><span class="pre">CustomUser.REQUIRED_FIELDS</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.USERNAME_FIELD"><code class="docutils literal notranslate"><span class="pre">CustomUser.USERNAME_FIELD</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.company_set"><code class="docutils literal notranslate"><span class="pre">CustomUser.company_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.company"><code class="docutils literal notranslate"><span class="pre">CustomUser.company</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.created_at"><code class="docutils literal notranslate"><span class="pre">CustomUser.created_at</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.date_joined"><code class="docutils literal notranslate"><span class="pre">CustomUser.date_joined</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.email"><code class="docutils literal notranslate"><span class="pre">CustomUser.email</span></code></a></li>
@@ -342,6 +343,8 @@
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.last_login"><code class="docutils literal notranslate"><span class="pre">CustomUser.last_login</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.last_name"><code class="docutils literal notranslate"><span class="pre">CustomUser.last_name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.logentry_set"><code class="docutils literal notranslate"><span class="pre">CustomUser.logentry_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.notificationread_set"><code class="docutils literal notranslate"><span class="pre">CustomUser.notificationread_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.notifications"><code class="docutils literal notranslate"><span class="pre">CustomUser.notifications</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.objects"><code class="docutils literal notranslate"><span class="pre">CustomUser.objects</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.organizationmembership_set"><code class="docutils literal notranslate"><span class="pre">CustomUser.organizationmembership_set</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="authentication.html#authentication.models.CustomUser.otc"><code class="docutils literal notranslate"><span class="pre">CustomUser.otc</span></code></a></li>
@@ -764,18 +767,12 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.billing_cost_by_region"><code class="docutils literal notranslate"><span class="pre">billing_cost_by_region()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.billing_cost_by_service"><code class="docutils literal notranslate"><span class="pre">billing_cost_by_service()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.billing_cost_by_service_day"><code class="docutils literal notranslate"><span class="pre">billing_cost_by_service_day()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.billing_daily_costs"><code class="docutils literal notranslate"><span class="pre">billing_daily_costs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.billing_monthly_service_total"><code class="docutils literal notranslate"><span class="pre">billing_monthly_service_total()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.billing_usage_service_day"><code class="docutils literal notranslate"><span class="pre">billing_usage_service_day()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.cost_summary_by_account"><code class="docutils literal notranslate"><span class="pre">cost_summary_by_account()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.cost_summary_by_orgs"><code class="docutils literal notranslate"><span class="pre">cost_summary_by_orgs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.cost_summary_by_service"><code class="docutils literal notranslate"><span class="pre">cost_summary_by_service()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.get_account_totals"><code class="docutils literal notranslate"><span class="pre">get_account_totals()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.get_cost_by_region"><code class="docutils literal notranslate"><span class="pre">get_cost_by_region()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.get_cost_by_service"><code class="docutils literal notranslate"><span class="pre">get_cost_by_service()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.get_daily_costs"><code class="docutils literal notranslate"><span class="pre">get_daily_costs()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.get_monthly_service_totals"><code class="docutils literal notranslate"><span class="pre">get_monthly_service_totals()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.get_usage_by_service_and_day"><code class="docutils literal notranslate"><span class="pre">get_usage_by_service_and_day()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.refresh_billing_data"><code class="docutils literal notranslate"><span class="pre">refresh_billing_data()</span></code></a></li>
 </ul>
 </li>
@@ -804,14 +801,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../passwordless_signins.html">
+          <a class="prev-page" href="../data_views.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Passwordless Authentication</div>
+                <div class="title">Cloud Account Cost &amp; Usage APIs Summary</div>
                 
               </div>
             </a>

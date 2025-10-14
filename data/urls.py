@@ -16,9 +16,9 @@ from .views import (
     CloudAccountViewSet,
     billing_cost_by_region,
     billing_cost_by_service,
-    billing_cost_by_service_day,
     billing_daily_costs,
     billing_monthly_service_total,
+    billing_usage_service_day,
     cost_summary_by_account,
     cost_summary_by_orgs,
     cost_summary_by_service,
@@ -83,8 +83,8 @@ urlpatterns = [
         name="billing_cost_by_region",
     ),
     path(
-        "cost/service-day/<uuid:cloud_account_id>/",
-        billing_cost_by_service_day,
+        "usage/service-day/<uuid:cloud_account_id>/",
+        billing_usage_service_day,
         name="billing_cost_bay_service_day",
     ),
     path(
@@ -103,7 +103,7 @@ urlpatterns = [
         name="cost-summary-by-account",
     ),
     path(
-        "cost-summary/monthly-service/<uuid:cloud_account_id>/",
+        "cost-summary/service-monthly/<uuid:cloud_account_id>/",
         billing_monthly_service_total,
         name="cost-monthly-summary-by-service",
     ),
