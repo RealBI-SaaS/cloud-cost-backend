@@ -284,7 +284,11 @@ Most endpoints support <strong>date framing</strong>, allowing you to specify cu
 <li><p><strong>since</strong> — start date (<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code>) for the data range.</p></li>
 <li><p><strong>until</strong> — end date (<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code>) for the data range.</p></li>
 </ul>
-<p>All framed responses include a <code class="docutils literal notranslate"><span class="pre">range</span></code> field showing the effective start and end dates.</p>
+<p>—</p>
+<ul class="simple">
+<li><p>All framed responses include a <code class="docutils literal notranslate"><span class="pre">range</span></code> field showing the effective start and end dates.</p></li>
+<li><p>All framed responses requested with <code class="docutils literal notranslate"><span class="pre">organization_id</span></code> will have the <code class="docutils literal notranslate"><span class="pre">cloud</span> <span class="pre">account</span></code> IDs as the key to its respective data. Example:</p></li>
+</ul>
 <p>—</p>
 </section>
 <section id="endpoints">
@@ -293,27 +297,26 @@ Most endpoints support <strong>date framing</strong>, allowing you to specify cu
 <h3>1. Detail Info Views - Provide semi-summerized, detailed info<a class="headerlink" href="#detail-info-views-provide-semi-summerized-detailed-info" title="Link to this heading">¶</a></h3>
 <p><strong>1. billing_daily_costs</strong></p>
 <ul>
-<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost/daily/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
-<li><p><strong>Description:</strong> Returns total daily cost for a cloud account.</p></li>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost/daily/&lt;uuid:organization_id&gt;/</span></code></p></li>
+<li><p><strong>Description:</strong> Returns total daily cost for all cloud accounts of an organization.</p></li>
 <li><p><strong>Supports:</strong> Date framing</p></li>
 <li><p><strong>Response:</strong></p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-02T00:00:00Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4398</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-03T00:00:00Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4398</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">]</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-02T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4398</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-03T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;total_cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4398</span>
+<span class="p">}]}</span>
 </pre></div>
 </div>
 </li>
 </ul>
 <p><strong>2. billing_cost_by_service</strong></p>
 <ul>
-<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost/service/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost/service/&lt;uuid:organization_id&gt;/</span></code></p></li>
 <li><p><strong>Description:</strong> Returns total cost aggregated by service.</p></li>
 <li><p><strong>Supports:</strong> Date framing</p></li>
 <li><p><strong>Response:</strong></p>
@@ -333,7 +336,7 @@ Most endpoints support <strong>date framing</strong>, allowing you to specify cu
 </ul>
 <p><strong>3. billing_cost_by_region</strong></p>
 <ul>
-<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost/region/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost/region/&lt;uuid:organization_id&gt;/</span></code></p></li>
 <li><p><strong>Description:</strong> Returns total cost aggregated by region.</p></li>
 <li><p><strong>Supports:</strong> Date framing</p></li>
 <li><p><strong>Response:</strong></p>
@@ -349,7 +352,7 @@ Most endpoints support <strong>date framing</strong>, allowing you to specify cu
 </ul>
 <p><strong>4. billing_usage_service_day</strong></p>
 <ul>
-<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">usage/service-day/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">usage/service-day/&lt;uuid:organization_id&gt;/</span></code></p></li>
 <li><p><strong>Description:</strong> Returns daily usage aggregated by service for a given account.</p></li>
 <li><p><strong>Supports:</strong> Date framing</p></li>
 <li><p><strong>Response:</strong></p>
@@ -375,7 +378,7 @@ Most endpoints support <strong>date framing</strong>, allowing you to specify cu
 <h3>2. Summary Info Views<a class="headerlink" href="#summary-info-views" title="Link to this heading">¶</a></h3>
 <p><strong>5. billing_monthly_service_total</strong></p>
 <ul>
-<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/service-monthly/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/service-monthly/&lt;uuid:organization_id&gt;/</span></code></p></li>
 <li><p><strong>Description:</strong> Returns monthly cost and usage by service for a cloud account.</p></li>
 <li><p><strong>Supports:</strong> Date framing</p></li>
 <li><p><strong>Response:</strong></p>
@@ -397,9 +400,9 @@ Most endpoints support <strong>date framing</strong>, allowing you to specify cu
 </ul>
 <p><strong>6. cost_summary_by_service</strong></p>
 <ul>
-<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/service/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/service/&lt;uuid:organization_id&gt;/</span></code></p></li>
 <li><p><strong>Description:</strong> Returns today’s and month-to-date totals per service.</p></li>
-<li><p><strong>Supports:</strong> No date framing</p></li>
+<li><p><strong>Supports:</strong> Date framing</p></li>
 <li><p><strong>Response:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;today&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
@@ -417,7 +420,7 @@ Most endpoints support <strong>date framing</strong>, allowing you to specify cu
 </ul>
 <p><strong>7. cost_summary_by_account</strong></p>
 <ul>
-<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/account/&lt;uuid:cloud_account_id&gt;/</span></code></p></li>
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">cost-summary/account/&lt;uuid:organization_id&gt;/</span></code></p></li>
 <li><p><strong>Description:</strong> Returns total cost for today and for a given period (defaults to month-to-date).</p></li>
 <li><p><strong>Supports:</strong> Date framing</p></li>
 <li><p><strong>Response:</strong></p>

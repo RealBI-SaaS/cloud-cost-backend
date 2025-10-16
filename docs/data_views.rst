@@ -19,7 +19,13 @@ Endpoints that support date framing accept the following optional query paramete
 - **since** — start date (``YYYY-MM-DD``) for the data range.
 - **until** — end date (``YYYY-MM-DD``) for the data range.
 
-All framed responses include a ``range`` field showing the effective start and end dates.
+---
+
+- All framed responses include a ``range`` field showing the effective start and end dates.
+- All framed responses requested with ``organization_id`` will have the ``cloud account`` IDs as the key to its respective data. Example:
+
+  .. code-block:: json
+    {"f65f4b29-912b-4706-8246-6c3c45505432": data}
 
 ---
 
@@ -31,28 +37,26 @@ Endpoints
 
 **1. billing_daily_costs**
 
-- **URL:** ``cost/daily/<uuid:cloud_account_id>/``
-- **Description:** Returns total daily cost for a cloud account.
+- **URL:** ``cost/daily/<uuid:organization_id>/``
+- **Description:** Returns total daily cost for all cloud accounts of an organization.
 - **Supports:** Date framing
 - **Response:**
 
   .. code-block:: json
 
-      [
-        {
-          "day": "2025-10-02T00:00:00Z",
-          "total_cost": 0.4398
-        },
-        {
-          "day": "2025-10-03T00:00:00Z",
-          "total_cost": 0.4398
-        }
-      ]
-
+      {[
+            {
+                "day": "2025-10-02T00:00:00Z",
+                "total_cost": 0.4398
+            },
+            {
+                "day": "2025-10-03T00:00:00Z",
+                "total_cost": 0.4398
+      }]}
 
 **2. billing_cost_by_service**
 
-- **URL:** ``cost/service/<uuid:cloud_account_id>/``
+- **URL:** ``cost/service/<uuid:organization_id>/``
 - **Description:** Returns total cost aggregated by service.
 - **Supports:** Date framing
 - **Response:**
@@ -73,7 +77,7 @@ Endpoints
 
 **3. billing_cost_by_region**
 
-- **URL:** ``cost/region/<uuid:cloud_account_id>/``
+- **URL:** ``cost/region/<uuid:organization_id>/``
 - **Description:** Returns total cost aggregated by region.
 - **Supports:** Date framing
 - **Response:**
@@ -90,7 +94,7 @@ Endpoints
 
 **4. billing_usage_service_day**
 
-- **URL:** ``usage/service-day/<uuid:cloud_account_id>/``
+- **URL:** ``usage/service-day/<uuid:organization_id>/``
 - **Description:** Returns daily usage aggregated by service for a given account.
 - **Supports:** Date framing
 - **Response:**
@@ -117,7 +121,7 @@ Endpoints
 
 **5. billing_monthly_service_total**
 
-- **URL:** ``cost-summary/service-monthly/<uuid:cloud_account_id>/``
+- **URL:** ``cost-summary/service-monthly/<uuid:organization_id>/``
 - **Description:** Returns monthly cost and usage by service for a cloud account.
 - **Supports:** Date framing
 - **Response:**
@@ -140,9 +144,9 @@ Endpoints
 
 **6. cost_summary_by_service**
 
-- **URL:** ``cost-summary/service/<uuid:cloud_account_id>/``
+- **URL:** ``cost-summary/service/<uuid:organization_id>/``
 - **Description:** Returns today’s and month-to-date totals per service.
-- **Supports:** No date framing
+- **Supports:** Date framing
 - **Response:**
 
   .. code-block:: json
@@ -161,7 +165,7 @@ Endpoints
 
 **7. cost_summary_by_account**
 
-- **URL:** ``cost-summary/account/<uuid:cloud_account_id>/``
+- **URL:** ``cost-summary/account/<uuid:organization_id>/``
 - **Description:** Returns total cost for today and for a given period (defaults to month-to-date).
 - **Supports:** Date framing
 - **Response:**

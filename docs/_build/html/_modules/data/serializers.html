@@ -350,19 +350,30 @@
 
 
 
+<div class="viewcode-block" id="RangeSerializer">
+<a class="viewcode-back" href="../../data.html#data.serializers.RangeSerializer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RangeSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span></div>
+
+
+
 <div class="viewcode-block" id="CostSummaryByOrgSerializer">
 <a class="viewcode-back" href="../../data.html#data.serializers.CostSummaryByOrgSerializer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CostSummaryByOrgSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Serializer for multiple orgs&#39; cost summary.</span>
-<span class="sd">    Keys are org IDs (as string) and values are OrgCostSummarySerializer.</span>
+<span class="sd">    Includes range info and nested org→account→summary mapping.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># results = serializers.DictField(</span>
-    <span class="n">org_id</span> <span class="o">=</span> <span class="n">CostSummaryByAccountSerializer</span><span class="p">()</span></div>
+    <span class="nb">range</span> <span class="o">=</span> <span class="n">RangeSerializer</span><span class="p">()</span>
 
-    <span class="c1">#     help_text=&quot;Keys are organization IDs, values are cost summaries&quot;,</span>
-    <span class="c1"># )</span>
+    <span class="c1"># Dynamic dict of org IDs → dict of account IDs → CostSummaryByAccountSerializer</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">DictField</span><span class="p">(</span>
+        <span class="n">child</span><span class="o">=</span><span class="n">serializers</span><span class="o">.</span><span class="n">DictField</span><span class="p">(</span><span class="n">child</span><span class="o">=</span><span class="n">CostSummaryByAccountSerializer</span><span class="p">()),</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Mapping of org_id → account_id → cost summary data&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="MonthlyServiceTotalsEntrySerializer">

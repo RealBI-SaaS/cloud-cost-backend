@@ -266,7 +266,6 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sum</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.http</span><span class="w"> </span><span class="kn">import</span> <span class="n">JsonResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_object_or_404</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.utils.timezone</span><span class="w"> </span><span class="kn">import</span> <span class="n">now</span>
@@ -281,7 +280,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">company.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsOrgAdminOrOwnerOrReadOnly</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.aggregators.account</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_account_totals</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.aggregators.cost</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_cost_by_region</span><span class="p">,</span> <span class="n">get_cost_by_service</span><span class="p">,</span> <span class="n">get_daily_costs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.aggregators.cost</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_cost_by_region</span><span class="p">,</span>
+    <span class="n">get_cost_by_service</span><span class="p">,</span>
+    <span class="n">get_cost_summary_by_service</span><span class="p">,</span>
+    <span class="n">get_daily_costs</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.aggregators.usage</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_monthly_service_totals</span><span class="p">,</span> <span class="n">get_usage_by_service_and_day</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.aggregators.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_date_range</span>
 
@@ -291,7 +295,6 @@
     <span class="n">get_account_aws_client</span><span class="p">,</span>
     <span class="n">save_billing_data_efficient</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">cost_request_counter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">BillingRecord</span><span class="p">,</span> <span class="n">CloudAccount</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CloudAccountSerializer</span><span class="p">,</span>
@@ -369,19 +372,20 @@
 <span class="nd">@extend_schema</span><span class="p">(</span>
     <span class="n">responses</span><span class="o">=</span><span class="n">DailyCostSerializer</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-        <span class="s2">&quot;Returns daily total costs for the given Cloud Account. &quot;</span>
+        <span class="s2">&quot;Returns daily total costs for all cloud accounts in the given organization. &quot;</span>
         <span class="c1"># &quot;Optionally accepts `days`, `since`, and `until` query parameters.&quot;</span>
     <span class="p">),</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Daily Costs&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">billing_daily_costs</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">cloud_account_id</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">billing_daily_costs</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
     <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">parse_date_range</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">error</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">get_daily_costs</span><span class="p">(</span>
-        <span class="n">cloud_account_id</span><span class="p">,</span>
+        <span class="n">organization_id</span><span class="p">,</span>
+        <span class="c1"># cloud_account_id,</span>
         <span class="n">start_date</span><span class="p">,</span>
         <span class="n">end_date</span><span class="p">,</span>
     <span class="p">)</span>
@@ -394,16 +398,16 @@
 <a class="viewcode-back" href="../../data.html#data.views.billing_cost_by_service">[docs]</a>
 <span class="nd">@extend_schema</span><span class="p">(</span>
     <span class="n">responses</span><span class="o">=</span><span class="n">CostByServiceSerializer</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Returns total cost aggregated by service for the given Cloud Account.&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Returns total cost aggregated by service for all accounts in the given organization.&quot;</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Cost by Service&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">billing_cost_by_service</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">cloud_account_id</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">billing_cost_by_service</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
     <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">parse_date_range</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">error</span>
 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">get_cost_by_service</span><span class="p">(</span><span class="n">cloud_account_id</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_cost_by_service</span><span class="p">(</span><span class="n">organization_id</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">},</span> <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span></div>
 
@@ -417,12 +421,12 @@
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Cost by Region&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">billing_cost_by_region</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">cloud_account_id</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">billing_cost_by_region</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
     <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">parse_date_range</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">error</span>
 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">get_cost_by_region</span><span class="p">(</span><span class="n">cloud_account_id</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_cost_by_region</span><span class="p">(</span><span class="n">organization_id</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">},</span> <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span></div>
 
@@ -432,16 +436,16 @@
 <a class="viewcode-back" href="../../data.html#data.views.billing_usage_service_day">[docs]</a>
 <span class="nd">@extend_schema</span><span class="p">(</span>
     <span class="n">responses</span><span class="o">=</span><span class="n">UsageByServiceDaySerializer</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Returns daily usage aggregated by service for the given Cloud Account.&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Returns daily usage aggregated by service for all accounts in the given organization.&quot;</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Usage by Service &amp; Day&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">billing_usage_service_day</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">cloud_account_id</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">billing_usage_service_day</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
     <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">parse_date_range</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">error</span>
 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">get_usage_by_service_and_day</span><span class="p">(</span><span class="n">cloud_account_id</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_usage_by_service_and_day</span><span class="p">(</span><span class="n">organization_id</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">},</span> <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span></div>
 
@@ -455,12 +459,12 @@
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Monthly Cost and Usage Service Totals&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">billing_monthly_service_total</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">cloud_account_id</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">billing_monthly_service_total</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
     <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">parse_date_range</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">error</span>
 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">get_monthly_service_totals</span><span class="p">(</span><span class="n">cloud_account_id</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_monthly_service_totals</span><span class="p">(</span><span class="n">organization_id</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">},</span> <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span></div>
 
@@ -474,40 +478,14 @@
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Service Cost Summary&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cost_summary_by_service</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">cloud_account_id</span><span class="p">):</span>
-    <span class="n">today</span> <span class="o">=</span> <span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cost_summary_by_service</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
+    <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">parse_date_range</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">error</span>
 
-    <span class="n">start_month</span> <span class="o">=</span> <span class="n">today</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">day</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="c1"># last_30_days = today - timedelta(days=30)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_cost_summary_by_service</span><span class="p">(</span><span class="n">organization_id</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
 
-    <span class="n">qs</span> <span class="o">=</span> <span class="n">CloudAccount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">cloud_account_id</span><span class="p">)</span><span class="o">.</span><span class="n">billing_records</span>
-
-    <span class="c1"># today totals</span>
-    <span class="n">today_totals</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">qs</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">usage_start__date</span><span class="o">=</span><span class="n">today</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s2">&quot;service_name&quot;</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">total_cost</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s2">&quot;cost&quot;</span><span class="p">))</span>
-    <span class="p">)</span>
-
-    <span class="c1"># month totals</span>
-    <span class="n">month_totals</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">qs</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">usage_start__date__gte</span><span class="o">=</span><span class="n">start_month</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s2">&quot;service_name&quot;</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">total_cost</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s2">&quot;cost&quot;</span><span class="p">))</span>
-    <span class="p">)</span>
-
-    <span class="n">cost_request_counter</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;cost-summary-by-service&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">inc</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;today&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;service_name&quot;</span><span class="p">]:</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;total_cost&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">today_totals</span><span class="p">},</span>
-                <span class="s2">&quot;this_month&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="n">i</span><span class="p">[</span><span class="s2">&quot;service_name&quot;</span><span class="p">]:</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;total_cost&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">month_totals</span>
-                <span class="p">},</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">},</span> <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span></div>
 
 
 
@@ -522,51 +500,15 @@
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Account Cost Summary&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cost_summary_by_account</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">cloud_account_id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    GET /cost-summary/account/&lt;uuid:cloud_account_id&gt;/?days=7</span>
-<span class="sd">    GET /cost-summary/account/&lt;uuid:cloud_account_id&gt;/?since=2025-09-15</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Parse optional query params</span>
-
+<span class="k">def</span><span class="w"> </span><span class="nf">cost_summary_by_account</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
     <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">parse_date_range</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">error</span>
-    <span class="c1"># days = request.query_params.get(&quot;days&quot;)</span>
-    <span class="c1"># since = request.query_params.get(&quot;since&quot;)</span>
-
-    <span class="c1"># Convert query params</span>
-    <span class="c1"># if days is not None:</span>
-    <span class="c1">#     try:</span>
-    <span class="c1">#         days = int(days)</span>
-    <span class="c1">#     except ValueError:</span>
-    <span class="c1">#         return Response(</span>
-    <span class="c1">#             {&quot;error&quot;: &quot;Invalid &#39;days&#39; parameter, must be an integer.&quot;}, status=400</span>
-    <span class="c1">#         )</span>
-    <span class="c1"># elif since is not None:</span>
-    <span class="c1">#     try:</span>
-    <span class="c1">#         since = datetime.strptime(since, &quot;%Y-%m-%d&quot;).date()</span>
-    <span class="c1">#     except ValueError:</span>
-    <span class="c1">#         return Response(</span>
-    <span class="c1">#             {&quot;error&quot;: &quot;Invalid &#39;since&#39; date format, use YYYY-MM-DD.&quot;}, status=400</span>
-    <span class="c1">#         )</span>
-    <span class="c1">#</span>
-    <span class="c1"># Compute totals</span>
-    <span class="n">total_period</span><span class="p">,</span> <span class="n">total_today</span> <span class="o">=</span> <span class="n">get_account_totals</span><span class="p">(</span>
-        <span class="n">cloud_account_id</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">end_date</span>
-    <span class="p">)</span>
-    <span class="c1"># data = get_monthly_service_totals(</span>
-    <span class="c1">#     [cloud_account_id],</span>
-    <span class="c1"># since=start_date,</span>
-    <span class="c1"># until=end_date,</span>
-    <span class="c1"># )</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_account_totals</span><span class="p">(</span><span class="n">organization_id</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">end_date</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
         <span class="p">{</span>
-            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;total_today&quot;</span><span class="p">:</span> <span class="n">total_today</span><span class="p">,</span>
-                <span class="s2">&quot;total_period&quot;</span><span class="p">:</span> <span class="n">total_period</span><span class="p">,</span>
-            <span class="p">},</span>
+            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
             <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
                 <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
@@ -576,7 +518,6 @@
 
 
 
-<span class="c1"># NOTE: maybe kind of duplicate with the summary for cloud account, cost_summary_by_account</span>
 <div class="viewcode-block" id="cost_summary_by_orgs">
 <a class="viewcode-back" href="../../data.html#data.views.cost_summary_by_orgs">[docs]</a>
 <span class="nd">@extend_schema</span><span class="p">(</span>
@@ -597,21 +538,20 @@
 <span class="sd">        &quot;org_ids&quot;: [&quot;uuid1&quot;, &quot;uuid2&quot;, &quot;uuid3&quot;]</span>
 <span class="sd">    }</span>
 
-<span class="sd">    GET /cost-summary/account/&lt;uuid:cloud_account_id&gt;/?days=7</span>
-<span class="sd">    GET /cost-summary/account/&lt;uuid:cloud_account_id&gt;/?since=2025-09-15</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">parse_date_range</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">error</span>
-    <span class="c1"># days = request.quer</span>
-    <span class="c1"># Parse optional query params</span>
-    <span class="c1"># days = request.query_params.get(&quot;days&quot;)</span>
-    <span class="c1"># since = request.query_params.get(&quot;since&quot;)</span>
 
     <span class="n">org_ids</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;org_ids&quot;</span><span class="p">,</span> <span class="p">[])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">org_ids</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">({</span><span class="s2">&quot;org_ids&quot;</span><span class="p">:</span> <span class="s2">&quot;Must be a list of UUIDs.&quot;</span><span class="p">})</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
 
     <span class="k">for</span> <span class="n">org_id</span> <span class="ow">in</span> <span class="n">org_ids</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
@@ -619,35 +559,9 @@
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">({</span><span class="s2">&quot;org_id&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Invalid UUID: </span><span class="si">{</span><span class="n">org_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">org</span> <span class="o">=</span> <span class="n">Organization</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">org_uuid</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">Organization</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;organization_id&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Invalid Organization </span><span class="si">{</span><span class="n">org_id</span><span class="si">}</span><span class="s2"> ID included.&quot;</span><span class="p">}</span>
-            <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">get_account_totals</span><span class="p">(</span><span class="n">org_uuid</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">end_date</span><span class="p">)</span>
 
-        <span class="c1"># Get all cloud accounts for this org</span>
-        <span class="c1"># cloud_account_ids = org.cloud_accounts.values_list(&quot;id&quot;, flat=True)</span>
-        <span class="n">cloud_account_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-            <span class="n">CloudAccount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">organization</span><span class="o">=</span><span class="n">org</span><span class="p">)</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="n">total_period</span><span class="p">,</span> <span class="n">total_today</span> <span class="o">=</span> <span class="n">get_account_totals</span><span class="p">(</span>
-            <span class="n">cloud_account_ids</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">end_date</span>
-        <span class="p">)</span>
-        <span class="c1"># data = get_monthly_service_totals(</span>
-        <span class="c1">#     cloud_account_ids,</span>
-        <span class="c1">#     # since=start_date,</span>
-        <span class="c1">#     # until=end_date,</span>
-        <span class="c1"># )</span>
-
-        <span class="n">res</span><span class="p">[</span><span class="n">org_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;total_today&quot;</span><span class="p">:</span> <span class="n">total_today</span><span class="p">,</span> <span class="s2">&quot;total_period&quot;</span><span class="p">:</span> <span class="n">total_period</span><span class="p">},</span>
-            <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
-                <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
-            <span class="p">},</span>
-        <span class="p">}</span>
+        <span class="n">res</span><span class="p">[</span><span class="n">org_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
 
     <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
