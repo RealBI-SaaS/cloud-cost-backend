@@ -2,7 +2,6 @@ import os
 import uuid
 from datetime import timedelta
 
-from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
@@ -17,7 +16,12 @@ from company.models import Organization
 from company.permissions import IsOrgAdminOrOwnerOrReadOnly
 
 from .aggregators.account import get_account_totals
-from .aggregators.cost import get_cost_by_region, get_cost_by_service, get_daily_costs
+from .aggregators.cost import (
+    get_cost_by_region,
+    get_cost_by_service,
+    get_cost_summary_by_service,
+    get_daily_costs,
+)
 from .aggregators.usage import get_monthly_service_totals, get_usage_by_service_and_day
 from .aggregators.utils import parse_date_range
 
@@ -27,7 +31,6 @@ from .integration_helpers.aws import (
     get_account_aws_client,
     save_billing_data_efficient,
 )
-from .metrics import cost_request_counter
 from .models import BillingRecord, CloudAccount
 from .serializers import (
     CloudAccountSerializer,
@@ -91,19 +94,20 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
 @extend_schema(
     responses=DailyCostSerializer(many=True),
     description=(
-        "Returns daily total costs for the given Cloud Account. "
+        "Returns daily total costs for all cloud accounts in the given organization. "
         # "Optionally accepts `days`, `since`, and `until` query parameters."
     ),
     summary="Daily Costs",
 )
 @api_view(["GET"])
-def billing_daily_costs(request, cloud_account_id):
+def billing_daily_costs(request, organization_id):
     start_date, end_date, error = parse_date_range(request)
     if error:
         return error
 
     data = get_daily_costs(
-        cloud_account_id,
+        organization_id,
+        # cloud_account_id,
         start_date,
         end_date,
     )
@@ -113,16 +117,16 @@ def billing_daily_costs(request, cloud_account_id):
 
 @extend_schema(
     responses=CostByServiceSerializer(many=True),
-    description="Returns total cost aggregated by service for the given Cloud Account.",
+    description="Returns total cost aggregated by service for all accounts in the given organization.",
     summary="Cost by Service",
 )
 @api_view(["GET"])
-def billing_cost_by_service(request, cloud_account_id):
+def billing_cost_by_service(request, organization_id):
     start_date, end_date, error = parse_date_range(request)
     if error:
         return error
 
-    data = get_cost_by_service(cloud_account_id, start_date, end_date)
+    data = get_cost_by_service(organization_id, start_date, end_date)
 
     return Response({"range": {"start": start_date, "end": end_date}, "results": data})
 
@@ -133,28 +137,28 @@ def billing_cost_by_service(request, cloud_account_id):
     summary="Cost by Region",
 )
 @api_view(["GET"])
-def billing_cost_by_region(request, cloud_account_id):
+def billing_cost_by_region(request, organization_id):
     start_date, end_date, error = parse_date_range(request)
     if error:
         return error
 
-    data = get_cost_by_region(cloud_account_id, start_date, end_date)
+    data = get_cost_by_region(organization_id, start_date, end_date)
 
     return Response({"range": {"start": start_date, "end": end_date}, "results": data})
 
 
 @extend_schema(
     responses=UsageByServiceDaySerializer(many=True),
-    description="Returns daily usage aggregated by service for the given Cloud Account.",
+    description="Returns daily usage aggregated by service for all accounts in the given organization.",
     summary="Usage by Service & Day",
 )
 @api_view(["GET"])
-def billing_usage_service_day(request, cloud_account_id):
+def billing_usage_service_day(request, organization_id):
     start_date, end_date, error = parse_date_range(request)
     if error:
         return error
 
-    data = get_usage_by_service_and_day(cloud_account_id, start_date, end_date)
+    data = get_usage_by_service_and_day(organization_id, start_date, end_date)
 
     return Response({"range": {"start": start_date, "end": end_date}, "results": data})
 
@@ -165,12 +169,12 @@ def billing_usage_service_day(request, cloud_account_id):
     summary="Monthly Cost and Usage Service Totals",
 )
 @api_view(["GET"])
-def billing_monthly_service_total(request, cloud_account_id):
+def billing_monthly_service_total(request, organization_id):
     start_date, end_date, error = parse_date_range(request)
     if error:
         return error
 
-    data = get_monthly_service_totals(cloud_account_id, start_date, end_date)
+    data = get_monthly_service_totals(organization_id, start_date, end_date)
 
     return Response({"range": {"start": start_date, "end": end_date}, "results": data})
 
@@ -181,40 +185,14 @@ def billing_monthly_service_total(request, cloud_account_id):
     summary="Service Cost Summary",
 )
 @api_view(["GET"])
-def cost_summary_by_service(request, cloud_account_id):
-    today = now().date()
+def cost_summary_by_service(request, organization_id):
+    start_date, end_date, error = parse_date_range(request)
+    if error:
+        return error
 
-    start_month = today.replace(day=1)
-    # last_30_days = today - timedelta(days=30)
+    data = get_cost_summary_by_service(organization_id, start_date, end_date)
 
-    qs = CloudAccount.objects.get(id=cloud_account_id).billing_records
-
-    # today totals
-    today_totals = (
-        qs.filter(usage_start__date=today)
-        .values("service_name")
-        .annotate(total_cost=Sum("cost"))
-    )
-
-    # month totals
-    month_totals = (
-        qs.filter(usage_start__date__gte=start_month)
-        .values("service_name")
-        .annotate(total_cost=Sum("cost"))
-    )
-
-    cost_request_counter.labels(type="cost-summary-by-service").inc()
-
-    return Response(
-        {
-            "results": {
-                "today": {i["service_name"]: i["total_cost"] for i in today_totals},
-                "this_month": {
-                    i["service_name"]: i["total_cost"] for i in month_totals
-                },
-            }
-        }
-    )
+    return Response({"range": {"start": start_date, "end": end_date}, "results": data})
 
 
 @extend_schema(
@@ -226,51 +204,15 @@ def cost_summary_by_service(request, cloud_account_id):
     summary="Account Cost Summary",
 )
 @api_view(["GET"])
-def cost_summary_by_account(request, cloud_account_id):
-    """
-    GET /cost-summary/account/<uuid:cloud_account_id>/?days=7
-    GET /cost-summary/account/<uuid:cloud_account_id>/?since=2025-09-15
-    """
-    # Parse optional query params
-
+def cost_summary_by_account(request, organization_id):
     start_date, end_date, error = parse_date_range(request)
     if error:
         return error
-    # days = request.query_params.get("days")
-    # since = request.query_params.get("since")
-
-    # Convert query params
-    # if days is not None:
-    #     try:
-    #         days = int(days)
-    #     except ValueError:
-    #         return Response(
-    #             {"error": "Invalid 'days' parameter, must be an integer."}, status=400
-    #         )
-    # elif since is not None:
-    #     try:
-    #         since = datetime.strptime(since, "%Y-%m-%d").date()
-    #     except ValueError:
-    #         return Response(
-    #             {"error": "Invalid 'since' date format, use YYYY-MM-DD."}, status=400
-    #         )
-    #
-    # Compute totals
-    total_period, total_today = get_account_totals(
-        cloud_account_id, since=start_date, until=end_date
-    )
-    # data = get_monthly_service_totals(
-    #     [cloud_account_id],
-    # since=start_date,
-    # until=end_date,
-    # )
+    data = get_account_totals(organization_id, since=start_date, until=end_date)
 
     return Response(
         {
-            "results": {
-                "total_today": total_today,
-                "total_period": total_period,
-            },
+            "results": data,
             "range": {
                 "start": start_date,
                 "end": end_date,
@@ -279,7 +221,6 @@ def cost_summary_by_account(request, cloud_account_id):
     )
 
 
-# NOTE: maybe kind of duplicate with the summary for cloud account, cost_summary_by_account
 @extend_schema(
     request=CostSummaryByOrgRequestSerializer,
     responses=CostSummaryByOrgSerializer,
@@ -298,21 +239,20 @@ def cost_summary_by_orgs(request):
         "org_ids": ["uuid1", "uuid2", "uuid3"]
     }
 
-    GET /cost-summary/account/<uuid:cloud_account_id>/?days=7
-    GET /cost-summary/account/<uuid:cloud_account_id>/?since=2025-09-15
     """
     start_date, end_date, error = parse_date_range(request)
     if error:
         return error
-    # days = request.quer
-    # Parse optional query params
-    # days = request.query_params.get("days")
-    # since = request.query_params.get("since")
 
     org_ids = request.data.get("org_ids", [])
     if not isinstance(org_ids, list):
         raise ValidationError({"org_ids": "Must be a list of UUIDs."})
-    res = {}
+    res = {
+        "range": {
+            "start": start_date,
+            "end": end_date,
+        },
+    }
 
     for org_id in org_ids:
         try:
@@ -320,35 +260,9 @@ def cost_summary_by_orgs(request):
         except ValueError:
             raise ValidationError({"org_id": f"Invalid UUID: {org_id}"})
 
-        try:
-            org = Organization.objects.get(pk=org_uuid)
-        except Organization.DoesNotExist:
-            raise ValidationError(
-                {"organization_id": f"Invalid Organization {org_id} ID included."}
-            )
+        data = get_account_totals(org_uuid, since=start_date, until=end_date)
 
-        # Get all cloud accounts for this org
-        # cloud_account_ids = org.cloud_accounts.values_list("id", flat=True)
-        cloud_account_ids = list(
-            CloudAccount.objects.filter(organization=org).values_list("id", flat=True)
-        )
-
-        total_period, total_today = get_account_totals(
-            cloud_account_ids, since=start_date, until=end_date
-        )
-        # data = get_monthly_service_totals(
-        #     cloud_account_ids,
-        #     # since=start_date,
-        #     # until=end_date,
-        # )
-
-        res[org_id] = {
-            "results": {"total_today": total_today, "total_period": total_period},
-            "range": {
-                "start": start_date,
-                "end": end_date,
-            },
-        }
+        res[org_id] = data
 
     return Response(res)
 

@@ -1,5 +1,4 @@
 # aws_views.py
-import logging
 
 import boto3
 from botocore.exceptions import ClientError
@@ -21,7 +20,7 @@ from ..integration_helpers.aws import (
 # from .aws_utils import fetch_cost_and_usage, get_tenant_aws_client, save_billing_data
 from ..models import AWSRole, CloudAccount
 
-boto3.set_stream_logger("botocore", level=logging.DEBUG)
+# boto3.set_stream_logger("botocore", level=logging.DEBUG)
 
 
 @api_view(["POST"])

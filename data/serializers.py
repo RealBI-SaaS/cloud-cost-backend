@@ -59,16 +59,24 @@ class CostSummaryByOrgRequestSerializer(serializers.Serializer):
     )
 
 
+class RangeSerializer(serializers.Serializer):
+    start = serializers.DateField()
+    end = serializers.DateField()
+
+
 class CostSummaryByOrgSerializer(serializers.Serializer):
     """
     Serializer for multiple orgs' cost summary.
-    Keys are org IDs (as string) and values are OrgCostSummarySerializer.
+    Includes range info and nested org→account→summary mapping.
     """
 
-    # results = serializers.DictField(
-    org_id = CostSummaryByAccountSerializer()
-    #     help_text="Keys are organization IDs, values are cost summaries",
-    # )
+    range = RangeSerializer()
+
+    # Dynamic dict of org IDs → dict of account IDs → CostSummaryByAccountSerializer
+    results = serializers.DictField(
+        child=serializers.DictField(child=CostSummaryByAccountSerializer()),
+        help_text="Mapping of org_id → account_id → cost summary data",
+    )
 
 
 class MonthlyServiceTotalsEntrySerializer(serializers.Serializer):

@@ -62,6 +62,7 @@ class BillingRecord(models.Model):
         max_length=255, blank=True, null=True
     )  # e.g., instance ID, bucket name
     cost = models.DecimalField(max_digits=12, decimal_places=4)
+    # NOTE: maybe move this to the cloud account level?
     currency = models.CharField(max_length=10, default="USD")
     metadata = models.JSONField(blank=True, null=True)  # e.g., tags, region, etc.
 

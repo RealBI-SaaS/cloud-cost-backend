@@ -1061,7 +1061,7 @@ object the first time, the query is executed.</p>
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.serializers.</span></span><span class="sig-name descname"><span class="pre">CostSummaryByOrgSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/serializers.html#CostSummaryByOrgSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.CostSummaryByOrgSerializer" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
 <p>Serializer for multiple orgs’ cost summary.
-Keys are org IDs (as string) and values are OrgCostSummarySerializer.</p>
+Includes range info and nested org→account→summary mapping.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -1085,6 +1085,12 @@ Keys are org IDs (as string) and values are OrgCostSummarySerializer.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="data.serializers.MonthlyServiceTotalsSerializer">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.serializers.</span></span><span class="sig-name descname"><span class="pre">MonthlyServiceTotalsSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/serializers.html#MonthlyServiceTotalsSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.MonthlyServiceTotalsSerializer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="data.serializers.RangeSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.serializers.</span></span><span class="sig-name descname"><span class="pre">RangeSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/serializers.html#RangeSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.RangeSerializer" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
 </dd></dl>
 
@@ -1203,9 +1209,7 @@ querysets depending on the incoming request.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="data.views.cost_summary_by_account">
 <span class="sig-prename descclassname"><span class="pre">data.views.</span></span><span class="sig-name descname"><span class="pre">cost_summary_by_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#cost_summary_by_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.cost_summary_by_account" title="Link to this definition">¶</a></dt>
-<dd><p>GET /cost-summary/account/&lt;<a class="reference external" href="uuid:cloud_account_id">uuid:cloud_account_id</a>&gt;/?days=7
-GET /cost-summary/account/&lt;<a class="reference external" href="uuid:cloud_account_id">uuid:cloud_account_id</a>&gt;/?since=2025-09-15</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="data.views.cost_summary_by_orgs">
@@ -1216,8 +1220,6 @@ GET /cost-summary/account/&lt;<a class="reference external" href="uuid:cloud_acc
 <div><p>“org_ids”: [“uuid1”, “uuid2”, “uuid3”]</p>
 </div></blockquote>
 <p>}</p>
-<p>GET /cost-summary/account/&lt;<a class="reference external" href="uuid:cloud_account_id">uuid:cloud_account_id</a>&gt;/?days=7
-GET /cost-summary/account/&lt;<a class="reference external" href="uuid:cloud_account_id">uuid:cloud_account_id</a>&gt;/?since=2025-09-15</p>
 </dd></dl>
 
 <dl class="py function">
@@ -1429,6 +1431,7 @@ GET /cost-summary/account/&lt;<a class="reference external" href="uuid:cloud_acc
 <li><a class="reference internal" href="#data.serializers.DailyCostSerializer"><code class="docutils literal notranslate"><span class="pre">DailyCostSerializer</span></code></a></li>
 <li><a class="reference internal" href="#data.serializers.MonthlyServiceTotalsEntrySerializer"><code class="docutils literal notranslate"><span class="pre">MonthlyServiceTotalsEntrySerializer</span></code></a></li>
 <li><a class="reference internal" href="#data.serializers.MonthlyServiceTotalsSerializer"><code class="docutils literal notranslate"><span class="pre">MonthlyServiceTotalsSerializer</span></code></a></li>
+<li><a class="reference internal" href="#data.serializers.RangeSerializer"><code class="docutils literal notranslate"><span class="pre">RangeSerializer</span></code></a></li>
 <li><a class="reference internal" href="#data.serializers.UsageByServiceDaySerializer"><code class="docutils literal notranslate"><span class="pre">UsageByServiceDaySerializer</span></code></a></li>
 </ul>
 </li>
