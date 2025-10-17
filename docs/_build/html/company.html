@@ -203,6 +203,7 @@
 <li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passwordless_signins.html">Passwordless Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_views.html">Cloud Account Cost &amp; Usage APIs Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_expense.html">Custom Expense Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/authentication.migrations.html">authentication.migrations package</a></li>
@@ -616,6 +617,21 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 object the first time, the query is executed.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="company.models.Organization.custom_expenses">
+<span class="sig-name descname"><span class="pre">custom_expenses</span></span><a class="headerlink" href="#company.models.Organization.custom_expenses" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="company.models.Organization.get_next_by_created_at">
 <span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#company.models.Organization.get_next_by_created_at" title="Link to this definition">¶</a></dt>
@@ -909,6 +925,7 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <li><a class="reference internal" href="#company.models.Organization.company"><code class="docutils literal notranslate"><span class="pre">Organization.company</span></code></a></li>
 <li><a class="reference internal" href="#company.models.Organization.company_id"><code class="docutils literal notranslate"><span class="pre">Organization.company_id</span></code></a></li>
 <li><a class="reference internal" href="#company.models.Organization.created_at"><code class="docutils literal notranslate"><span class="pre">Organization.created_at</span></code></a></li>
+<li><a class="reference internal" href="#company.models.Organization.custom_expenses"><code class="docutils literal notranslate"><span class="pre">Organization.custom_expenses</span></code></a></li>
 <li><a class="reference internal" href="#company.models.Organization.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_next_by_created_at()</span></code></a></li>
 <li><a class="reference internal" href="#company.models.Organization.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_next_by_updated_at()</span></code></a></li>
 <li><a class="reference internal" href="#company.models.Organization.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_previous_by_created_at()</span></code></a></li>

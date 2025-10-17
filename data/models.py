@@ -142,3 +142,47 @@ class AWSRole(models.Model):
 
     def __str__(self):
         return f"AWS role credential - for {self.cloud_account}"
+
+
+class CustomExpenseVendor(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, unique=True)
+    website = models.URLField(blank=True, null=True)
+    logo = models.URLField(blank=False, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class CustomExpense(models.Model):
+    FREQUENCY_CHOICES = [
+        ("daily", "Daily"),
+        ("weekly", "Weekly"),
+        ("monthly", "Monthly"),
+        ("yearly", "Yearly"),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    organization = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="custom_expenses"
+    )
+    vendor = models.ForeignKey(
+        CustomExpenseVendor, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    custom_name = models.CharField(
+        max_length=100, blank=True, null=True
+    )  # for custom entries not in Vendor
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = models.CharField(max_length=10, default="USD")
+    frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        if self.vendor:
+            # show both if custom_name exists (e.g., "Slack (Personal Workspace)")
+            if self.custom_name:
+                return f"{self.vendor.name} ({self.custom_name})"
+            return self.vendor.name
+        return self.custom_name or "Custom-Expense"

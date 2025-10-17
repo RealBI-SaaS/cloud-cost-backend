@@ -203,6 +203,7 @@
 <li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passwordless_signins.html">Passwordless Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_views.html">Cloud Account Cost &amp; Usage APIs Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_expense.html">Custom Expense Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/authentication.migrations.html">authentication.migrations package</a></li>
@@ -885,6 +886,217 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="data.models.CustomExpense">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.models.</span></span><span class="sig-name descname"><span class="pre">CustomExpense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">organization</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vendor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">currency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/models.html#CustomExpense"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.models.CustomExpense" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="data.models.CustomExpense.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#data.models.CustomExpense.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.FREQUENCY_CHOICES">
+<span class="sig-name descname"><span class="pre">FREQUENCY_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('daily',</span> <span class="pre">'Daily'),</span> <span class="pre">('weekly',</span> <span class="pre">'Weekly'),</span> <span class="pre">('monthly',</span> <span class="pre">'Monthly'),</span> <span class="pre">('yearly',</span> <span class="pre">'Yearly')]</span></em><a class="headerlink" href="#data.models.CustomExpense.FREQUENCY_CHOICES" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="data.models.CustomExpense.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#data.models.CustomExpense.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.amount">
+<span class="sig-name descname"><span class="pre">amount</span></span><a class="headerlink" href="#data.models.CustomExpense.amount" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#data.models.CustomExpense.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.currency">
+<span class="sig-name descname"><span class="pre">currency</span></span><a class="headerlink" href="#data.models.CustomExpense.currency" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.custom_name">
+<span class="sig-name descname"><span class="pre">custom_name</span></span><a class="headerlink" href="#data.models.CustomExpense.custom_name" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.frequency">
+<span class="sig-name descname"><span class="pre">frequency</span></span><a class="headerlink" href="#data.models.CustomExpense.frequency" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.models.CustomExpense.get_frequency_display">
+<span class="sig-name descname"><span class="pre">get_frequency_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">frequency&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data.models.CustomExpense.get_frequency_display" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.models.CustomExpense.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data.models.CustomExpense.get_next_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.models.CustomExpense.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data.models.CustomExpense.get_next_by_updated_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.models.CustomExpense.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data.models.CustomExpense.get_previous_by_created_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.models.CustomExpense.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data.models.CustomExpense.get_previous_by_updated_at" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#data.models.CustomExpense.id" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#data.models.CustomExpense.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.organization">
+<span class="sig-name descname"><span class="pre">organization</span></span><a class="headerlink" href="#data.models.CustomExpense.organization" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.organization_id">
+<span class="sig-name descname"><span class="pre">organization_id</span></span><a class="headerlink" href="#data.models.CustomExpense.organization_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#data.models.CustomExpense.updated_at" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.vendor">
+<span class="sig-name descname"><span class="pre">vendor</span></span><a class="headerlink" href="#data.models.CustomExpense.vendor" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpense.vendor_id">
+<span class="sig-name descname"><span class="pre">vendor_id</span></span><a class="headerlink" href="#data.models.CustomExpense.vendor_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.models.</span></span><span class="sig-name descname"><span class="pre">CustomExpenseVendor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">website</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/models.html#CustomExpenseVendor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.models.CustomExpenseVendor" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#data.models.CustomExpenseVendor.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#data.models.CustomExpenseVendor.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor.customexpense_set">
+<span class="sig-name descname"><span class="pre">customexpense_set</span></span><a class="headerlink" href="#data.models.CustomExpenseVendor.customexpense_set" title="Link to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#data.models.CustomExpenseVendor.description" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#data.models.CustomExpenseVendor.id" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor.logo">
+<span class="sig-name descname"><span class="pre">logo</span></span><a class="headerlink" href="#data.models.CustomExpenseVendor.logo" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#data.models.CustomExpenseVendor.name" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#data.models.CustomExpenseVendor.objects" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.models.CustomExpenseVendor.website">
+<span class="sig-name descname"><span class="pre">website</span></span><a class="headerlink" href="#data.models.CustomExpenseVendor.website" title="Link to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="data.models.GoogleOAuthToken">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.models.</span></span><span class="sig-name descname"><span class="pre">GoogleOAuthToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloud_account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh_token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expires_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/models.html#GoogleOAuthToken"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.models.GoogleOAuthToken" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
@@ -1025,7 +1237,7 @@ object the first time, the query is executed.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="data.serializers.CloudAccountSerializer.Meta.read_only_fields">
-<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'created_at',</span> <span class="pre">'updated_at',</span> <span class="pre">'organization')</span></em><a class="headerlink" href="#data.serializers.CloudAccountSerializer.Meta.read_only_fields" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'created_at',</span> <span class="pre">'updated_at',</span> <span class="pre">'organization',</span> <span class="pre">'account_id',</span> <span class="pre">'vendor')</span></em><a class="headerlink" href="#data.serializers.CloudAccountSerializer.Meta.read_only_fields" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1068,6 +1280,80 @@ Includes range info and nested org→account→summary mapping.</p>
 <dt class="sig sig-object py" id="data.serializers.CostSummaryByServiceSerializer">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.serializers.</span></span><span class="sig-name descname"><span class="pre">CostSummaryByServiceSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/serializers.html#CostSummaryByServiceSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.CostSummaryByServiceSerializer" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.serializers.</span></span><span class="sig-name descname"><span class="pre">CustomExpenseSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/serializers.html#CustomExpenseSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.CustomExpenseSerializer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseSerializer.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/data/serializers.html#CustomExpenseSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.CustomExpenseSerializer.Meta" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'vendor',</span> <span class="pre">'vendor_id',</span> <span class="pre">'custom_name',</span> <span class="pre">'amount',</span> <span class="pre">'currency',</span> <span class="pre">'frequency',</span> <span class="pre">'created_at']</span></em><a class="headerlink" href="#data.serializers.CustomExpenseSerializer.Meta.fields" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#data.serializers.CustomExpenseSerializer.Meta.model" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#data.models.CustomExpense" title="data.models.CustomExpense"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomExpense</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseSerializer.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validated_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/serializers.html#CustomExpenseSerializer.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.CustomExpenseSerializer.create" title="Link to this definition">¶</a></dt>
+<dd><p>We have a bit of extra checking around this in order to provide
+descriptive messages when something goes wrong, but this method is
+essentially just:</p>
+<blockquote>
+<div><p>return ExampleModel.objects.create(<a href="#id1"><span class="problematic" id="id2">**</span></a>validated_data)</p>
+</div></blockquote>
+<p>If there are many to many fields present on the instance then they
+cannot be set until the model is instantiated, in which case the
+implementation is like so:</p>
+<blockquote>
+<div><p>example_relationship = validated_data.pop(‘example_relationship’)
+instance = ExampleModel.objects.create(<a href="#id3"><span class="problematic" id="id4">**</span></a>validated_data)
+instance.example_relationship = example_relationship
+return instance</p>
+</div></blockquote>
+<p>The default implementation also does not handle nested relationships.
+If you want to support writable nested relationships you’ll need
+to write an explicit <cite>.create()</cite> method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseSerializer.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/serializers.html#CustomExpenseSerializer.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.CustomExpenseSerializer.validate" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseVendorSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.serializers.</span></span><span class="sig-name descname"><span class="pre">CustomExpenseVendorSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/serializers.html#CustomExpenseVendorSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.CustomExpenseVendorSerializer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseVendorSerializer.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/data/serializers.html#CustomExpenseVendorSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.serializers.CustomExpenseVendorSerializer.Meta" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseVendorSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'website',</span> <span class="pre">'logo',</span> <span class="pre">'description']</span></em><a class="headerlink" href="#data.serializers.CustomExpenseVendorSerializer.Meta.fields" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.serializers.CustomExpenseVendorSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#data.serializers.CustomExpenseVendorSerializer.Meta.model" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#data.models.CustomExpenseVendor" title="data.models.CustomExpenseVendor"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomExpenseVendor</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -1131,8 +1417,7 @@ Includes range info and nested org→account→summary mapping.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="data.views.CloudAccountViewSet.get_organization">
 <span class="sig-name descname"><span class="pre">get_organization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#CloudAccountViewSet.get_organization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.CloudAccountViewSet.get_organization" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieve the company from the request’s query param or URL kwarg.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="data.views.CloudAccountViewSet.get_queryset">
@@ -1177,6 +1462,114 @@ querysets depending on the incoming request.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="data.views.CloudAccountViewSet.suffix">
 <span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CloudAccountViewSet.suffix" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="data.views.CustomExpenseVendorViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.views.</span></span><span class="sig-name descname"><span class="pre">CustomExpenseVendorViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#CustomExpenseVendorViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.CustomExpenseVendorViewSet" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ReadOnlyModelViewSet</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseVendorViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseVendorViewSet.basename" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseVendorViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseVendorViewSet.description" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseVendorViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseVendorViewSet.detail" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseVendorViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseVendorViewSet.name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseVendorViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#data.views.CustomExpenseVendorViewSet.permission_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseVendorViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;CustomExpenseVendor:</span> <span class="pre">Numlk&gt;]&gt;</span></em><a class="headerlink" href="#data.views.CustomExpenseVendorViewSet.queryset" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseVendorViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#data.views.CustomExpenseVendorViewSet.serializer_class" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#data.serializers.CustomExpenseVendorSerializer" title="data.serializers.CustomExpenseVendorSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomExpenseVendorSerializer</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseVendorViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseVendorViewSet.suffix" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.views.</span></span><span class="sig-name descname"><span class="pre">CustomExpenseViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#CustomExpenseViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.CustomExpenseViewSet" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseViewSet.basename" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseViewSet.description" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseViewSet.detail" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet.get_organization">
+<span class="sig-name descname"><span class="pre">get_organization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#CustomExpenseViewSet.get_organization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.CustomExpenseViewSet.get_organization" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#CustomExpenseViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.CustomExpenseViewSet.get_queryset" title="Link to this definition">¶</a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseViewSet.name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet.perform_create">
+<span class="sig-name descname"><span class="pre">perform_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data/views.html#CustomExpenseViewSet.perform_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data.views.CustomExpenseViewSet.perform_create" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#data.views.CustomExpenseViewSet.serializer_class" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#data.serializers.CustomExpenseSerializer" title="data.serializers.CustomExpenseSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomExpenseSerializer</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.views.CustomExpenseViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#data.views.CustomExpenseViewSet.suffix" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1389,6 +1782,41 @@ querysets depending on the incoming request.</p>
 <li><a class="reference internal" href="#data.models.CloudVendor.GCP"><code class="docutils literal notranslate"><span class="pre">CloudVendor.GCP</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#data.models.CustomExpense"><code class="docutils literal notranslate"><span class="pre">CustomExpense</span></code></a><ul>
+<li><a class="reference internal" href="#data.models.CustomExpense.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">CustomExpense.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.FREQUENCY_CHOICES"><code class="docutils literal notranslate"><span class="pre">CustomExpense.FREQUENCY_CHOICES</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">CustomExpense.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.amount"><code class="docutils literal notranslate"><span class="pre">CustomExpense.amount</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.created_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.created_at</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.currency"><code class="docutils literal notranslate"><span class="pre">CustomExpense.currency</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.custom_name"><code class="docutils literal notranslate"><span class="pre">CustomExpense.custom_name</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.frequency"><code class="docutils literal notranslate"><span class="pre">CustomExpense.frequency</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.get_frequency_display"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_frequency_display()</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_next_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_next_by_updated_at()</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_previous_by_created_at()</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_previous_by_updated_at()</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.id"><code class="docutils literal notranslate"><span class="pre">CustomExpense.id</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.objects"><code class="docutils literal notranslate"><span class="pre">CustomExpense.objects</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.organization"><code class="docutils literal notranslate"><span class="pre">CustomExpense.organization</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.organization_id"><code class="docutils literal notranslate"><span class="pre">CustomExpense.organization_id</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.updated_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.updated_at</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.vendor"><code class="docutils literal notranslate"><span class="pre">CustomExpense.vendor</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpense.vendor_id"><code class="docutils literal notranslate"><span class="pre">CustomExpense.vendor_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor</span></code></a><ul>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor.customexpense_set"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.customexpense_set</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor.description"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.description</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor.id"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.id</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor.logo"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.logo</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor.name"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.name</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor.objects"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.objects</span></code></a></li>
+<li><a class="reference internal" href="#data.models.CustomExpenseVendor.website"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.website</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#data.models.GoogleOAuthToken"><code class="docutils literal notranslate"><span class="pre">GoogleOAuthToken</span></code></a><ul>
 <li><a class="reference internal" href="#data.models.GoogleOAuthToken.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">GoogleOAuthToken.DoesNotExist</span></code></a></li>
 <li><a class="reference internal" href="#data.models.GoogleOAuthToken.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">GoogleOAuthToken.MultipleObjectsReturned</span></code></a></li>
@@ -1428,6 +1856,24 @@ querysets depending on the incoming request.</p>
 <li><a class="reference internal" href="#data.serializers.CostSummaryByOrgRequestSerializer"><code class="docutils literal notranslate"><span class="pre">CostSummaryByOrgRequestSerializer</span></code></a></li>
 <li><a class="reference internal" href="#data.serializers.CostSummaryByOrgSerializer"><code class="docutils literal notranslate"><span class="pre">CostSummaryByOrgSerializer</span></code></a></li>
 <li><a class="reference internal" href="#data.serializers.CostSummaryByServiceSerializer"><code class="docutils literal notranslate"><span class="pre">CostSummaryByServiceSerializer</span></code></a></li>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseSerializer"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseSerializer.create"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer.create()</span></code></a></li>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseSerializer.validate"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer.validate()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseVendorSerializer"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseVendorSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseVendorSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#data.serializers.CustomExpenseVendorSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#data.serializers.DailyCostSerializer"><code class="docutils literal notranslate"><span class="pre">DailyCostSerializer</span></code></a></li>
 <li><a class="reference internal" href="#data.serializers.MonthlyServiceTotalsEntrySerializer"><code class="docutils literal notranslate"><span class="pre">MonthlyServiceTotalsEntrySerializer</span></code></a></li>
 <li><a class="reference internal" href="#data.serializers.MonthlyServiceTotalsSerializer"><code class="docutils literal notranslate"><span class="pre">MonthlyServiceTotalsSerializer</span></code></a></li>
@@ -1450,6 +1896,29 @@ querysets depending on the incoming request.</p>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.permission_classes</span></code></a></li>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.serializer_class"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.serializer_class</span></code></a></li>
 <li><a class="reference internal" href="#data.views.CloudAccountViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.suffix</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data.views.CustomExpenseVendorViewSet"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#data.views.CustomExpenseVendorViewSet.basename"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.basename</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseVendorViewSet.description"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.description</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseVendorViewSet.detail"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.detail</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseVendorViewSet.name"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.name</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseVendorViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.permission_classes</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseVendorViewSet.queryset"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.queryset</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseVendorViewSet.serializer_class"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.serializer_class</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseVendorViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.suffix</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet.basename"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.basename</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet.description"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.description</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet.detail"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.detail</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet.get_organization"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.get_organization()</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.get_queryset()</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet.name"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.name</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet.perform_create"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.perform_create()</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet.serializer_class"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.serializer_class</span></code></a></li>
+<li><a class="reference internal" href="#data.views.CustomExpenseViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.suffix</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#data.views.billing_cost_by_region"><code class="docutils literal notranslate"><span class="pre">billing_cost_by_region()</span></code></a></li>

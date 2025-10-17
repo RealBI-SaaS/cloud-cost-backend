@@ -20,6 +20,7 @@ Contents
    multi_tenat_logic
    passwordless_signins
    data_views
+   custom_expense
    api/modules
 
 
