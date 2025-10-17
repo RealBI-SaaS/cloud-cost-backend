@@ -203,6 +203,7 @@
 <li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passwordless_signins.html">Passwordless Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_views.html">Cloud Account Cost &amp; Usage APIs Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_expense.html">Custom Expense Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/authentication.migrations.html">authentication.migrations package</a></li>
@@ -500,6 +501,41 @@
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CloudVendor.GCP"><code class="docutils literal notranslate"><span class="pre">CloudVendor.GCP</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#data.models.CustomExpense"><code class="docutils literal notranslate"><span class="pre">CustomExpense</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">CustomExpense.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.FREQUENCY_CHOICES"><code class="docutils literal notranslate"><span class="pre">CustomExpense.FREQUENCY_CHOICES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">CustomExpense.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.amount"><code class="docutils literal notranslate"><span class="pre">CustomExpense.amount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.created_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.currency"><code class="docutils literal notranslate"><span class="pre">CustomExpense.currency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.custom_name"><code class="docutils literal notranslate"><span class="pre">CustomExpense.custom_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.frequency"><code class="docutils literal notranslate"><span class="pre">CustomExpense.frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.get_frequency_display"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_frequency_display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.id"><code class="docutils literal notranslate"><span class="pre">CustomExpense.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.objects"><code class="docutils literal notranslate"><span class="pre">CustomExpense.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.organization"><code class="docutils literal notranslate"><span class="pre">CustomExpense.organization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.organization_id"><code class="docutils literal notranslate"><span class="pre">CustomExpense.organization_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.updated_at"><code class="docutils literal notranslate"><span class="pre">CustomExpense.updated_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.vendor"><code class="docutils literal notranslate"><span class="pre">CustomExpense.vendor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpense.vendor_id"><code class="docutils literal notranslate"><span class="pre">CustomExpense.vendor_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor.customexpense_set"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.customexpense_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor.description"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor.id"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor.logo"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.logo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor.name"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor.objects"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.models.CustomExpenseVendor.website"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendor.website</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.models.GoogleOAuthToken"><code class="docutils literal notranslate"><span class="pre">GoogleOAuthToken</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.GoogleOAuthToken.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">GoogleOAuthToken.DoesNotExist</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.models.GoogleOAuthToken.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">GoogleOAuthToken.MultipleObjectsReturned</span></code></a></li>
@@ -534,6 +570,16 @@
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.serializers.CostSummaryByOrgRequestSerializer"><code class="docutils literal notranslate"><span class="pre">CostSummaryByOrgRequestSerializer</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.serializers.CostSummaryByOrgSerializer"><code class="docutils literal notranslate"><span class="pre">CostSummaryByOrgSerializer</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.serializers.CostSummaryByServiceSerializer"><code class="docutils literal notranslate"><span class="pre">CostSummaryByServiceSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#data.serializers.CustomExpenseSerializer"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.serializers.CustomExpenseSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.serializers.CustomExpenseSerializer.create"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.serializers.CustomExpenseSerializer.validate"><code class="docutils literal notranslate"><span class="pre">CustomExpenseSerializer.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#data.serializers.CustomExpenseVendorSerializer"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorSerializer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.serializers.CustomExpenseVendorSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorSerializer.Meta</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.serializers.DailyCostSerializer"><code class="docutils literal notranslate"><span class="pre">DailyCostSerializer</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.serializers.MonthlyServiceTotalsEntrySerializer"><code class="docutils literal notranslate"><span class="pre">MonthlyServiceTotalsEntrySerializer</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.serializers.MonthlyServiceTotalsSerializer"><code class="docutils literal notranslate"><span class="pre">MonthlyServiceTotalsSerializer</span></code></a></li>
@@ -556,6 +602,29 @@
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.permission_classes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.serializer_class"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.serializer_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CloudAccountViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">CloudAccountViewSet.suffix</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.CustomExpenseVendorViewSet"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseVendorViewSet.basename"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.basename</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseVendorViewSet.description"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseVendorViewSet.detail"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.detail</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseVendorViewSet.name"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseVendorViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.permission_classes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseVendorViewSet.queryset"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.queryset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseVendorViewSet.serializer_class"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.serializer_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseVendorViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">CustomExpenseVendorViewSet.suffix</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet.basename"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.basename</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet.description"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet.detail"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.detail</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet.get_organization"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.get_organization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.get_queryset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet.name"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet.perform_create"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.perform_create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet.serializer_class"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.serializer_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="data.html#data.views.CustomExpenseViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">CustomExpenseViewSet.suffix</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="data.html#data.views.billing_cost_by_region"><code class="docutils literal notranslate"><span class="pre">billing_cost_by_region()</span></code></a></li>
@@ -638,6 +707,7 @@
 <li class="toctree-l4"><a class="reference internal" href="company.html#company.models.Organization.company"><code class="docutils literal notranslate"><span class="pre">Organization.company</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="company.html#company.models.Organization.company_id"><code class="docutils literal notranslate"><span class="pre">Organization.company_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="company.html#company.models.Organization.created_at"><code class="docutils literal notranslate"><span class="pre">Organization.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="company.html#company.models.Organization.custom_expenses"><code class="docutils literal notranslate"><span class="pre">Organization.custom_expenses</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="company.html#company.models.Organization.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_next_by_created_at()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="company.html#company.models.Organization.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_next_by_updated_at()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="company.html#company.models.Organization.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Organization.get_previous_by_created_at()</span></code></a></li>

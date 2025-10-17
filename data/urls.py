@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from .integration_views.aws import aws_register_role_view, test
+from .integration_views.aws import aws_register_role_view
 from .integration_views.azure import (
     azure_oauth_callback_view,
     fetch_azure_billing_view,
@@ -14,6 +14,8 @@ from .integration_views.gcp import (
 )
 from .views import (
     CloudAccountViewSet,
+    CustomExpenseVendorViewSet,
+    CustomExpenseViewSet,
     billing_cost_by_region,
     billing_cost_by_service,
     billing_daily_costs,
@@ -30,6 +32,17 @@ router.register(
     r"organizations/(?P<organization_id>[^/.]+)/cloud-accounts",
     CloudAccountViewSet,
     basename="organization-cloudaccounts",
+)
+
+router.register(
+    r"organizations/(?P<organization_id>[^/.]+)/custom-expense-vendors",
+    CustomExpenseVendorViewSet,
+    basename="custom-expense-vendor",
+)
+router.register(
+    r"organizations/(?P<organization_id>[^/.]+)/custom-expense",
+    CustomExpenseViewSet,
+    basename="custom-expense",
 )
 
 
@@ -67,11 +80,11 @@ urlpatterns = [
         fetch_azure_billing_view,
         name="azure_data_fetch",
     ),
-    path(
-        "test",
-        test,
-        name="test",
-    ),
+    # path(
+    #     "test",
+    #     test,
+    #     name="test",
+    # ),
     path(
         "cost/daily/<uuid:organization_id>/",
         billing_daily_costs,

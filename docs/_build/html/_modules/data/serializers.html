@@ -202,6 +202,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../passwordless_signins.html">Passwordless Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../data_views.html">Cloud Account Cost &amp; Usage APIs Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_expense.html">Custom Expense Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/authentication.migrations.html">authentication.migrations package</a></li>
@@ -264,7 +265,7 @@
           <h1>Source code for data.serializers</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">serializers</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CloudAccount</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CloudAccount</span><span class="p">,</span> <span class="n">CustomExpense</span><span class="p">,</span> <span class="n">CustomExpenseVendor</span>
 
 
 <div class="viewcode-block" id="CloudAccountSerializer">
@@ -279,7 +280,14 @@
     <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">CloudAccount</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="s2">&quot;__all__&quot;</span>
-        <span class="n">read_only_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;created_at&quot;</span><span class="p">,</span> <span class="s2">&quot;updated_at&quot;</span><span class="p">,</span> <span class="s2">&quot;organization&quot;</span><span class="p">)</span></div>
+        <span class="n">read_only_fields</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;created_at&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;updated_at&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;organization&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;account_id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vendor&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 </div>
 
 
@@ -390,6 +398,70 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">MonthlyServiceTotalsSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
     <span class="n">service_name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
     <span class="n">monthly</span> <span class="o">=</span> <span class="n">MonthlyServiceTotalsEntrySerializer</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="CustomExpenseVendorSerializer">
+<a class="viewcode-back" href="../../data.html#data.serializers.CustomExpenseVendorSerializer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomExpenseVendorSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+<div class="viewcode-block" id="CustomExpenseVendorSerializer.Meta">
+<a class="viewcode-back" href="../../data.html#data.serializers.CustomExpenseVendorSerializer.Meta">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CustomExpenseVendor</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;website&quot;</span><span class="p">,</span> <span class="s2">&quot;logo&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">]</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CustomExpenseSerializer">
+<a class="viewcode-back" href="../../data.html#data.serializers.CustomExpenseSerializer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomExpenseSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">vendor</span> <span class="o">=</span> <span class="n">CustomExpenseVendorSerializer</span><span class="p">(</span><span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">vendor_id</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">PrimaryKeyRelatedField</span><span class="p">(</span>
+        <span class="n">queryset</span><span class="o">=</span><span class="n">CustomExpenseVendor</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span>
+        <span class="n">source</span><span class="o">=</span><span class="s2">&quot;vendor&quot;</span><span class="p">,</span>
+        <span class="n">write_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="CustomExpenseSerializer.Meta">
+<a class="viewcode-back" href="../../data.html#data.serializers.CustomExpenseSerializer.Meta">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CustomExpense</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vendor&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vendor_id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;custom_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;amount&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;currency&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;frequency&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;created_at&quot;</span><span class="p">,</span>
+        <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="CustomExpenseSerializer.validate">
+<a class="viewcode-back" href="../../data.html#data.serializers.CustomExpenseSerializer.validate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        <span class="n">vendor</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vendor&quot;</span><span class="p">)</span>
+        <span class="n">custom_name</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;custom_name&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">vendor</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">custom_name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;You must provide either a vendor_id or a custom_name.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">attrs</span></div>
+
+
+<div class="viewcode-block" id="CustomExpenseSerializer.create">
+<a class="viewcode-back" href="../../data.html#data.serializers.CustomExpenseSerializer.create">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="c1"># If a vendor is provided, ignore custom_name</span>
+        <span class="k">if</span> <span class="n">validated_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vendor&quot;</span><span class="p">):</span>
+            <span class="n">validated_data</span><span class="p">[</span><span class="s2">&quot;custom_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">CustomExpense</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">validated_data</span><span class="p">)</span></div>
+</div>
 
 </pre></div>
         </article>

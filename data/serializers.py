@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CloudAccount
+from .models import CloudAccount, CustomExpense, CustomExpenseVendor
 
 
 class CloudAccountSerializer(serializers.ModelSerializer):
@@ -11,7 +11,14 @@ class CloudAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = CloudAccount
         fields = "__all__"
-        read_only_fields = ("id", "created_at", "updated_at", "organization")
+        read_only_fields = (
+            "id",
+            "created_at",
+            "updated_at",
+            "organization",
+            "account_id",
+            "vendor",
+        )
 
 
 # cost views
@@ -88,3 +95,49 @@ class MonthlyServiceTotalsEntrySerializer(serializers.Serializer):
 class MonthlyServiceTotalsSerializer(serializers.Serializer):
     service_name = serializers.CharField()
     monthly = MonthlyServiceTotalsEntrySerializer(many=True)
+
+
+class CustomExpenseVendorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomExpenseVendor
+        fields = ["id", "name", "website", "logo", "description"]
+
+
+class CustomExpenseSerializer(serializers.ModelSerializer):
+    vendor = CustomExpenseVendorSerializer(read_only=True)
+    vendor_id = serializers.PrimaryKeyRelatedField(
+        queryset=CustomExpenseVendor.objects.all(),
+        source="vendor",
+        write_only=True,
+        required=False,
+    )
+
+    class Meta:
+        model = CustomExpense
+        fields = [
+            "id",
+            "vendor",
+            "vendor_id",
+            "custom_name",
+            "amount",
+            "currency",
+            "frequency",
+            "created_at",
+        ]
+
+    def validate(self, attrs):
+        vendor = attrs.get("vendor")
+        custom_name = attrs.get("custom_name")
+
+        if not vendor and not custom_name:
+            raise serializers.ValidationError(
+                "You must provide either a vendor_id or a custom_name."
+            )
+
+        return attrs
+
+    def create(self, validated_data):
+        # If a vendor is provided, ignore custom_name
+        if validated_data.get("vendor"):
+            validated_data["custom_name"] = None
+        return CustomExpense.objects.create(**validated_data)

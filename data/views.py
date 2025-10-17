@@ -9,11 +9,13 @@ from dotenv import load_dotenv
 from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import api_view
-from rest_framework.exceptions import NotFound, ValidationError
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from company.models import Organization
 from company.permissions import IsOrgAdminOrOwnerOrReadOnly
+from data.models import CustomExpense, CustomExpenseVendor
+from data.serializers import CustomExpenseSerializer, CustomExpenseVendorSerializer
 
 from .aggregators.account import get_account_totals
 from .aggregators.cost import (
@@ -44,6 +46,7 @@ from .serializers import (
     MonthlyServiceTotalsSerializer,
     UsageByServiceDaySerializer,
 )
+from .utils.get_org_from_request import get_organization
 
 load_dotenv()
 
@@ -57,35 +60,35 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "put", "patch", "delete"]
 
     def get_organization(self):
-        """
-        Retrieve the company from the request's query param or URL kwarg.
-        """
-        organization_id = self.kwargs.get(
-            "organization_id"
-        ) or self.request.query_params.get("organization_id")
-
-        if not organization_id:
-            raise ValidationError({"organization_id": "This field is required."})
-
-        try:
-            uuid.UUID(str(organization_id), version=4)
-        except ValueError:
-            raise ValidationError(
-                {
-                    "organization_id": "Invalid Organization ID format. Must be a valid UUID."
-                }
-            )
-
-        try:
-            return Organization.objects.get(id=organization_id)
-        except Organization.DoesNotExist:
-            raise NotFound({"organization_id": "Organization not found."})
+        return self.get_organization()
 
     def get_queryset(self):
         organization = self.get_organization()
         return CloudAccount.objects.filter(organization=organization)
 
     # dont use this method, create a specific account instead: AWS, GCP ...
+    def perform_create(self, serializer):
+        organization = self.get_organization()
+        serializer.save(organization=organization)
+
+
+class CustomExpenseVendorViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = CustomExpenseVendor.objects.all().order_by("name")
+    serializer_class = CustomExpenseVendorSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CustomExpenseViewSet(viewsets.ModelViewSet):
+    serializer_class = CustomExpenseSerializer
+    # permission_classes = [permissions.IsAuthenticated, IsOrgAdminOrOwnerOrReadOnly]
+
+    def get_organization(self):
+        return get_organization(self)
+
+    def get_queryset(self):
+        organization = self.get_organization()
+        return CustomExpense.objects.filter(organization=organization)
+
     def perform_create(self, serializer):
         organization = self.get_organization()
         serializer.save(organization=organization)

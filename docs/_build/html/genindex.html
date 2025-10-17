@@ -201,6 +201,7 @@
 <li class="toctree-l1"><a class="reference internal" href="multi_tenat_logic.html">Multi-tenant API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passwordless_signins.html">Passwordless Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_views.html">Cloud Account Cost &amp; Usage APIs Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_expense.html">Custom Expense Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">cloud-cost-backend</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of cloud-cost-backend</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/authentication.html">authentication package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of authentication package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/authentication.migrations.html">authentication.migrations package</a></li>
@@ -263,7 +264,7 @@
           
 <section class="genindex-section">
   <h1 id="index">Index</h1>
-  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#J"><strong>J</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#Q"><strong>Q</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a></div>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#J"><strong>J</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#Q"><strong>Q</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a></div>
 </section>
 <section id="A" class="genindex-section">
   <h2>A</h2>
@@ -282,6 +283,8 @@
         <li><a href="api/data.html#data.models.CloudAccount.account_name">account_name (data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.account_name">[1]</a>
 </li>
         <li><a href="api/company.views.html#company.views.company.AllCompaniesViewSet">AllCompaniesViewSet (class in company.views.company)</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpense.amount">amount (data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.amount">[1]</a>
 </li>
         <li><a href="api/authentication.views.html#authentication.views.user.api_documentation">api_documentation() (in module authentication.views.user)</a>
 </li>
@@ -467,13 +470,17 @@
 </li>
           <li><a href="api/data.html#data.views.CloudAccountViewSet.basename">(data.views.CloudAccountViewSet attribute)</a>, <a href="data.html#data.views.CloudAccountViewSet.basename">[1]</a>
 </li>
+          <li><a href="api/data.html#data.views.CustomExpenseVendorViewSet.basename">(data.views.CustomExpenseVendorViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseVendorViewSet.basename">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseViewSet.basename">(data.views.CustomExpenseViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseViewSet.basename">[1]</a>
+</li>
         </ul></li>
         <li><a href="api/data.html#data.views.billing_cost_by_region">billing_cost_by_region() (in module data.views)</a>, <a href="data.html#data.views.billing_cost_by_region">[1]</a>
 </li>
-        <li><a href="api/data.html#data.views.billing_cost_by_service">billing_cost_by_service() (in module data.views)</a>, <a href="data.html#data.views.billing_cost_by_service">[1]</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/data.html#data.views.billing_cost_by_service">billing_cost_by_service() (in module data.views)</a>, <a href="data.html#data.views.billing_cost_by_service">[1]</a>
+</li>
         <li><a href="api/data.html#data.views.billing_daily_costs">billing_daily_costs() (in module data.views)</a>, <a href="data.html#data.views.billing_daily_costs">[1]</a>
 </li>
         <li><a href="api/data.html#data.views.billing_monthly_service_total">billing_monthly_service_total() (in module data.views)</a>, <a href="data.html#data.views.billing_monthly_service_total">[1]</a>
@@ -663,8 +670,6 @@
           <li><a href="api/company.urls.html#module-company.urls.org">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     company.views
 
@@ -690,6 +695,8 @@
 </li>
         <li><a href="api/company.html#company.apps.CompanyConfig">CompanyConfig (class in company.apps)</a>, <a href="company.html#company.apps.CompanyConfig">[1]</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/company.serializers.html#company.serializers.company.CompanySerializer">CompanySerializer (class in company.serializers.company)</a>
 </li>
         <li><a href="api/company.serializers.html#company.serializers.company.CompanySerializer.Meta">CompanySerializer.Meta (class in company.serializers.company)</a>
@@ -761,7 +768,11 @@
         <li><a href="api/data.html#data.serializers.CostSummaryByServiceSerializer">CostSummaryByServiceSerializer (class in data.serializers)</a>, <a href="data.html#data.serializers.CostSummaryByServiceSerializer">[1]</a>
 </li>
         <li><a href="api/company.views.html#company.views.org.OrganizationViewSet.create">create() (company.views.org.OrganizationViewSet method)</a>
+
+        <ul>
+          <li><a href="api/data.html#data.serializers.CustomExpenseSerializer.create">(data.serializers.CustomExpenseSerializer method)</a>, <a href="data.html#data.serializers.CustomExpenseSerializer.create">[1]</a>
 </li>
+        </ul></li>
         <li><a href="api/data.integration_helpers.html#data.integration_helpers.aws.create_cur_report">create_cur_report() (in module data.integration_helpers.aws)</a>
 </li>
         <li><a href="api/data.integration_helpers.html#data.integration_helpers.aws.create_focus_export">create_focus_export() (in module data.integration_helpers.aws)</a>
@@ -791,10 +802,46 @@
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.created_at">(data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.created_at">[1]</a>
 </li>
+          <li><a href="api/data.html#data.models.CustomExpense.created_at">(data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.created_at">[1]</a>
+</li>
           <li><a href="api/data.html#data.models.GoogleOAuthToken.created_at">(data.models.GoogleOAuthToken attribute)</a>, <a href="data.html#data.models.GoogleOAuthToken.created_at">[1]</a>
 </li>
         </ul></li>
         <li><a href="api/data.html#data.models.BillingRecord.currency">currency (data.models.BillingRecord attribute)</a>, <a href="data.html#data.models.BillingRecord.currency">[1]</a>
+
+        <ul>
+          <li><a href="api/data.html#data.models.CustomExpense.currency">(data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.currency">[1]</a>
+</li>
+        </ul></li>
+        <li><a href="api/company.html#company.models.Organization.custom_expenses">custom_expenses (company.models.Organization attribute)</a>, <a href="company.html#company.models.Organization.custom_expenses">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpense.custom_name">custom_name (data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.custom_name">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpense">CustomExpense (class in data.models)</a>, <a href="data.html#data.models.CustomExpense">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpense.DoesNotExist">CustomExpense.DoesNotExist</a>, <a href="data.html#data.models.CustomExpense.DoesNotExist">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpense.MultipleObjectsReturned">CustomExpense.MultipleObjectsReturned</a>, <a href="data.html#data.models.CustomExpense.MultipleObjectsReturned">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpenseVendor.customexpense_set">customexpense_set (data.models.CustomExpenseVendor attribute)</a>, <a href="data.html#data.models.CustomExpenseVendor.customexpense_set">[1]</a>
+</li>
+        <li><a href="api/data.html#data.serializers.CustomExpenseSerializer">CustomExpenseSerializer (class in data.serializers)</a>, <a href="data.html#data.serializers.CustomExpenseSerializer">[1]</a>
+</li>
+        <li><a href="api/data.html#data.serializers.CustomExpenseSerializer.Meta">CustomExpenseSerializer.Meta (class in data.serializers)</a>, <a href="data.html#data.serializers.CustomExpenseSerializer.Meta">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpenseVendor">CustomExpenseVendor (class in data.models)</a>, <a href="data.html#data.models.CustomExpenseVendor">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpenseVendor.DoesNotExist">CustomExpenseVendor.DoesNotExist</a>, <a href="data.html#data.models.CustomExpenseVendor.DoesNotExist">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpenseVendor.MultipleObjectsReturned">CustomExpenseVendor.MultipleObjectsReturned</a>, <a href="data.html#data.models.CustomExpenseVendor.MultipleObjectsReturned">[1]</a>
+</li>
+        <li><a href="api/data.html#data.serializers.CustomExpenseVendorSerializer">CustomExpenseVendorSerializer (class in data.serializers)</a>, <a href="data.html#data.serializers.CustomExpenseVendorSerializer">[1]</a>
+</li>
+        <li><a href="api/data.html#data.serializers.CustomExpenseVendorSerializer.Meta">CustomExpenseVendorSerializer.Meta (class in data.serializers)</a>, <a href="data.html#data.serializers.CustomExpenseVendorSerializer.Meta">[1]</a>
+</li>
+        <li><a href="api/data.html#data.views.CustomExpenseVendorViewSet">CustomExpenseVendorViewSet (class in data.views)</a>, <a href="data.html#data.views.CustomExpenseVendorViewSet">[1]</a>
+</li>
+        <li><a href="api/data.html#data.views.CustomExpenseViewSet">CustomExpenseViewSet (class in data.views)</a>, <a href="data.html#data.views.CustomExpenseViewSet">[1]</a>
 </li>
         <li><a href="api/authentication.html#authentication.models.CustomUser">CustomUser (class in authentication.models)</a>, <a href="authentication.html#authentication.models.CustomUser">[1]</a>
 </li>
@@ -947,8 +994,6 @@
           <li><a href="api/data.html#module-data.tests">module</a>, <a href="data.html#module-data.tests">[1]</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     data.urls
 
@@ -956,6 +1001,8 @@
           <li><a href="api/data.html#module-data.urls">module</a>, <a href="data.html#module-data.urls">[1]</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     data.utils
 
@@ -1030,7 +1077,13 @@
 </li>
           <li><a href="api/company.views.html#company.views.org.OrganizationViewSet.description">(company.views.org.OrganizationViewSet attribute)</a>
 </li>
+          <li><a href="api/data.html#data.models.CustomExpenseVendor.description">(data.models.CustomExpenseVendor attribute)</a>, <a href="data.html#data.models.CustomExpenseVendor.description">[1]</a>
+</li>
           <li><a href="api/data.html#data.views.CloudAccountViewSet.description">(data.views.CloudAccountViewSet attribute)</a>, <a href="data.html#data.views.CloudAccountViewSet.description">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseVendorViewSet.description">(data.views.CustomExpenseVendorViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseVendorViewSet.description">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseViewSet.description">(data.views.CustomExpenseViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseViewSet.description">[1]</a>
 </li>
         </ul></li>
         <li><a href="api/company.views.html#company.views.company.CompanyViewSet.destroy">destroy() (company.views.company.CompanyViewSet method)</a>
@@ -1047,6 +1100,10 @@
           <li><a href="api/company.views.html#company.views.org.OrganizationViewSet.detail">(company.views.org.OrganizationViewSet attribute)</a>
 </li>
           <li><a href="api/data.html#data.views.CloudAccountViewSet.detail">(data.views.CloudAccountViewSet attribute)</a>, <a href="data.html#data.views.CloudAccountViewSet.detail">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseVendorViewSet.detail">(data.views.CustomExpenseVendorViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseVendorViewSet.detail">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseViewSet.detail">(data.views.CustomExpenseViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseViewSet.detail">[1]</a>
 </li>
         </ul></li>
     </ul></td>
@@ -1104,12 +1161,20 @@
 </li>
           <li><a href="api/data.html#data.serializers.CloudAccountSerializer.Meta.fields">(data.serializers.CloudAccountSerializer.Meta attribute)</a>, <a href="data.html#data.serializers.CloudAccountSerializer.Meta.fields">[1]</a>
 </li>
+          <li><a href="api/data.html#data.serializers.CustomExpenseSerializer.Meta.fields">(data.serializers.CustomExpenseSerializer.Meta attribute)</a>, <a href="data.html#data.serializers.CustomExpenseSerializer.Meta.fields">[1]</a>
+</li>
+          <li><a href="api/data.html#data.serializers.CustomExpenseVendorSerializer.Meta.fields">(data.serializers.CustomExpenseVendorSerializer.Meta attribute)</a>, <a href="data.html#data.serializers.CustomExpenseVendorSerializer.Meta.fields">[1]</a>
+</li>
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/company.views.html#company.views.company.AllCompaniesViewSet.filter_backends">filter_backends (company.views.company.AllCompaniesViewSet attribute)</a>
 </li>
         <li><a href="api/authentication.html#authentication.models.CustomUser.first_name">first_name (authentication.models.CustomUser attribute)</a>, <a href="authentication.html#authentication.models.CustomUser.first_name">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpense.frequency">frequency (data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.frequency">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpense.FREQUENCY_CHOICES">FREQUENCY_CHOICES (data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.FREQUENCY_CHOICES">[1]</a>
 </li>
     </ul></td>
   </tr></table>
@@ -1137,6 +1202,8 @@
         </ul></li>
         <li><a href="api/data.html#data.aws_utils.get_costexplorer_client_from_role">get_costexplorer_client_from_role() (in module data.aws_utils)</a>, <a href="data.html#data.aws_utils.get_costexplorer_client_from_role">[1]</a>
 </li>
+        <li><a href="api/data.html#data.models.CustomExpense.get_frequency_display">get_frequency_display() (data.models.CustomExpense method)</a>, <a href="data.html#data.models.CustomExpense.get_frequency_display">[1]</a>
+</li>
         <li><a href="api/data.integration_views.html#data.integration_views.gcp.get_gcp_billing_data">get_gcp_billing_data() (in module data.integration_views.gcp)</a>
 </li>
         <li><a href="api/data.integration_views.html#data.integration_views.gcp.get_gcp_projects">get_gcp_projects() (in module data.integration_views.gcp)</a>
@@ -1157,6 +1224,8 @@
           <li><a href="api/data.html#data.models.AzureOAuthToken.get_next_by_created_at">(data.models.AzureOAuthToken method)</a>, <a href="data.html#data.models.AzureOAuthToken.get_next_by_created_at">[1]</a>
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.get_next_by_created_at">(data.models.CloudAccount method)</a>, <a href="data.html#data.models.CloudAccount.get_next_by_created_at">[1]</a>
+</li>
+          <li><a href="api/data.html#data.models.CustomExpense.get_next_by_created_at">(data.models.CustomExpense method)</a>, <a href="data.html#data.models.CustomExpense.get_next_by_created_at">[1]</a>
 </li>
           <li><a href="api/data.html#data.models.GoogleOAuthToken.get_next_by_created_at">(data.models.GoogleOAuthToken method)</a>, <a href="data.html#data.models.GoogleOAuthToken.get_next_by_created_at">[1]</a>
 </li>
@@ -1188,6 +1257,8 @@
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.get_next_by_updated_at">(data.models.CloudAccount method)</a>, <a href="data.html#data.models.CloudAccount.get_next_by_updated_at">[1]</a>
 </li>
+          <li><a href="api/data.html#data.models.CustomExpense.get_next_by_updated_at">(data.models.CustomExpense method)</a>, <a href="data.html#data.models.CustomExpense.get_next_by_updated_at">[1]</a>
+</li>
           <li><a href="api/data.html#data.models.GoogleOAuthToken.get_next_by_updated_at">(data.models.GoogleOAuthToken method)</a>, <a href="data.html#data.models.GoogleOAuthToken.get_next_by_updated_at">[1]</a>
 </li>
         </ul></li>
@@ -1198,7 +1269,11 @@
         <li><a href="api/authentication.views.html#authentication.views.user.UserDetailView.get_object">get_object() (authentication.views.user.UserDetailView method)</a>
 </li>
         <li><a href="api/data.html#data.views.CloudAccountViewSet.get_organization">get_organization() (data.views.CloudAccountViewSet method)</a>, <a href="data.html#data.views.CloudAccountViewSet.get_organization">[1]</a>
+
+        <ul>
+          <li><a href="api/data.html#data.views.CustomExpenseViewSet.get_organization">(data.views.CustomExpenseViewSet method)</a>, <a href="data.html#data.views.CustomExpenseViewSet.get_organization">[1]</a>
 </li>
+        </ul></li>
         <li><a href="api/authentication.html#authentication.models.CustomUser.get_previous_by_created_at">get_previous_by_created_at() (authentication.models.CustomUser method)</a>, <a href="authentication.html#authentication.models.CustomUser.get_previous_by_created_at">[1]</a>
 
         <ul>
@@ -1215,6 +1290,8 @@
           <li><a href="api/data.html#data.models.AzureOAuthToken.get_previous_by_created_at">(data.models.AzureOAuthToken method)</a>, <a href="data.html#data.models.AzureOAuthToken.get_previous_by_created_at">[1]</a>
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.get_previous_by_created_at">(data.models.CloudAccount method)</a>, <a href="data.html#data.models.CloudAccount.get_previous_by_created_at">[1]</a>
+</li>
+          <li><a href="api/data.html#data.models.CustomExpense.get_previous_by_created_at">(data.models.CustomExpense method)</a>, <a href="data.html#data.models.CustomExpense.get_previous_by_created_at">[1]</a>
 </li>
           <li><a href="api/data.html#data.models.GoogleOAuthToken.get_previous_by_created_at">(data.models.GoogleOAuthToken method)</a>, <a href="data.html#data.models.GoogleOAuthToken.get_previous_by_created_at">[1]</a>
 </li>
@@ -1248,6 +1325,8 @@
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.get_previous_by_updated_at">(data.models.CloudAccount method)</a>, <a href="data.html#data.models.CloudAccount.get_previous_by_updated_at">[1]</a>
 </li>
+          <li><a href="api/data.html#data.models.CustomExpense.get_previous_by_updated_at">(data.models.CustomExpense method)</a>, <a href="data.html#data.models.CustomExpense.get_previous_by_updated_at">[1]</a>
+</li>
           <li><a href="api/data.html#data.models.GoogleOAuthToken.get_previous_by_updated_at">(data.models.GoogleOAuthToken method)</a>, <a href="data.html#data.models.GoogleOAuthToken.get_previous_by_updated_at">[1]</a>
 </li>
         </ul></li>
@@ -1261,6 +1340,8 @@
           <li><a href="api/company.views.html#company.views.org.OrganizationViewSet.get_queryset">(company.views.org.OrganizationViewSet method)</a>
 </li>
           <li><a href="api/data.html#data.views.CloudAccountViewSet.get_queryset">(data.views.CloudAccountViewSet method)</a>, <a href="data.html#data.views.CloudAccountViewSet.get_queryset">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseViewSet.get_queryset">(data.views.CustomExpenseViewSet method)</a>, <a href="data.html#data.views.CustomExpenseViewSet.get_queryset">[1]</a>
 </li>
         </ul></li>
         <li><a href="api/company.html#company.models.Invitation.get_role_display">get_role_display() (company.models.Invitation method)</a>, <a href="company.html#company.models.Invitation.get_role_display">[1]</a>
@@ -1338,6 +1419,10 @@
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.id">(data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.id">[1]</a>
 </li>
+          <li><a href="api/data.html#data.models.CustomExpense.id">(data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.id">[1]</a>
+</li>
+          <li><a href="api/data.html#data.models.CustomExpenseVendor.id">(data.models.CustomExpenseVendor attribute)</a>, <a href="data.html#data.models.CustomExpenseVendor.id">[1]</a>
+</li>
           <li><a href="api/data.html#data.models.GoogleOAuthToken.id">(data.models.GoogleOAuthToken attribute)</a>, <a href="data.html#data.models.GoogleOAuthToken.id">[1]</a>
 </li>
         </ul></li>
@@ -1355,10 +1440,10 @@
         </ul></li>
         <li><a href="api/company.html#company.models.Invitation">Invitation (class in company.models)</a>, <a href="company.html#company.models.Invitation">[1]</a>
 </li>
-        <li><a href="api/company.html#company.models.Invitation.DoesNotExist">Invitation.DoesNotExist</a>, <a href="company.html#company.models.Invitation.DoesNotExist">[1]</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/company.html#company.models.Invitation.DoesNotExist">Invitation.DoesNotExist</a>, <a href="company.html#company.models.Invitation.DoesNotExist">[1]</a>
+</li>
         <li><a href="api/company.html#company.models.Invitation.MultipleObjectsReturned">Invitation.MultipleObjectsReturned</a>, <a href="company.html#company.models.Invitation.MultipleObjectsReturned">[1]</a>
 </li>
         <li><a href="api/company.html#company.models.Organization.invitation_set">invitation_set (company.models.Organization attribute)</a>, <a href="company.html#company.models.Organization.invitation_set">[1]</a>
@@ -1419,13 +1504,15 @@
 </li>
         <li><a href="api/authentication.html#authentication.models.CustomUser.last_name">last_name (authentication.models.CustomUser attribute)</a>, <a href="authentication.html#authentication.models.CustomUser.last_name">[1]</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/company.views.html#company.views.org.OrganizationViewSet.list">list() (company.views.org.OrganizationViewSet method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/company.views.html#company.views.org.ListInvitationsView">ListInvitationsView (class in company.views.org)</a>
 </li>
         <li><a href="api/authentication.html#authentication.models.CustomUser.logentry_set">logentry_set (authentication.models.CustomUser attribute)</a>, <a href="authentication.html#authentication.models.CustomUser.logentry_set">[1]</a>
+</li>
+        <li><a href="api/data.html#data.models.CustomExpenseVendor.logo">logo (data.models.CustomExpenseVendor attribute)</a>, <a href="data.html#data.models.CustomExpenseVendor.logo">[1]</a>
 </li>
     </ul></td>
   </tr></table>
@@ -1494,6 +1581,10 @@
           <li><a href="api/company.serializers.html#company.serializers.org.OrganizationSerializer.Meta.model">(company.serializers.org.OrganizationSerializer.Meta attribute)</a>
 </li>
           <li><a href="api/data.html#data.serializers.CloudAccountSerializer.Meta.model">(data.serializers.CloudAccountSerializer.Meta attribute)</a>, <a href="data.html#data.serializers.CloudAccountSerializer.Meta.model">[1]</a>
+</li>
+          <li><a href="api/data.html#data.serializers.CustomExpenseSerializer.Meta.model">(data.serializers.CustomExpenseSerializer.Meta attribute)</a>, <a href="data.html#data.serializers.CustomExpenseSerializer.Meta.model">[1]</a>
+</li>
+          <li><a href="api/data.html#data.serializers.CustomExpenseVendorSerializer.Meta.model">(data.serializers.CustomExpenseVendorSerializer.Meta attribute)</a>, <a href="data.html#data.serializers.CustomExpenseVendorSerializer.Meta.model">[1]</a>
 </li>
         </ul></li>
         <li>
@@ -1670,7 +1761,13 @@
 </li>
           <li><a href="api/data.html#data.apps.DataConfig.name">(data.apps.DataConfig attribute)</a>, <a href="data.html#data.apps.DataConfig.name">[1]</a>
 </li>
+          <li><a href="api/data.html#data.models.CustomExpenseVendor.name">(data.models.CustomExpenseVendor attribute)</a>, <a href="data.html#data.models.CustomExpenseVendor.name">[1]</a>
+</li>
           <li><a href="api/data.html#data.views.CloudAccountViewSet.name">(data.views.CloudAccountViewSet attribute)</a>, <a href="data.html#data.views.CloudAccountViewSet.name">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseVendorViewSet.name">(data.views.CustomExpenseVendorViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseVendorViewSet.name">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseViewSet.name">(data.views.CustomExpenseViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseViewSet.name">[1]</a>
 </li>
         </ul></li>
     </ul></td>
@@ -1707,6 +1804,10 @@
           <li><a href="api/data.html#data.models.BillingRecord.objects">(data.models.BillingRecord attribute)</a>, <a href="data.html#data.models.BillingRecord.objects">[1]</a>
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.objects">(data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.objects">[1]</a>
+</li>
+          <li><a href="api/data.html#data.models.CustomExpense.objects">(data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.objects">[1]</a>
+</li>
+          <li><a href="api/data.html#data.models.CustomExpenseVendor.objects">(data.models.CustomExpenseVendor attribute)</a>, <a href="data.html#data.models.CustomExpenseVendor.objects">[1]</a>
 </li>
           <li><a href="api/data.html#data.models.GoogleOAuthToken.objects">(data.models.GoogleOAuthToken attribute)</a>, <a href="data.html#data.models.GoogleOAuthToken.objects">[1]</a>
 </li>
@@ -1754,6 +1855,8 @@
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.organization">(data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.organization">[1]</a>
 </li>
+          <li><a href="api/data.html#data.models.CustomExpense.organization">(data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.organization">[1]</a>
+</li>
         </ul></li>
         <li><a href="api/company.html#company.models.Organization.DoesNotExist">Organization.DoesNotExist</a>, <a href="company.html#company.models.Organization.DoesNotExist">[1]</a>
 </li>
@@ -1765,6 +1868,8 @@
           <li><a href="api/company.html#company.models.OrganizationMembership.organization_id">(company.models.OrganizationMembership attribute)</a>, <a href="company.html#company.models.OrganizationMembership.organization_id">[1]</a>
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.organization_id">(data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.organization_id">[1]</a>
+</li>
+          <li><a href="api/data.html#data.models.CustomExpense.organization_id">(data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.organization_id">[1]</a>
 </li>
         </ul></li>
         <li><a href="api/company.html#company.models.Company.organization_set">organization_set (company.models.Company attribute)</a>, <a href="company.html#company.models.Company.organization_set">[1]</a>
@@ -1826,6 +1931,8 @@
 </li>
           <li><a href="api/data.html#data.views.CloudAccountViewSet.perform_create">(data.views.CloudAccountViewSet method)</a>, <a href="data.html#data.views.CloudAccountViewSet.perform_create">[1]</a>
 </li>
+          <li><a href="api/data.html#data.views.CustomExpenseViewSet.perform_create">(data.views.CustomExpenseViewSet method)</a>, <a href="data.html#data.views.CustomExpenseViewSet.perform_create">[1]</a>
+</li>
         </ul></li>
         <li><a href="api/authentication.views.html#authentication.views.passwordless.MagicLinkRequestView.permission_classes">permission_classes (authentication.views.passwordless.MagicLinkRequestView attribute)</a>
 
@@ -1858,6 +1965,8 @@
 </li>
           <li><a href="api/data.html#data.views.CloudAccountViewSet.permission_classes">(data.views.CloudAccountViewSet attribute)</a>, <a href="data.html#data.views.CloudAccountViewSet.permission_classes">[1]</a>
 </li>
+          <li><a href="api/data.html#data.views.CustomExpenseVendorViewSet.permission_classes">(data.views.CustomExpenseVendorViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseVendorViewSet.permission_classes">[1]</a>
+</li>
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
@@ -1887,6 +1996,8 @@
 
         <ul>
           <li><a href="api/company.views.html#company.views.company.AllCompaniesViewSet.queryset">(company.views.company.AllCompaniesViewSet attribute)</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseVendorViewSet.queryset">(data.views.CustomExpenseVendorViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseVendorViewSet.queryset">[1]</a>
 </li>
         </ul></li>
     </ul></td>
@@ -1982,6 +2093,10 @@
 </li>
           <li><a href="api/data.html#data.views.CloudAccountViewSet.serializer_class">(data.views.CloudAccountViewSet attribute)</a>, <a href="data.html#data.views.CloudAccountViewSet.serializer_class">[1]</a>
 </li>
+          <li><a href="api/data.html#data.views.CustomExpenseVendorViewSet.serializer_class">(data.views.CustomExpenseVendorViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseVendorViewSet.serializer_class">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseViewSet.serializer_class">(data.views.CustomExpenseViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseViewSet.serializer_class">[1]</a>
+</li>
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
@@ -2001,6 +2116,10 @@
           <li><a href="api/company.views.html#company.views.org.OrganizationViewSet.suffix">(company.views.org.OrganizationViewSet attribute)</a>
 </li>
           <li><a href="api/data.html#data.views.CloudAccountViewSet.suffix">(data.views.CloudAccountViewSet attribute)</a>, <a href="data.html#data.views.CloudAccountViewSet.suffix">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseVendorViewSet.suffix">(data.views.CustomExpenseVendorViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseVendorViewSet.suffix">[1]</a>
+</li>
+          <li><a href="api/data.html#data.views.CustomExpenseViewSet.suffix">(data.views.CustomExpenseViewSet attribute)</a>, <a href="data.html#data.views.CustomExpenseViewSet.suffix">[1]</a>
 </li>
         </ul></li>
     </ul></td>
@@ -2070,6 +2189,8 @@
 </li>
           <li><a href="api/data.html#data.models.CloudAccount.updated_at">(data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.updated_at">[1]</a>
 </li>
+          <li><a href="api/data.html#data.models.CustomExpense.updated_at">(data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.updated_at">[1]</a>
+</li>
           <li><a href="api/data.html#data.models.GoogleOAuthToken.updated_at">(data.models.GoogleOAuthToken attribute)</a>, <a href="data.html#data.models.GoogleOAuthToken.updated_at">[1]</a>
 </li>
         </ul></li>
@@ -2081,10 +2202,10 @@
 </li>
         <li><a href="api/data.html#data.models.BillingRecord.usage_end">usage_end (data.models.BillingRecord attribute)</a>, <a href="data.html#data.models.BillingRecord.usage_end">[1]</a>
 </li>
-        <li><a href="api/data.html#data.models.BillingRecord.usage_start">usage_start (data.models.BillingRecord attribute)</a>, <a href="data.html#data.models.BillingRecord.usage_start">[1]</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/data.html#data.models.BillingRecord.usage_start">usage_start (data.models.BillingRecord attribute)</a>, <a href="data.html#data.models.BillingRecord.usage_start">[1]</a>
+</li>
         <li><a href="api/data.html#data.models.BillingRecord.usage_unit">usage_unit (data.models.BillingRecord attribute)</a>, <a href="data.html#data.models.BillingRecord.usage_unit">[1]</a>
 </li>
         <li><a href="api/data.html#data.serializers.UsageByServiceDaySerializer">UsageByServiceDaySerializer (class in data.serializers)</a>, <a href="data.html#data.serializers.UsageByServiceDaySerializer">[1]</a>
@@ -2125,11 +2246,29 @@
   <h2>V</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/data.html#data.models.CloudAccount.vendor">vendor (data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.vendor">[1]</a>
+        <li><a href="api/data.html#data.serializers.CustomExpenseSerializer.validate">validate() (data.serializers.CustomExpenseSerializer method)</a>, <a href="data.html#data.serializers.CustomExpenseSerializer.validate">[1]</a>
 </li>
+        <li><a href="api/data.html#data.models.CloudAccount.vendor">vendor (data.models.CloudAccount attribute)</a>, <a href="data.html#data.models.CloudAccount.vendor">[1]</a>
+
+        <ul>
+          <li><a href="api/data.html#data.models.CustomExpense.vendor">(data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.vendor">[1]</a>
+</li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/data.html#data.models.CustomExpense.vendor_id">vendor_id (data.models.CustomExpense attribute)</a>, <a href="data.html#data.models.CustomExpense.vendor_id">[1]</a>
+</li>
         <li><a href="api/authentication.utils.html#authentication.utils.hash.verify_code">verify_code() (in module authentication.utils.hash)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/data.html#data.models.CustomExpenseVendor.website">website (data.models.CustomExpenseVendor attribute)</a>, <a href="data.html#data.models.CustomExpenseVendor.website">[1]</a>
 </li>
     </ul></td>
   </tr></table>
