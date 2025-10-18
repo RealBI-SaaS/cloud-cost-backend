@@ -60,7 +60,7 @@ class CloudAccountViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "put", "patch", "delete"]
 
     def get_organization(self):
-        return self.get_organization()
+        return get_organization(self)
 
     def get_queryset(self):
         organization = self.get_organization()
