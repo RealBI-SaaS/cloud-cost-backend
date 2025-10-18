@@ -16,6 +16,7 @@ from .views import (
     CloudAccountViewSet,
     CustomExpenseVendorViewSet,
     CustomExpenseViewSet,
+    ExportOrgnizationBillingCSV,
     billing_cost_by_region,
     billing_cost_by_service,
     billing_daily_costs,
@@ -130,6 +131,12 @@ urlpatterns = [
         "manage/org/<uuid:organization_id>/refresh/",
         refresh_billing_data,
         name="refresh-billing-data",
+    ),
+    # exporter
+    path(
+        "org/<uuid:organization_id>/export-billing-csv/",
+        ExportOrgnizationBillingCSV.as_view(),
+        name="export-organization-billing-csv",
     ),
     *router.urls,
 ]

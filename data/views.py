@@ -1,16 +1,19 @@
+import csv
 import os
 import uuid
 from datetime import timedelta
+from io import StringIO
 
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
 from dotenv import load_dotenv
 from drf_spectacular.utils import extend_schema
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from company.models import Organization
 from company.permissions import IsOrgAdminOrOwnerOrReadOnly
@@ -333,3 +336,85 @@ def refresh_billing_data(request, organization_id):
                 },
                 status=500,
             )
+
+
+@extend_schema(
+    description=(
+        "CSV billing data exporter for an organization, supports date framing."
+    ),
+    summary="CSV Billing Export.",
+)
+class ExportOrgnizationBillingCSV(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, organization_id):
+        start_date, end_date, error = parse_date_range(request)
+        if error:
+            return error
+        try:
+            # Ensure organization exists
+            organization = Organization.objects.get(id=organization_id)
+        except Organization.DoesNotExist:
+            return Response(
+                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Fetch all billing records for the organization's cloud accounts
+        billing_records = BillingRecord.objects.filter(
+            cloud_account__organization=organization,
+            usage_start__date__gte=start_date,
+            usage_start__date__lte=end_date,
+        ).select_related("cloud_account")
+
+        if not billing_records.exists():
+            return Response(
+                {"detail": "No billing records found for this organization."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        # Create CSV in memory
+        buffer = StringIO()
+        writer = csv.writer(buffer)
+        writer.writerow(
+            [
+                "Cloud Vendor",
+                "Account Name",
+                "Service Name",
+                "Project ID",
+                "Region",
+                "Cost Type",
+                "Usage Amount",
+                "Usage Unit",
+                "Resource",
+                "Cost",
+                "Currency",
+                "Usage Start",
+                "Usage End",
+            ]
+        )
+
+        for record in billing_records:
+            writer.writerow(
+                [
+                    record.cloud_account.vendor,
+                    record.cloud_account.account_name,
+                    record.service_name,
+                    record.project_id or "",
+                    record.region or "",
+                    record.cost_type or "",
+                    record.usage_amount or "",
+                    record.usage_unit or "",
+                    record.resource or "",
+                    record.cost,
+                    record.currency,
+                    record.usage_start.strftime("%Y-%m-%d %H:%M:%S"),
+                    record.usage_end.strftime("%Y-%m-%d %H:%M:%S"),
+                ]
+            )
+
+        # Return CSV response
+        response = HttpResponse(buffer.getvalue(), content_type="text/csv")
+        response["Content-Disposition"] = (
+            f'attachment; filename="{organization.name}_billing.csv"'
+        )
+        return response
