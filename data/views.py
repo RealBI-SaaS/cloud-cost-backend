@@ -218,11 +218,11 @@ def cost_summary_by_account(request, organization_id):
 
     return Response(
         {
-            "results": data,
             "range": {
                 "start": start_date,
                 "end": end_date,
             },
+            "results": data,
         }
     )
 
@@ -247,13 +247,14 @@ def cost_summary_by_orgs(request):
 
     """
     start_date, end_date, error = parse_date_range(request)
+    results = {}
     if error:
         return error
 
     org_ids = request.data.get("org_ids", [])
     if not isinstance(org_ids, list):
         raise ValidationError({"org_ids": "Must be a list of UUIDs."})
-    res = {
+    response = {
         "range": {
             "start": start_date,
             "end": end_date,
@@ -268,9 +269,10 @@ def cost_summary_by_orgs(request):
 
         data = get_account_totals(org_uuid, since=start_date, until=end_date)
 
-        res[org_id] = data
+        results[org_id] = data
+    response["results"] = results
 
-    return Response(res)
+    return Response(response)
 
 
 # refresh data, currently only aws
